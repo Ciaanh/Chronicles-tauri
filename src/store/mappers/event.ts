@@ -1,9 +1,9 @@
 import { Database } from "neutron-db";
 import { DB_Event } from "../database/models/DB_Event";
+import { Event } from "../slices/models/Event";
 import { tableNames } from "../database/dbcontext";
 
 export const EventMapper = (event: Event): DB_Event => {
-    if (!event) return null;
     return {
         id: event._id,
         name: event.name,
@@ -22,9 +22,7 @@ export const EventMapper = (event: Event): DB_Event => {
     };
 };
 
-export const EventMapperFromDB = (event: DB_Event,db:Database): Event |null => {
-    if (!event) return null;
-    console.log(event.id);
+export const EventMapperFromDB = (event: DB_Event, db: Database): Event => {
     const id = event.id;
     const name = event.name;
     const yearStart = event.yearStart;
@@ -32,12 +30,20 @@ export const EventMapperFromDB = (event: DB_Event,db:Database): Event |null => {
     const eventType = event.eventType;
     const timeline = event.timeline;
     const link = event.link;
-    const factions = db.getAll(tableNames.factions).filter((faction) => event.factionIds.includes(faction._id));
-    const characters = Characters.findByIds(event.characterIds);
-    const label = Locales.findById(event.labelId);
-    const description = Locales.findByIds(event.descriptionIds);
-    const chapters = Chapters.findByIds(event.chapterIds);
-    const dbname = DBNames.findById(event.dbnameId);
+    const factions = db
+        .getAll(tableNames.factions)
+        .filter((faction) => event.factionIds.includes(faction.id));
+    const characters = db
+        .getAll(tableNames.characters)
+        .filter((character) => event.characterIds.includes(character.id));
+    const label = db.get(event.labelId, tableNames.locales);
+    const description = db
+        .getAll(tableNames.locales)
+        .filter((locale) => event.descriptionIds.includes(locale.id));
+    const chapters = db
+        .getAll(tableNames.chapters)
+        .filter((chapter) => event.chapterIds.includes(chapter.id));
+    const dbname = db.get(event.dbnameId, tableNames.locales);
     const order = event.order;
 
     return {
@@ -58,6 +64,11 @@ export const EventMapperFromDB = (event: DB_Event,db:Database): Event |null => {
     };
 };
 
-export const EventMapperFromDBs = (events: DB_Event[]): Event[] => {
-    return events.map((event) => EventMapperFromDB(event));
+export const EventMapperFromDBs = (
+    events: DB_Event[],
+    db: Database
+): Event[] => {
+    return events
+        .map((event) => EventMapperFromDB(event, db))
+        .filter((event) => event !== null) as Event[];
 };
