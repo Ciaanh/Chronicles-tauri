@@ -17,7 +17,7 @@ export const EventMapper = (event: Event): DB_Event => {
         labelId: event.label._id,
         descriptionIds: event.description.map((locale) => locale._id),
         chapterIds: event.chapters.map((chapter) => chapter._id),
-        dbnameId: event.dbname._id,
+        collectionId: event.collection._id,
         order: event.order,
     };
 };
@@ -43,7 +43,7 @@ export const EventMapperFromDB = (event: DB_Event, db: Database): Event => {
     const chapters = db
         .getAll(tableNames.chapters)
         .filter((chapter) => event.chapterIds.includes(chapter.id));
-    const dbname = db.get(event.dbnameId, tableNames.locales);
+    const collection = db.get(event.collectionId, tableNames.locales);
     const order = event.order;
 
     return {
@@ -59,7 +59,7 @@ export const EventMapperFromDB = (event: DB_Event, db: Database): Event => {
         label: label,
         description: description,
         chapters: chapters,
-        dbname: dbname,
+        collection: collection,
         order: order,
     };
 };

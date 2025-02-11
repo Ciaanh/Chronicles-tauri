@@ -1,5 +1,5 @@
 import { Dto } from "./_dto";
-import { DbName } from "./DbName";
+import { Collection } from "./Collection";
 import { Faction } from "./Faction";
 import { Locale } from "./Locale";
 
@@ -9,5 +9,5 @@ export interface Character extends Dto {
     biography: Locale;
     timeline: number;
     factions: Faction[];
-    dbname: DbName;
+    collection: Collection;
 }

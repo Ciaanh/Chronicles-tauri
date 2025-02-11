@@ -1,7 +1,7 @@
 import { Dto } from "./_dto";
 import { Chapter } from "./Chapter";
 import { Character } from "./Character";
-import { DbName } from "./DbName";
+import { Collection } from "./Collection";
 import { Faction } from "./Faction";
 import { Locale } from "./Locale";
 
@@ -17,6 +17,6 @@ export interface Event extends Dto {
     label: Locale;
     description: Locale[];
     chapters: Chapter[];
-    dbname: DbName;
+    collection: Collection;
     order: number;
 }

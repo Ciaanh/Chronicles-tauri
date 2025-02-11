@@ -6,5 +6,5 @@ export interface DB_Character extends DbObject {
     biographyId: number;
     timeline: number;
     factionIds: number[];
-    dbnameId: number;
+    collectionId: number;
 }

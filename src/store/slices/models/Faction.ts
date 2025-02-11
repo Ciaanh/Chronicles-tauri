@@ -1,5 +1,5 @@
 import { Dto } from "./_dto";
-import { DbName } from "./DbName";
+import { Collection } from "./Collection";
 import { Locale } from "./Locale";
 
 export interface Faction extends Dto {
@@ -7,5 +7,5 @@ export interface Faction extends Dto {
     label: Locale;
     description: Locale;
     timeline: number;
-    dbname: DbName;
+    collection: Collection;
 }

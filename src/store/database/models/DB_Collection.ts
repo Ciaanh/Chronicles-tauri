@@ -1,5 +1,5 @@
 import { DbObject } from "neutron-db/lib/types";
 
-export interface DB_DbName extends DbObject {
+export interface DB_Collection extends DbObject {
     name: string;
 }

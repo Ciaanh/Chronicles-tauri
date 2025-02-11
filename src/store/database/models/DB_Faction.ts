@@ -5,5 +5,5 @@ export interface DB_Faction extends DbObject {
     labelId: number;
     descriptionId: number;
     timeline: number;
-    dbnameId: number;
+    collectionId: number;
 }

@@ -12,6 +12,6 @@ export interface DB_Event extends DbObject {
     labelId: number;
     descriptionIds: number[];
     chapterIds: number[];
-    dbnameId: number;
+    collectionId: number;
     order: number;
 }
