@@ -1,7 +1,7 @@
 import { createAppSlice } from "../createAppSlice";
 import { tableNames } from "../database/dbcontext";
 import { DB_Event } from "../database/models/DB_Event";
-import { Event } from "../models/Event";
+import { Event } from "./models/Event";
 import { EventMapperFromDBs } from "../mappers/event";
 import { store } from "../store";
 
