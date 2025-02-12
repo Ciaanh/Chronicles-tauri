@@ -28,6 +28,18 @@ function App() {
         fetchEvents();
     }, [contextValue]);
 
+    const reloadEvents = async () => {
+        const events = await contextValue.getAll(tableNames.events);
+        const mappedEvents = await contextValue.mappers.events.mapFromDbArray(
+            events as DB_Event[]
+        );
+        setEvents(mappedEvents);
+    };
+
+    const cleanEvents = async () => {
+        setEvents([]);
+    };
+
     const navigate = useNavigate();
 
     return (
@@ -68,6 +80,17 @@ function App() {
                 <Route path={Path.Home} element={<HomeView />} />
                 <Route path={Path.Settings} element={<SettingsView />} />
             </Routes>
+
+            <Button
+                className="bp5-minimal"
+                onClick={cleanEvents}
+                text="Clean events"
+            />
+            <Button
+                className="bp5-minimal"
+                onClick={reloadEvents}
+                text="Reload events"
+            />
 
             <ErrorBoundary>
                 <Card>
