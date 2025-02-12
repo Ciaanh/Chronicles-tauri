@@ -6,32 +6,29 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import HomeView from "./components/home/homeView";
 import SettingsView from "./components/settings/settingsView";
 import { Path } from "./constants";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { dbcontext, tableNames } from "./database/dbcontext";
-import { DB_Event } from "./database/models";
+import { DB_Event, Event } from "./database/models";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-async function App() {
-    // const [greetMsg, setGreetMsg] = useState("");
-    // const [name, setName] = useState("");
-
-    // call to rust command
-    // async function greet() {
-    //     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    //     setGreetMsg(await invoke("greet", { name }));
-    // }
-
+function App() {
+    const [events, setEvents] = useState<Event[]>([]);
     const contextValue = useContext(dbcontext);
 
+    useEffect(() => {
+        async function fetchEvents() {
+            const events = await contextValue.getAll(tableNames.events);
+            const mappedEvents =
+                await contextValue.mappers.events.mapFromDbArray(
+                    events as DB_Event[]
+                );
+            setEvents(mappedEvents);
+        }
+        fetchEvents();
+    }, [contextValue]);
+
     const navigate = useNavigate();
-
-    const events = await contextValue
-        .getAll(tableNames.events)
-        .then(async (events) => {
-           return await contextValue.mappers.events.mapFromDbArray(events as DB_Event[]);
-        });
-
-    debugger;
 
     return (
         <main>
@@ -72,17 +69,19 @@ async function App() {
                 <Route path={Path.Settings} element={<SettingsView />} />
             </Routes>
 
-            <Card>
-                <H5>Database info</H5>
-                {events.map((event, index) => {
-                    return (
-                        <div key={event._id}>
-                            <h2>name: {event.name}</h2>
-                            <hr />
-                        </div>
-                    );
-                })}
-            </Card>
+            <ErrorBoundary>
+                <Card>
+                    <H5>Database info</H5>
+                    {events.map((event, index) => {
+                        return (
+                            <div key={event._id}>
+                                <h2>name: {event.name}</h2>
+                                <hr />
+                            </div>
+                        );
+                    })}
+                </Card>
+            </ErrorBoundary>
         </main>
     );
 }
