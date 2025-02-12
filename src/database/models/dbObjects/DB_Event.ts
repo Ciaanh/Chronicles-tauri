@@ -1,4 +1,4 @@
-import { DbObject } from "neutron-db/lib/types";
+import { DbObject } from "../../jsondb/types";
 
 export interface DB_Event extends DbObject {
     name: string;

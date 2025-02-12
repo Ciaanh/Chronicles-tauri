@@ -1,8 +1,7 @@
 import { createAppSlice } from "../createAppSlice";
-import { tableNames } from "../database/dbcontext";
-import { DB_Event } from "../database/models/DB_Event";
-import { Event } from "./models/Event";
-import { EventMapperFromDBs } from "../mappers/event";
+import { DB_Event } from "../../database/dbObjects/DB_Event";
+import { Event } from "../../database/models/appObjects/Event";
+import { EventMapperFromDBs } from "../../database/mappers/event";
 import { store } from "../store";
 
 export interface EventsSliceState {

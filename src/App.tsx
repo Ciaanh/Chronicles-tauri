@@ -1,17 +1,17 @@
 import "./App.css";
 
-import {
-    Button,
-    Navbar,
-    Alignment,
-} from "@blueprintjs/core";
+import { Button, Navbar, Alignment, Card, H5 } from "@blueprintjs/core";
 import "@blueprintjs/core/lib/css/blueprint.css";
-import {  Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import HomeView from "./components/home/homeView";
 import SettingsView from "./components/settings/settingsView";
 import { Path } from "./constants";
+import { useContext } from "react";
 
-function App() {
+import { dbcontext, tableNames } from "./database/dbcontext";
+import { DB_Event } from "./database/models";
+
+async function App() {
     // const [greetMsg, setGreetMsg] = useState("");
     // const [name, setName] = useState("");
 
@@ -21,7 +21,17 @@ function App() {
     //     setGreetMsg(await invoke("greet", { name }));
     // }
 
+    const contextValue = useContext(dbcontext);
+
     const navigate = useNavigate();
+
+    const events = await contextValue
+        .getAll(tableNames.events)
+        .then(async (events) => {
+           return await contextValue.mappers.events.mapFromDbArray(events as DB_Event[]);
+        });
+
+    debugger;
 
     return (
         <main>
@@ -62,7 +72,17 @@ function App() {
                 <Route path={Path.Settings} element={<SettingsView />} />
             </Routes>
 
-
+            <Card>
+                <H5>Database info</H5>
+                {events.map((event, index) => {
+                    return (
+                        <div key={event._id}>
+                            <h2>name: {event.name}</h2>
+                            <hr />
+                        </div>
+                    );
+                })}
+            </Card>
         </main>
     );
 }
