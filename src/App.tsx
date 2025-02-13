@@ -13,33 +13,6 @@ import { DB_Event, Event } from "./database/models";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
-    const [events, setEvents] = useState<Event[]>([]);
-    const contextValue = useContext(dbcontext);
-
-    useEffect(() => {
-        async function fetchEvents() {
-            const events = await contextValue.getAll(tableNames.events);
-            const mappedEvents =
-                await contextValue.mappers.events.mapFromDbArray(
-                    events as DB_Event[]
-                );
-            setEvents(mappedEvents);
-        }
-        fetchEvents();
-    }, [contextValue]);
-
-    const reloadEvents = async () => {
-        const events = await contextValue.getAll(tableNames.events);
-        const mappedEvents = await contextValue.mappers.events.mapFromDbArray(
-            events as DB_Event[]
-        );
-        setEvents(mappedEvents);
-    };
-
-    const cleanEvents = async () => {
-        setEvents([]);
-    };
-
     const navigate = useNavigate();
 
     return (
@@ -76,34 +49,11 @@ function App() {
                 </Navbar.Group>
             </Navbar>
 
-            <Routes>
-                <Route path={Path.Home} element={<HomeView />} />
-                <Route path={Path.Settings} element={<SettingsView />} />
-            </Routes>
-
-            <Button
-                className="bp5-minimal"
-                onClick={cleanEvents}
-                text="Clean events"
-            />
-            <Button
-                className="bp5-minimal"
-                onClick={reloadEvents}
-                text="Reload events"
-            />
-
             <ErrorBoundary>
-                <Card>
-                    <H5>Database info</H5>
-                    {events.map((event, index) => {
-                        return (
-                            <div key={event._id}>
-                                <h2>name: {event.name}</h2>
-                                <hr />
-                            </div>
-                        );
-                    })}
-                </Card>
+                <Routes>
+                    <Route path={Path.Home} element={<HomeView />} />
+                    <Route path={Path.Settings} element={<SettingsView />} />
+                </Routes>
             </ErrorBoundary>
         </main>
     );

@@ -1,12 +1,10 @@
 import { dirname, join, normalize } from "@tauri-apps/api/path";
 import { Tables, DbObject, Schema } from "./types";
 
-// import * as path from "path";
-// import * as fs from "fs";
-
 import {
     exists,
     lstat,
+    mkdir,
     readTextFile,
     writeTextFile,
 } from "@tauri-apps/plugin-fs";
@@ -32,15 +30,12 @@ export class Database {
                 throw new Error("Database location not found!");
             }
         } else {
-            // if (!fs.existsSync(this.dbdirectory)) {
-            //     fs.mkdirSync(this.dbdirectory, { recursive: true });
-            // }
+            if (!exists(dbdirectory)) {
+                mkdir(dbdirectory, { recursive: true });
+            }
         }
 
-        console.log(`Database path: ${dbpath}`);
-        console.log(`Database directory: ${dbdirectory}`);
-        console.log(`Database schema: ${schema}`);
-        const db = new Database(schema, dbpath, dbdirectory);
+        const db = new Database(schema, dbpath);
         await db.initdb();
 
         return db;
@@ -48,12 +43,10 @@ export class Database {
 
     private readonly schema: Schema;
     private readonly dbpath: string;
-    private readonly dbdirectory: string;
 
-    private constructor(schema: Schema, dbpath: string, dbdirectory: string) {
+    private constructor(schema: Schema, dbpath: string) {
         this.schema = schema;
         this.dbpath = dbpath;
-        this.dbdirectory = dbdirectory;
     }
 
     //////////////////////////////////////////
@@ -67,9 +60,9 @@ export class Database {
         return this.schema.tables.includes(table) && db.hasOwnProperty(table);
     }
 
-    private async initdb(): Promise<boolean> {
+    private async initdb(): Promise<void> {
         if (await this.dbExists()) {
-            return false;
+            return Promise.resolve();
         } else {
             try {
                 const database: Tables = {};
@@ -80,9 +73,9 @@ export class Database {
 
                 const jsondb = JSON.stringify(database, null, 2);
                 writeTextFile(this.dbpath, jsondb);
-                return true;
+                return Promise.resolve();
             } catch (err: any) {
-                throw new Error(`Error writing object. ${err.toString()}`);
+                Promise.reject(`Error creating database. ${err.toString()}`);
             }
         }
     }
