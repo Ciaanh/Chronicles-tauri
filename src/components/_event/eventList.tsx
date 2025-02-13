@@ -3,8 +3,13 @@ import { dbcontext, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
 import EventItem from "./eventItem";
 import { Button, Card, H5 } from "@blueprintjs/core";
+import { Filters } from "../filters";
 
-function EventList() {
+interface EventListProps {
+    filters: Filters;
+}
+
+const EventList: React.FC<EventListProps> = ({ filters }) => {
     const [events, setEvents] = useState<Event[]>([]);
     const contextValue = useContext(dbcontext);
 
@@ -34,6 +39,7 @@ function EventList() {
     return (
         <div>
             <h1>Event List</h1>
+            {<div>{filters.collectionName}</div>}
             <Button
                 className="bp5-minimal"
                 onClick={cleanEvents}
@@ -57,6 +63,6 @@ function EventList() {
             </Card>
         </div>
     );
-}
+};
 
 export default EventList;
