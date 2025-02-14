@@ -56,7 +56,6 @@ const CollectionSelect: React.FC<CollectionSelectProps> = (props) => {
                     />
                 }
                 onItemSelect={props.onCollectionSelect}
-                filterable={true}
                 resetOnSelect={true}
                 resetOnQuery={false}
             >

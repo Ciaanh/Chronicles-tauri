@@ -62,15 +62,6 @@ function App() {
                         }}
                     />
                 </Navbar.Group>
-                <Navbar.Group align={Alignment.CENTER}>
-                    <CollectionSelect
-                        selectedValue={filters.collection}
-                        collections={collections}
-                        onCollectionSelect={selectedCollection}
-                        onCollectionReset={resetCollectionFilter}
-                    />
-                </Navbar.Group>
-
                 <Navbar.Group align={Alignment.RIGHT}>
                     <Button
                         className="bp5-minimal"
@@ -88,6 +79,16 @@ function App() {
                     />
                 </Navbar.Group>
             </Navbar>
+
+            <div>
+                Filters:{" "}
+                <CollectionSelect
+                    selectedValue={filters.collection}
+                    collections={collections}
+                    onCollectionSelect={selectedCollection}
+                    onCollectionReset={resetCollectionFilter}
+                />
+            </div>
 
             <ErrorBoundary>
                 <Routes>
