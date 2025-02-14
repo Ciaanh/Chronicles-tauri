@@ -1,20 +1,6 @@
 import "./App.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
 
-import {
-    Button,
-    Navbar,
-    Alignment,
-    Card,
-    H5,
-    MenuItem,
-} from "@blueprintjs/core";
-import {
-    ItemPredicate,
-    ItemRenderer,
-    ItemRendererProps,
-    Select,
-} from "@blueprintjs/select";
+import { Button, Navbar, Alignment } from "@blueprintjs/core";
 
 import { Route, Routes, useNavigate } from "react-router-dom";
 import HomeView from "./components/home/homeView";
@@ -23,9 +9,10 @@ import { Path } from "./constants";
 import { useContext, useEffect, useState } from "react";
 
 import { dbcontext, tableNames } from "./database/dbcontext";
-import { Collection, DB_Collection, DB_Event, Event } from "./database/models";
+import { Collection, DB_Collection } from "./database/models";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Filters } from "./components/filters";
+import CollectionSelect from "./components/_collection/collectionSelect";
 
 function App() {
     const navigate = useNavigate();
@@ -59,24 +46,6 @@ function App() {
         setFilters({ ...filters, collection: null });
     }
 
-    // demo select with predicate : https://blueprintjs.com/docs/#select/select-component.usage
-    const renderFilm: ItemRenderer<Collection> = (
-        collection,
-        { handleClick, handleFocus, modifiers }
-    ) => {
-        return (
-            <MenuItem
-                active={modifiers.active}
-                disabled={modifiers.disabled}
-                key={collection._id}
-                onClick={handleClick}
-                onFocus={handleFocus}
-                roleStructure="listoption"
-                text={`${collection.name}`}
-            />
-        );
-    };
-
     return (
         <main>
             <Navbar>
@@ -94,33 +63,11 @@ function App() {
                     />
                 </Navbar.Group>
                 <Navbar.Group align={Alignment.CENTER}>
-                    <Select<Collection>
-                        items={collections}
-                        itemRenderer={renderFilm}
-                        noResults={
-                            <MenuItem
-                                disabled={true}
-                                text="No results."
-                                roleStructure="listoption"
-                            />
-                        }
-                        onItemSelect={selectedCollection}
-                        filterable={false}
-                        resetOnSelect={true}
-                        resetOnQuery={false}
-                    >
-                        <Button
-                            text={
-                                filters?.collection?.name ??
-                                "Select a collection"
-                            }
-                            rightIcon="caret-down"
-                        />
-                    </Select>
-                    <Button
-                        className="bp5-minimal"
-                        icon="delete"
-                        onClick={() => resetCollectionFilter()}
+                    <CollectionSelect
+                        selectedValue={filters.collection}
+                        collections={collections}
+                        onCollectionSelect={selectedCollection}
+                        onCollectionReset={resetCollectionFilter}
                     />
                 </Navbar.Group>
 
