@@ -1,7 +1,14 @@
 import "./App.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 
-import { Button, Navbar, Alignment, Card, H5, MenuItem } from "@blueprintjs/core";
+import {
+    Button,
+    Navbar,
+    Alignment,
+    Card,
+    H5,
+    MenuItem,
+} from "@blueprintjs/core";
 import {
     ItemPredicate,
     ItemRenderer,
@@ -24,7 +31,7 @@ function App() {
     const navigate = useNavigate();
 
     const [filters, setFilters] = useState<Filters>({
-        collection: undefined,
+        collection: null,
     });
 
     const [collections, setCollections] = useState<Collection[]>([]);
@@ -48,18 +55,24 @@ function App() {
         setFilters({ ...filters, collection: item });
     }
 
+    function resetCollectionFilter() {
+        setFilters({ ...filters, collection: null });
+    }
+
     // demo select with predicate : https://blueprintjs.com/docs/#select/select-component.usage
-    const renderFilm: ItemRenderer<Collection> = (collection, { handleClick, handleFocus, modifiers }) => {
+    const renderFilm: ItemRenderer<Collection> = (
+        collection,
+        { handleClick, handleFocus, modifiers }
+    ) => {
         return (
             <MenuItem
                 active={modifiers.active}
                 disabled={modifiers.disabled}
                 key={collection._id}
-                label={collection.name}
                 onClick={handleClick}
                 onFocus={handleFocus}
                 roleStructure="listoption"
-                text={`${film.rank}. ${film.title}`}
+                text={`${collection.name}`}
             />
         );
     };
@@ -92,12 +105,23 @@ function App() {
                             />
                         }
                         onItemSelect={selectedCollection}
+                        filterable={false}
+                        resetOnSelect={true}
+                        resetOnQuery={false}
                     >
                         <Button
-                            text={filters?.collection?.name ?? "Select a collection"}
+                            text={
+                                filters?.collection?.name ??
+                                "Select a collection"
+                            }
                             rightIcon="caret-down"
                         />
                     </Select>
+                    <Button
+                        className="bp5-minimal"
+                        icon="delete"
+                        onClick={() => resetCollectionFilter()}
+                    />
                 </Navbar.Group>
 
                 <Navbar.Group align={Alignment.RIGHT}>

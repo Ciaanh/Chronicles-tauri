@@ -16,14 +16,21 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     useEffect(() => {
         async function fetchEvents() {
             const events = await contextValue.getAll(tableNames.events);
+
+            const filteredEvents = events.filter((e) => {
+                if (filters?.collection === null) return true;
+                const event = e as DB_Event;
+                return filters?.collection?._id === event.collectionId;
+            });
+
             const mappedEvents =
                 await contextValue.mappers.events.mapFromDbArray(
-                    events as DB_Event[]
+                    filteredEvents as DB_Event[]
                 );
             setEvents(mappedEvents);
         }
         fetchEvents();
-    }, [contextValue]);
+    }, [filters.collection]);
 
     const reloadEvents = async () => {
         const events = await contextValue.getAll(tableNames.events);
@@ -36,10 +43,11 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     const cleanEvents = async () => {
         setEvents([]);
     };
+
     return (
         <div>
             <h1>Event List</h1>
-            {<div>{filters.collectionName}</div>}
+            {<div>{filters?.collection?.name}</div>}
             <Button
                 className="bp5-minimal"
                 onClick={cleanEvents}

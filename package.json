@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^5.16.4",
-    "@blueprintjs/icons": "^5.18.1",
     "@blueprintjs/select": "^5.3.11",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-dialog": "^2.2.0",
