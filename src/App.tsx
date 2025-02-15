@@ -1,4 +1,4 @@
-import { Button, Layout, Menu, MenuProps } from "antd";
+import { Button, Layout, Menu, MenuProps, theme } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
@@ -14,6 +14,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { Filters } from "./components/filters";
 import CollectionSelect from "./components/_collection/collectionSelect";
 import Link from "antd/es/typography/Link";
+import Sider from "antd/es/layout/Sider";
 
 type MenuItem = Required<MenuProps>["items"][number];
 const menuItems: MenuItem[] = [
@@ -25,6 +26,10 @@ const menuItems: MenuItem[] = [
 ];
 
 function App() {
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
+
     const [filters, setFilters] = useState<Filters>({
         collection: null,
     });
@@ -44,36 +49,41 @@ function App() {
 
     return (
         <Layout>
-            {/* <Header style={{ display: "flex", alignItems: "center" }}> */}
-            <div>Chronicles data</div>
-            <Menu
-                theme="light"
-                mode="horizontal"
-                onClick={onClick}
-                selectedKeys={[currentMenuItem]}
-                items={menuItems}
-            />
-            {/* </Header> */}
+            <Layout>
+                <Sider width={200} style={{ background: colorBgContainer }}>
+                    <div>Chronicles data</div>
+                    <Menu
+                        theme="light"
+                        mode="inline"
+                        onClick={onClick}
+                        selectedKeys={[currentMenuItem]}
+                        items={menuItems}
+                    />
 
-            <CollectionSelect
-                onCollectionSelect={selectedCollection}
-                onCollectionReset={resetCollectionFilter}
-            />
+                    <CollectionSelect
+                        onCollectionSelect={selectedCollection}
+                        onCollectionReset={resetCollectionFilter}
+                    />
+                </Sider>
 
-            <Content style={{ padding: "0 48px" }}>
-                <ErrorBoundary>
-                    <Routes>
-                        <Route
-                            path={Path.Home}
-                            element={<HomeView filters={filters} />}
-                        />
-                        <Route
-                            path={Path.Settings}
-                            element={<SettingsView />}
-                        />
-                    </Routes>
-                </ErrorBoundary>
-            </Content>
+                <Content style={{ padding: "0 48px" }}>
+                    <ErrorBoundary>
+                        <Routes>
+                            <Route
+                                path={Path.Home}
+                                element={<HomeView filters={filters} />}
+                            />
+                            <Route
+                                path={Path.Settings}
+                                element={<SettingsView />}
+                            />
+                        </Routes>
+                    </ErrorBoundary>
+                </Content>
+            </Layout>
+            <Footer style={{ textAlign: "center" }}>
+                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            </Footer>
         </Layout>
     );
 }
