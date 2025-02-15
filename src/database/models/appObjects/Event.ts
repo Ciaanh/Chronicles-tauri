@@ -7,8 +7,6 @@ import { Locale } from "./Locale";
 
 export interface Event extends Dto {
     name: string;
-    yearStart: number | null;
-    yearEnd: number | null;
     eventType: number;
     timeline: number;
     link: string;
@@ -19,4 +17,6 @@ export interface Event extends Dto {
     chapters: Chapter[];
     collection: Collection;
     order: number;
+
+    period: { yearStart: number| null; yearEnd: number| null };
 }

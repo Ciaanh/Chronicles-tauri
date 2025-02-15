@@ -1,0 +1,9 @@
+@use "./variables" as var;
+
+.container {
+    height: var.$viewport-height;
+}
+
+.sider {
+    width: 200px;
+}

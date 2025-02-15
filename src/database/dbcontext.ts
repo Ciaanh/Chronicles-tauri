@@ -54,6 +54,7 @@ export interface ContextValue {
         locales: Mapper<DB_Locale, Locale>;
         chapters: Mapper<DB_Chapter, Chapter>;
     };
+    load: () => void;
 }
 
 export const dbcontext = createContext({} as ContextValue);

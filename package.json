@@ -14,6 +14,7 @@
     "@tauri-apps/plugin-dialog": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
+    "ant-design": "^1.0.0",
     "antd": "^5.24.0",
     "archiver": "^7.0.1",
     "react": "^18.3.1",

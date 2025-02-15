@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 
 import { ContextValue, Mapper, tableNames, dbcontext } from "./dbcontext";
@@ -19,6 +19,7 @@ import {
     Faction,
     Locale,
 } from "./models";
+import Loader from "./loader";
 
 export interface dbSchema {
     tables: string[];
@@ -45,11 +46,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    useEffect(() => {
-        init();
-    }, []);
-
-    const init = async () => {
+    const load = async () => {
         if (loading) return;
         setLoading(true);
 
@@ -127,8 +124,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 id: dto._id,
                 name: dto.name,
-                yearStart: dto.yearStart ?? 0,
-                yearEnd: dto.yearEnd ?? 0,
+                yearStart: dto.period?.yearStart ?? 0,
+                yearEnd: dto.period?.yearEnd ?? 0,
                 eventType: dto.eventType,
                 timeline: dto.timeline,
                 link: dto.link,
@@ -148,13 +145,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             }
             if (database === null) throw new Error("Database not loaded");
 
-            const id = dbo.id;
-            const name = dbo.name;
-            const yearStart = dbo.yearStart;
-            const yearEnd = dbo.yearEnd;
-            const eventType = dbo.eventType;
-            const timeline = dbo.timeline;
-            const link = dbo.link;
             const factions = await database.getAll(
                 tableNames.factions,
                 (faction) => dbo.factionIds.includes(faction.id)
@@ -176,16 +166,17 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 dbo.collectionId,
                 tableNames.locales
             );
-            const order = dbo.order;
 
             return {
-                _id: id,
-                name: name,
-                yearStart: yearStart,
-                yearEnd: yearEnd,
-                eventType: eventType,
-                timeline: timeline,
-                link: link,
+                _id: dbo.id,
+                name: dbo.name,
+                period: {
+                    yearStart: dbo.yearStart,
+                    yearEnd: dbo.yearEnd,
+                },
+                eventType: dbo.eventType,
+                timeline: dbo.timeline,
+                link: dbo.link,
                 factions: await Promise.all(
                     factions.map(
                         async (faction) =>
@@ -216,7 +207,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection
                 ),
-                order: order,
+                order: dbo.order,
             };
         },
         mapFromDbArray: async (dbo: DB_Event[]): Promise<Event[]> => {
@@ -475,13 +466,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             locales: LocaleMapper,
             chapters: ChapterMapper,
         },
+        load,
     };
 
     return (
-        <div>
-            <dbcontext.Provider value={context}>
-                {loaded && children}
-            </dbcontext.Provider>
-        </div>
+        <dbcontext.Provider value={context}>
+            {loaded ? children : <Loader />}
+        </dbcontext.Provider>
     );
 }

@@ -15,7 +15,8 @@
         "title": "Chronicles",
         "width": 1280,
         "height": 800,
-        "resizable": false
+        "resizable": false,
+        "fullscreen": false
       }
     ],
     "security": {

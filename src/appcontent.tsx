@@ -1,4 +1,16 @@
-import { Button, Layout, Menu, MenuProps, theme } from "antd";
+import "./_style/appcontent.scss";
+
+import { MenuItems } from "./constants";
+import {
+    Button,
+    Flex,
+    Layout,
+    Menu,
+    MenuProps,
+    Space,
+    theme,
+    Typography,
+} from "antd";
 
 const { Header, Content, Footer } = Layout;
 
@@ -16,16 +28,9 @@ import CollectionSelect from "./components/_collection/collectionSelect";
 import Link from "antd/es/typography/Link";
 import Sider from "antd/es/layout/Sider";
 
-type MenuItem = Required<MenuProps>["items"][number];
-const menuItems: MenuItem[] = [
-    { key: "home", label: <NavLink to={Path.Home}>Home</NavLink> },
-    {
-        key: "settings",
-        label: <NavLink to={Path.Settings}>Settings</NavLink>,
-    },
-];
 
-function App() {
+
+function AppContent() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -48,22 +53,25 @@ function App() {
     }
 
     return (
-        <Layout>
+        <Layout className="container">
             <Layout>
-                <Sider width={200} style={{ background: colorBgContainer }}>
-                    <div>Chronicles data</div>
-                    <Menu
-                        theme="light"
-                        mode="inline"
-                        onClick={onClick}
-                        selectedKeys={[currentMenuItem]}
-                        items={menuItems}
-                    />
+                {/* style={{ background: colorBgContainer }} */}
+                <Sider className="sider" >
+                    <Flex vertical gap="large">
+                        <Typography>Chronicles data</Typography>
+                        <Menu
+                            theme="light"
+                            mode="inline"
+                            onClick={onClick}
+                            selectedKeys={[currentMenuItem]}
+                            items={MenuItems}
+                        />
 
-                    <CollectionSelect
-                        onCollectionSelect={selectedCollection}
-                        onCollectionReset={resetCollectionFilter}
-                    />
+                        <CollectionSelect
+                            onCollectionSelect={selectedCollection}
+                            onCollectionReset={resetCollectionFilter}
+                        />
+                    </Flex>
                 </Sider>
 
                 <Content style={{ padding: "0 48px" }}>
@@ -82,10 +90,10 @@ function App() {
                 </Content>
             </Layout>
             <Footer style={{ textAlign: "center" }}>
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                Chronicles DB ©{new Date().getFullYear()} Created by Ciaanh
             </Footer>
         </Layout>
     );
 }
 
-export default App;
+export default AppContent;

@@ -1,11 +1,14 @@
-import "./main.scss";
+import "./_style/main.scss";
 
 import ReactDOM from "react-dom/client";
 import Providers from "./Providers";
-import App from "./App";
+import AppContent from "./appcontent";
+import { App } from "antd";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Providers>
-        <App />
+        <App>
+            <AppContent />
+        </App>
     </Providers>
 );

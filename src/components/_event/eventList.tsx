@@ -2,8 +2,9 @@ import { useState, useContext, useEffect } from "react";
 import { dbcontext, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
 import EventItem from "./eventItem";
-import { Button, Card } from "antd";
+import { Button, Card, Table, TableProps } from "antd";
 import { Filters } from "../filters";
+import { Constants } from "../../constants";
 
 interface EventListProps {
     filters: Filters;
@@ -44,6 +45,62 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         setEvents([]);
     };
 
+    function formatPeriod(period: {
+        yearStart: number;
+        yearEnd: number;
+    }): string {
+        if(period === null) {
+            return "";
+        }
+
+        if (period.yearStart === null) {
+            return `${period.yearEnd}`;
+        }
+
+        if (period.yearEnd === null) {
+            return `${period.yearStart}`;
+        }
+
+        if (period.yearStart === period.yearEnd) {
+            return `${period.yearStart}`;
+        }
+
+        let yearStart = "";
+        if (period.yearStart !== Constants.minYear && period.yearStart !== Constants.maxYear) {
+            yearStart = `${period.yearStart}`;
+        }
+
+        let yearEnd = "";
+        if (period.yearEnd !== Constants.maxYear && period.yearEnd !== Constants.minYear) {
+            yearEnd = `${period.yearEnd}`;
+        }
+
+        if(period.yearEnd === Constants.minYear){
+            yearEnd = "Mythos";
+        }
+
+        if(period.yearStart === Constants.maxYear){
+            yearStart = "Future";
+        }
+
+        return `${yearStart}${
+            yearStart !== "" && yearEnd !== "" ? " / " : ""
+        }${yearEnd}`;
+    }
+
+    const columns: TableProps<Event>["columns"] = [
+        {
+            title: "",
+            dataIndex: "period",
+            render: (period) => formatPeriod(period),
+        },
+        {
+            title: "Name",
+            dataIndex: "name",
+            render: (name) => `${name}`,
+        },
+    ];
+
     return (
         <div>
             <h1>Event List</h1>
@@ -55,16 +112,17 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 Reload events
             </Button>
 
-            <Card>
-                <h5>Database info</h5>
-                {events.map((event, index) => {
-                    return (
-                        <div key={event._id}>
-                            <EventItem event={event} />
-                        </div>
-                    );
-                })}
-            </Card>
+            <Table<Event>
+                rowKey="_id"
+                columns={columns}
+                dataSource={events}
+                pagination={false}
+                loading={events.length === 0}
+                scroll={{
+                    scrollToFirstRowOnChange: false,
+                    y: 300,
+                }}
+            />
         </div>
     );
 };
