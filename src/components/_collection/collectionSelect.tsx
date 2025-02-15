@@ -1,75 +1,61 @@
-import { ItemPredicate, ItemRenderer, Select } from "@blueprintjs/select";
-import { Collection } from "../../database/models";
-import { Button, MenuItem } from "@blueprintjs/core";
+import { useContext, useEffect, useState } from "react";
+import { dbcontext, tableNames } from "../../database/dbcontext";
+import { Collection, DB_Collection } from "../../database/models";
+import { Select, SelectProps } from "antd";
+
+type Option = { value: number; label: string };
 
 interface CollectionSelectProps {
-    selectedValue: Collection | null;
-    collections: Collection[];
     onCollectionSelect: (collection: Collection) => void;
     onCollectionReset: () => void;
 }
 
 const CollectionSelect: React.FC<CollectionSelectProps> = (props) => {
-    // demo select with predicate : https://blueprintjs.com/docs/#select/select-component.usage
-    const filterCollection: ItemPredicate<Collection> = (query, collection, _index, exactMatch) => {
-        const normalizedName = collection.name.toLowerCase();
-        const normalizedQuery = query.toLowerCase();
-    
-        if (exactMatch) {
-            return normalizedName === normalizedQuery;
-        } else {
-            return `${normalizedName}`.indexOf(normalizedQuery) >= 0;
+    const [collections, setCollections] = useState<Collection[]>([]);
+    const contextValue = useContext(dbcontext);
+
+    useEffect(() => {
+        async function fetchCollections() {
+            const collections = await contextValue.getAll(
+                tableNames.collections
+            );
+            const mappedCollections =
+                await contextValue.mappers.collections.mapFromDbArray(
+                    collections as DB_Collection[]
+                );
+            setCollections(mappedCollections);
         }
+        fetchCollections();
+    }, [contextValue]);
+
+    const filterOption = (input: string, option: Option | undefined) => {
+        return (option?.label ?? "")
+            .toLowerCase()
+            .includes(input.toLowerCase());
     };
-    
-    
-    const renderCollectionItem: ItemRenderer<Collection> = (
-        collection,
-        { handleClick, handleFocus, modifiers, query }
-    ) => {
-        if (!modifiers.matchesPredicate) {
-            return null;
+
+    const onChange = (value: number) => {
+        const selectedValue = collections.filter((c) => c._id === value);
+        if (selectedValue.length === 0) {
+            return;
         }
-        return (
-            <MenuItem
-                key={collection._id}
-                active={modifiers.active}
-                onClick={handleClick}
-                onFocus={handleFocus}
-                roleStructure="listoption"
-                text={`${collection.name}`}
-            />
-        );
+        props.onCollectionSelect(selectedValue[0]);
+    };
+
+    const onClear = () => {
+        props.onCollectionReset();
     };
 
     return (
-        <>
-            <Select<Collection>
-                items={props.collections}
-                itemPredicate={filterCollection}
-                itemRenderer={renderCollectionItem}
-                noResults={
-                    <MenuItem
-                        disabled={true}
-                        text="No results."
-                        roleStructure="listoption"
-                    />
-                }
-                onItemSelect={props.onCollectionSelect}
-                resetOnSelect={true}
-                resetOnQuery={false}
-            >
-                <Button
-                    text={props.selectedValue?.name ?? "Select a collection"}
-                    rightIcon="caret-down"
-                />
-            </Select>
-            <Button
-                className="bp5-minimal"
-                icon="delete"
-                onClick={() => props.onCollectionReset()}
-            />
-        </>
+        <Select
+            style={{ width: 120 }}
+            options={collections.map((c) => ({ label: c.name, value: c._id }))}
+            filterOption={filterOption}
+            placeholder="Select a collection"
+            onChange={onChange}
+            onClear={onClear}
+            allowClear
+        ></Select>
     );
 };
 

@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { dbcontext, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
 import EventItem from "./eventItem";
-import { Button, Card, H5 } from "@blueprintjs/core";
+import { Button, Card } from "antd";
 import { Filters } from "../filters";
 
 interface EventListProps {
@@ -48,19 +48,15 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         <div>
             <h1>Event List</h1>
             {<div>{filters?.collection?.name}</div>}
-            <Button
-                className="bp5-minimal"
-                onClick={cleanEvents}
-                text="Clean events"
-            />
-            <Button
-                className="bp5-minimal"
-                onClick={reloadEvents}
-                text="Reload events"
-            />
+            <Button className="bp5-minimal" onClick={cleanEvents}>
+                Clean events
+            </Button>
+            <Button className="bp5-minimal" onClick={reloadEvents}>
+                Reload events
+            </Button>
 
             <Card>
-                <H5>Database info</H5>
+                <h5>Database info</h5>
                 {events.map((event, index) => {
                     return (
                         <div key={event._id}>

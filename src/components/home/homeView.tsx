@@ -1,10 +1,4 @@
-import {
-    Button,
-    Card,
-    Elevation,
-    FormGroup,
-    InputGroup,
-} from "@blueprintjs/core";
+import { Button, Card } from "antd";
 import EventList from "../_event/eventList";
 import { Filters } from "../filters";
 
@@ -17,8 +11,8 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
         <div>
             <h1>Home</h1>
 
-            <Card elevation={Elevation.TWO}>
-                <EventList filters={filters}/>
+            <Card>
+                <EventList filters={filters} />
             </Card>
         </div>
     );
