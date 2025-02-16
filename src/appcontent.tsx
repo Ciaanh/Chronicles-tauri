@@ -2,7 +2,9 @@ import "./_style/appcontent.scss";
 
 import { MenuItems } from "./constants";
 import {
+    Breadcrumb,
     Button,
+    Divider,
     Flex,
     Layout,
     Menu,
@@ -28,11 +30,9 @@ import CollectionSelect from "./components/_collection/collectionSelect";
 import Link from "antd/es/typography/Link";
 import Sider from "antd/es/layout/Sider";
 
-
-
 function AppContent() {
     const {
-        token: { colorBgContainer },
+        token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
     const [filters, setFilters] = useState<Filters>({
@@ -53,43 +53,38 @@ function AppContent() {
     }
 
     return (
-        <Layout className="container">
-            <Layout>
-                {/* style={{ background: colorBgContainer }} */}
-                <Sider className="sider" >
-                    <Flex vertical gap="large">
-                        <Typography>Chronicles data</Typography>
-                        <Menu
-                            theme="light"
-                            mode="inline"
-                            onClick={onClick}
-                            selectedKeys={[currentMenuItem]}
-                            items={MenuItems}
-                        />
+        <Layout className="view">
+            <Header className="header" style={{ background: colorBgContainer }}>
+                <Menu
+                    theme="light"
+                    mode="horizontal"
+                    onClick={onClick}
+                    selectedKeys={[currentMenuItem]}
+                    items={MenuItems}
+                />
+                <Divider type="vertical" />
+                <CollectionSelect
+                    onCollectionSelect={selectedCollection}
+                    onCollectionReset={resetCollectionFilter}
+                />
+            </Header>
 
-                        <CollectionSelect
-                            onCollectionSelect={selectedCollection}
-                            onCollectionReset={resetCollectionFilter}
+            <Content className="container">
+                <ErrorBoundary>
+                    <Routes>
+                        <Route
+                            path={Path.Home}
+                            element={<HomeView filters={filters} />}
                         />
-                    </Flex>
-                </Sider>
+                        <Route
+                            path={Path.Settings}
+                            element={<SettingsView />}
+                        />
+                    </Routes>
+                </ErrorBoundary>
+            </Content>
 
-                <Content style={{ padding: "0 48px" }}>
-                    <ErrorBoundary>
-                        <Routes>
-                            <Route
-                                path={Path.Home}
-                                element={<HomeView filters={filters} />}
-                            />
-                            <Route
-                                path={Path.Settings}
-                                element={<SettingsView />}
-                            />
-                        </Routes>
-                    </ErrorBoundary>
-                </Content>
-            </Layout>
-            <Footer style={{ textAlign: "center" }}>
+            <Footer className="footer">
                 Chronicles DB ©{new Date().getFullYear()} Created by Ciaanh
             </Footer>
         </Layout>

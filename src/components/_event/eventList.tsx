@@ -1,10 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { dbcontext, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
-import EventItem from "./eventItem";
-import { Button, Card, Table, TableProps } from "antd";
+import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
+
+const { Text, Title } = Typography;
 
 interface EventListProps {
     filters: Filters;
@@ -49,7 +50,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         yearStart: number;
         yearEnd: number;
     }): string {
-        if(period === null) {
+        if (period === null) {
             return "";
         }
 
@@ -66,20 +67,26 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         }
 
         let yearStart = "";
-        if (period.yearStart !== Constants.minYear && period.yearStart !== Constants.maxYear) {
+        if (
+            period.yearStart !== Constants.minYear &&
+            period.yearStart !== Constants.maxYear
+        ) {
             yearStart = `${period.yearStart}`;
         }
 
         let yearEnd = "";
-        if (period.yearEnd !== Constants.maxYear && period.yearEnd !== Constants.minYear) {
+        if (
+            period.yearEnd !== Constants.maxYear &&
+            period.yearEnd !== Constants.minYear
+        ) {
             yearEnd = `${period.yearEnd}`;
         }
 
-        if(period.yearEnd === Constants.minYear){
+        if (period.yearEnd === Constants.minYear) {
             yearEnd = "Mythos";
         }
 
-        if(period.yearStart === Constants.maxYear){
+        if (period.yearStart === Constants.maxYear) {
             yearStart = "Future";
         }
 
@@ -101,10 +108,11 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         },
     ];
 
+    const selectedCollection = filters?.collection?.name ? `Displaying events for the collection : ${filters?.collection?.name}` : "";
+
     return (
-        <div>
-            <h1>Event List</h1>
-            {<div>{filters?.collection?.name}</div>}
+        <Space direction="vertical" style={{ width: "100%" }}>
+            <Text strong>{selectedCollection}</Text>
             <Button className="bp5-minimal" onClick={cleanEvents}>
                 Clean events
             </Button>
@@ -120,10 +128,10 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 loading={events.length === 0}
                 scroll={{
                     scrollToFirstRowOnChange: false,
-                    y: 300,
+                    y: 440,
                 }}
             />
-        </div>
+        </Space>
     );
 };
 

@@ -1,9 +1,19 @@
 @use "./variables" as var;
 
-.container {
+.view {
     height: var.$viewport-height;
 }
 
-.sider {
-    width: 200px;
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    height: 666px;
+    //margin: 20px;
+}
+
+.footer {
+    text-align: center;
 }
