@@ -13,10 +13,10 @@ export interface Event extends Dto {
     factions: Faction[];
     characters: Character[];
     label: Locale;
-    description: Locale[];
+    //description: Locale[];
     chapters: Chapter[];
     collection: Collection;
     order: number;
 
-    period: { yearStart: number| null; yearEnd: number| null };
+    period: { yearStart: number | null; yearEnd: number | null };
 }

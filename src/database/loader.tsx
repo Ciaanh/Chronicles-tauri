@@ -1,11 +1,11 @@
 import "../_style/loader.scss";
 
 import { useContext } from "react";
-import { dbcontext } from "./dbcontext";
+import { dbRepository } from "./dbcontext";
 import { Button, Card, Flex, Typography } from "antd";
 
 function Loader() {
-    const contextValue = useContext(dbcontext);
+    const dbContext = useContext(dbRepository);
 
     return (
         <Card className="centeredCard">
@@ -14,7 +14,8 @@ function Loader() {
                 <Typography.Paragraph>
                     Welcome to the Chronicles database manager
                 </Typography.Paragraph>
-                <Button onClick={() => contextValue.load()}>Load a json db</Button>
+                <Button onClick={() => dbContext.load()}>Load a json db</Button>
+                {/* <Button onClick={() => dbContext.validate()}>Validate json db</Button> */}
             </Flex>
         </Card>
     );

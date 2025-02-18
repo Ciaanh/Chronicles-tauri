@@ -1,9 +1,11 @@
 import { useState, useContext, useEffect } from "react";
-import { dbcontext, tableNames } from "../../database/dbcontext";
+import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
 import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
+
+import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
 const { Text, Title } = Typography;
 
@@ -12,34 +14,35 @@ interface EventListProps {
 }
 
 const EventList: React.FC<EventListProps> = ({ filters }) => {
+    const [loading, setLoading] = useState(false);
     const [events, setEvents] = useState<Event[]>([]);
-    const contextValue = useContext(dbcontext);
+    const dbContext = useContext(dbRepository);
+
+    async function fetchEvents() {
+        setLoading(true);
+
+        const eventList = await dbContext.getAll(tableNames.events);
+
+        const filteredEvents = eventList.filter((e) => {
+            if (filters?.collection === null) return true;
+            const event = e as DB_Event;
+            return filters?.collection?._id === event.collectionId;
+        });
+
+        const mappedEvents = await dbContext.mappers.events.mapFromDbArray(
+            filteredEvents as DB_Event[]
+        );
+
+        setEvents(sortedEvents(mappedEvents));
+        setLoading(false);
+    }
 
     useEffect(() => {
-        async function fetchEvents() {
-            const events = await contextValue.getAll(tableNames.events);
-
-            const filteredEvents = events.filter((e) => {
-                if (filters?.collection === null) return true;
-                const event = e as DB_Event;
-                return filters?.collection?._id === event.collectionId;
-            });
-
-            const mappedEvents =
-                await contextValue.mappers.events.mapFromDbArray(
-                    filteredEvents as DB_Event[]
-                );
-            setEvents(mappedEvents);
-        }
         fetchEvents();
     }, [filters.collection]);
 
     const reloadEvents = async () => {
-        const events = await contextValue.getAll(tableNames.events);
-        const mappedEvents = await contextValue.mappers.events.mapFromDbArray(
-            events as DB_Event[]
-        );
-        setEvents(mappedEvents);
+        fetchEvents();
     };
 
     const cleanEvents = async () => {
@@ -62,10 +65,6 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             return `${period.yearStart}`;
         }
 
-        if (period.yearStart === period.yearEnd) {
-            return `${period.yearStart}`;
-        }
-
         let yearStart = "";
         if (
             period.yearStart !== Constants.minYear &&
@@ -83,11 +82,15 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         }
 
         if (period.yearEnd === Constants.minYear) {
-            yearEnd = "Mythos";
+            return "Mythos";
         }
 
         if (period.yearStart === Constants.maxYear) {
-            yearStart = "Future";
+            return "Future";
+        }
+
+        if (period.yearStart === period.yearEnd) {
+            return `${period.yearStart}`;
         }
 
         return `${yearStart}${
@@ -106,26 +109,84 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             dataIndex: "name",
             render: (name) => `${name}`,
         },
+        {
+            title: "",
+            key: "action",
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button
+                        type="dashed"
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        onClick={() => deleteEvent(record._id)}
+                    />
+                </Space>
+            ),
+        },
     ];
 
-    const selectedCollection = filters?.collection?.name ? `Displaying events for the collection : ${filters?.collection?.name}` : "";
+    const selectedCollection = filters?.collection?.name
+        ? `Displaying events for the collection : ${filters?.collection?.name}`
+        : "";
+
+    function sortedEvents(eventList: Event[]) {
+        return eventList
+            .sort((a, b) => {
+                if (a.period === null || b.period === null) return 0;
+                if (a.period.yearStart === null || b.period.yearStart === null)
+                    return 0;
+
+                if (a.period.yearStart === b.period.yearStart) {
+                    if (a.order === b.order) return 0;
+                    if (a.order > b.order) return 1;
+                    if (a.order < b.order) return -1;
+                }
+
+                if (a.period.yearStart > b.period.yearStart) return 1;
+                if (a.period.yearStart < b.period.yearStart) return -1;
+
+                return 0;
+            })
+            .reverse();
+    }
+
+    async function deleteEvent(eventid: number) {
+        await dbContext
+            .remove(eventid, tableNames.events)
+            .then(() => fetchEvents());
+    }
+
+    async function addEvent() {
+        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
+    }
 
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>{selectedCollection}</Text>
-            <Button className="bp5-minimal" onClick={cleanEvents}>
-                Clean events
-            </Button>
-            <Button className="bp5-minimal" onClick={reloadEvents}>
-                Reload events
-            </Button>
+            <Space>
+                <Text strong>{selectedCollection}</Text>
+            </Space>
+
+            <Space>
+                <Button className="bp5-minimal" onClick={cleanEvents}>
+                    Clean events
+                </Button>
+
+                <Button
+                    className="bp5-minimal"
+                    onClick={reloadEvents}
+                    loading={loading}
+                >
+                    Load events from DB
+                </Button>
+
+                <Button icon={<PlusCircleOutlined />} onClick={addEvent} />
+            </Space>
 
             <Table<Event>
                 rowKey="_id"
                 columns={columns}
                 dataSource={events}
                 pagination={false}
-                loading={events.length === 0}
                 scroll={{
                     scrollToFirstRowOnChange: false,
                     y: 440,

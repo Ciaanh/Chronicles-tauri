@@ -1,7 +1,6 @@
-import { Dto } from "./_dto";
 import { Locale } from "./Locale";
 
-export interface Chapter extends Dto {
+export interface Chapter {
     header: Locale | null;
     pages: Locale[];
 }

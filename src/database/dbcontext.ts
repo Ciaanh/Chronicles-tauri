@@ -22,7 +22,6 @@ type TablesList = {
     factions: string;
     collections: string;
     locales: string;
-    chapters: string;
 };
 
 export const tableNames: TablesList = {
@@ -31,10 +30,15 @@ export const tableNames: TablesList = {
     factions: "factions",
     collections: "collections",
     locales: "locales",
-    chapters: "chapters",
 };
 
 export interface Mapper<T extends DbObject, U extends Dto> {
+    map: (dto: U) => T;
+    mapFromDb: (dbo: T) => Promise<U>;
+    mapFromDbArray: (dbo: T[]) => Promise<U[]>;
+}
+
+export interface LocalMapper<T, U> {
     map: (dto: U) => T;
     mapFromDb: (dbo: T) => Promise<U>;
     mapFromDbArray: (dbo: T[]) => Promise<U[]>;
@@ -52,9 +56,10 @@ export interface ContextValue {
         factions: Mapper<DB_Faction, Faction>;
         collections: Mapper<DB_Collection, Collection>;
         locales: Mapper<DB_Locale, Locale>;
-        chapters: Mapper<DB_Chapter, Chapter>;
+        chapters: LocalMapper<DB_Chapter, Chapter>;
     };
     load: () => void;
+    //validate: () => void;
 }
 
-export const dbcontext = createContext({} as ContextValue);
+export const dbRepository = createContext({} as ContextValue);

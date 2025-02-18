@@ -1,38 +1,23 @@
 import "./_style/appcontent.scss";
-
-import { MenuItems } from "./constants";
-import {
-    Breadcrumb,
-    Button,
-    Divider,
-    Flex,
-    Layout,
-    Menu,
-    MenuProps,
-    Space,
-    theme,
-    Typography,
-} from "antd";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Divider, Flex, Layout, Menu, MenuProps, Space, theme } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { MenuItems, Path } from "./constants";
+
 import HomeView from "./components/home/homeView";
 import SettingsView from "./components/settings/settingsView";
-import { Path } from "./constants";
-import { useContext, useEffect, useState } from "react";
-
-import { dbcontext, tableNames } from "./database/dbcontext";
-import { Collection, DB_Collection } from "./database/models";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Filters } from "./components/filters";
 import CollectionSelect from "./components/_collection/collectionSelect";
-import Link from "antd/es/typography/Link";
-import Sider from "antd/es/layout/Sider";
+
+import { Collection } from "./database/models";
 
 function AppContent() {
     const {
-        token: { colorBgContainer, borderRadiusLG },
+        token: { colorBgContainer },
     } = theme.useToken();
 
     const [filters, setFilters] = useState<Filters>({
@@ -56,14 +41,17 @@ function AppContent() {
         <Layout className="view">
             <Header className="header" style={{ background: colorBgContainer }}>
                 <Menu
-                    theme="light"
                     mode="horizontal"
                     onClick={onClick}
                     selectedKeys={[currentMenuItem]}
                     items={MenuItems}
+                    style={{ flex: 1, minWidth: 0 }}
                 />
+
                 <Divider type="vertical" />
+
                 <CollectionSelect
+                    className="collection-select"
                     onCollectionSelect={selectedCollection}
                     onCollectionReset={resetCollectionFilter}
                 />
@@ -85,7 +73,7 @@ function AppContent() {
             </Content>
 
             <Footer className="footer">
-                Chronicles DB ©{new Date().getFullYear()} Created by Ciaanh
+                ©{new Date().getFullYear()} by Ciaanh
             </Footer>
         </Layout>
     );

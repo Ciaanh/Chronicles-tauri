@@ -1,40 +1,20 @@
-import "../../_style/homeview.scss"
+import "../../_style/homeview.scss";
 
-import {
-    Breadcrumb,
-    Button,
-    Card,
-    Flex,
-    Layout,
-    Menu,
-    MenuProps,
-    Tabs,
-    TabsProps,
-    theme,
-} from "antd";
-import EventList from "../_event/eventList";
-import { Filters } from "../filters";
-
-// const { Header, Content, Footer, Sider } = Layout;
-
-import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
-} from "@ant-design/icons";
 import { useState } from "react";
+import { Breadcrumb, Tabs, TabsProps } from "antd";
+
+import { Filters } from "../filters";
+import EventList from "../_event/eventList";
+import FactionList from "../_faction/factionList";
+import CharacterList from "../_character/characterList";
+import CollectionList from "../_collection/collectionList";
+import LocaleList from "../_locale/localeList";
 
 interface HomeViewProps {
     filters: Filters;
 }
 
-// type MenuItem = Required<MenuProps>["items"][number];
-
 const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
-    // const {
-    //     token: { colorBgContainer, borderRadiusLG },
-    // } = theme.useToken();
-
     const tabItems: TabsProps["items"] = [
         {
             label: "Events",
@@ -44,24 +24,25 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
         {
             label: "Characters",
             key: "characters",
-            children: "The characters tab content",
+            children: <CharacterList filters={filters} />,
         },
         {
             label: "Factions",
             key: "factions",
-            children: "The factions tab content",
-        },
-        {
-            label: "Collections",
-            key: "collections",
-            children: "The collections tab content",
+            children: <FactionList filters={filters} />,
         },
         {
             label: "Locales",
             key: "locales",
-            children: "The locales tab content",
+            children: <LocaleList filters={filters} />,
+        },
+        {
+            label: "Collections",
+            key: "collections",
+            children: <CollectionList filters={filters} />,
         },
     ];
+
     const defaultTabName = "events";
     const defaultTabIndex = tabItems.findIndex(
         (item) => item.key === defaultTabName
@@ -92,10 +73,6 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
                 items={tabItems}
                 onChange={onTabChange}
             />
-
-            {/* <Card>
-                        <EventList filters={filters} />
-                    </Card> */}
         </div>
     );
 };

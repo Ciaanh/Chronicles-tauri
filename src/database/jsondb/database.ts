@@ -31,7 +31,7 @@ export class Database {
             }
         } else {
             if (!exists(dbdirectory)) {
-                mkdir(dbdirectory, { recursive: true });
+                await mkdir(dbdirectory, { recursive: true });
             }
         }
 
@@ -105,7 +105,9 @@ export class Database {
     }
 
     private getMaxId<T extends DbObject>(table: T[]): number | null {
-        return table.length > 0 ? Math.max(...table.map((c) => c.id)) : null;
+        const maxId =
+            table.length > 0 ? Math.max(...table.map((c) => c.id)) : null;
+        return maxId;
     }
 
     //////////////////////////////////////////
@@ -120,20 +122,21 @@ export class Database {
         if (this.tableExists(tablename, database)) {
             const table = database[tablename];
 
-            if (row.id === undefined || row.id === null || row.id === -1) {
+            if (row.id === -1) {
                 const maxId = this.getMaxId(table);
-                row.id =
+                const nextId =
                     maxId === null
                         ? this.schema.oneIndexed
                             ? 1
                             : 0
                         : maxId + 1;
-            }
 
+                row.id = nextId;
+            }
             table.push(row);
 
             database[tablename] = table;
-            this.saveDatabase(database);
+            await this.saveDatabase(database);
             return row;
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
@@ -199,7 +202,7 @@ export class Database {
                 table.splice(index, 1);
                 database[tablename] = table;
 
-                this.saveDatabase(database);
+                await this.saveDatabase(database);
             }
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
@@ -225,7 +228,7 @@ export class Database {
                 table[index] = row;
                 database[tablename] = table;
 
-                this.saveDatabase(database);
+                await this.saveDatabase(database);
 
                 const getRows = table.filter(
                     (existingrow) => existingrow.id === row.id
@@ -252,7 +255,7 @@ export class Database {
 
         if (this.tableExists(tablename, database)) {
             database[tablename] = [];
-            this.saveDatabase(database);
+            await this.saveDatabase(database);
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
         }

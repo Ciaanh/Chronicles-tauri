@@ -1,19 +1,13 @@
+import { Language } from "../../../constants";
+import { EnumDictionary } from "../EnumDictionary";
 import { Dto } from "./_dto";
 
 export interface Locale extends Dto {
     ishtml: boolean;
 
     enUS: string;
-    deDE: string | null;
-    esES: string | null;
-    esMX: string | null;
-    frFR: string | null;
-    itIT: string | null;
-    ptBR: string | null;
-    ruRU: string | null;
-    koKR: string | null;
-    zhCN: string | null;
-    zhTW: string | null;
+
+    translations: EnumDictionary<Language, string>;
 }
 
 function cleanString(value: string): string {
@@ -38,22 +32,23 @@ export function getLocaleKey(locale: Locale): string {
     return `${locale._id}_${cleanString(locale.enUS)}`;
 }
 
-export function getEmptyLocale(): Locale {
-    return {
-        _id: null,
-        ishtml: false,
+// export function getEmptyLocale(): Locale {
+//     return {
+//         _id: null,
+//         ishtml: false,
 
-        enUS: null,
+//         enUS: null,
 
-        deDE: null,
-        esES: null,
-        esMX: null,
-        frFR: null,
-        itIT: null,
-        ptBR: null,
-        ruRU: null,
-        koKR: null,
-        zhCN: null,
-        zhTW: null,
-    };
-}
+//         translations: {},
+//         // deDE: null,
+//         // esES: null,
+//         // esMX: null,
+//         // frFR: null,
+//         // itIT: null,
+//         // ptBR: null,
+//         // ruRU: null,
+//         // koKR: null,
+//         // zhCN: null,
+//         // zhTW: null,
+//     };
+// }

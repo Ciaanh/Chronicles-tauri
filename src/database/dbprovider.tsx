@@ -1,7 +1,13 @@
 import { useState, Fragment } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 
-import { ContextValue, Mapper, tableNames, dbcontext } from "./dbcontext";
+import {
+    ContextValue,
+    Mapper,
+    tableNames,
+    dbRepository,
+    LocalMapper,
+} from "./dbcontext";
 
 import { Database } from "./jsondb/database";
 import { DbObject, Schema } from "./jsondb/types";
@@ -20,6 +26,7 @@ import {
     Locale,
 } from "./models";
 import Loader from "./loader";
+import { data } from "react-router-dom";
 
 export interface dbSchema {
     tables: string[];
@@ -85,6 +92,62 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         setLoading(false);
     };
 
+    // const validate = async () => {
+    //     const currentSchema: dbSchema = {
+    //         dbname: dbschema.dbname,
+    //         tables: dbschema.tables,
+    //         location: dbschema.location,
+    //     };
+
+    //     if (currentSchema.location === undefined) {
+    //         const chosenLocation = await open({
+    //             multiple: false,
+    //             directory: false,
+    //         });
+    //         if (chosenLocation !== null) {
+    //             currentSchema.location = chosenLocation;
+    //         } else {
+    //             console.error("No location provided to dbContextProvider");
+    //             return;
+    //         }
+    //     }
+
+    //     const schema: Schema = {
+    //         dbname: currentSchema.dbname,
+    //         tables: currentSchema.tables,
+    //         oneIndexed: true,
+    //         compressedJson: true,
+    //         location: currentSchema.location,
+    //     };
+
+    //     const database = await Database.create(schema);
+
+    //     const events = await database.getAll<DB_Event>(tableNames.events);
+
+    //     for (const event of events) {
+    //         console.log(event);
+    //         if (event.descriptionIds.length > 0) {
+    //             if (event.chapters === undefined) event.chapters = [];
+
+    //             if (event.chapters?.length === 0) {
+    //                 const newChapter: DB_Chapter = {
+    //                     headerId: undefined,
+    //                     pageIds: event.descriptionIds,
+    //                 };
+    //                 event.descriptionIds = [];
+    //                 event.chapters = [newChapter];
+    //             }
+    //             var updated = await database.update(event, tableNames.events);
+    //         }
+    //     }
+
+    //     const locales = await database.getAll<DB_Locale>(tableNames.locales);
+
+    //     for (const locale of locales) {
+    //         await database.update(locale, tableNames.locales);
+    //     }
+    // };
+
     const getAll = async <T extends DbObject>(dbName: string): Promise<T[]> => {
         if (database === null) return [];
         return await database.getAll<T>(dbName);
@@ -116,7 +179,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
     const remove = async (id: number, dbName: string): Promise<void> => {
         if (database === null) return;
-        database.delete(id, dbName);
+        await database.delete(id, dbName);
     };
 
     const EventMapper: Mapper<DB_Event, Event> = {
@@ -132,8 +195,14 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 factionIds: dto.factions.map((faction) => faction._id),
                 characterIds: dto.characters.map((character) => character._id),
                 labelId: dto.label._id,
-                descriptionIds: dto.description.map((locale) => locale._id),
-                chapterIds: dto.chapters.map((chapter) => chapter._id),
+                //descriptionIds: dto.description.map((locale) => locale._id),
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?._id,
+                            pageIds: chapter.pages.map((page) => page._id),
+                        } as DB_Chapter)
+                ),
                 collectionId: dto.collection._id,
                 order: dto.order,
             };
@@ -154,14 +223,10 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 (character) => dbo.characterIds.includes(character.id)
             );
             const label = await database.get(dbo.labelId, tableNames.locales);
-            const description = await database.getAll(
-                tableNames.locales,
-                (locale) => dbo.descriptionIds.includes(locale.id)
-            );
-            const chapters = await database.getAll(
-                tableNames.chapters,
-                (chapter) => dbo.chapterIds.includes(chapter.id)
-            );
+            // const description = await database.getAll(
+            //     tableNames.locales,
+            //     (locale) => dbo.descriptionIds.includes(locale.id)
+            // );
             const collection = await database.get(
                 dbo.collectionId,
                 tableNames.locales
@@ -192,14 +257,14 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                     )
                 ),
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                description: await Promise.all(
-                    description.map(
-                        async (locale) =>
-                            await LocaleMapper.mapFromDb(locale as DB_Locale)
-                    )
-                ),
+                // description: await Promise.all(
+                //     description.map(
+                //         async (locale) =>
+                //             await LocaleMapper.mapFromDb(locale as DB_Locale)
+                //     )
+                // ),
                 chapters: await Promise.all(
-                    chapters.map(
+                    dbo.chapters.map(
                         async (chapter) =>
                             await ChapterMapper.mapFromDb(chapter as DB_Chapter)
                     )
@@ -372,16 +437,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
                 enUS: dto.enUS,
 
-                deDE: dto.deDE,
-                esES: dto.esES,
-                esMX: dto.esMX,
-                frFR: dto.frFR,
-                itIT: dto.itIT,
-                ptBR: dto.ptBR,
-                ruRU: dto.ruRU,
-                koKR: dto.koKR,
-                zhCN: dto.zhCN,
-                zhTW: dto.zhTW,
+                translations: dto.translations,
             };
         },
         mapFromDb: async (dbo: DB_Locale): Promise<Locale> => {
@@ -391,16 +447,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
                 enUS: dbo.enUS,
 
-                deDE: dbo.deDE,
-                esES: dbo.esES,
-                esMX: dbo.esMX,
-                frFR: dbo.frFR,
-                itIT: dbo.itIT,
-                ptBR: dbo.ptBR,
-                ruRU: dbo.ruRU,
-                koKR: dbo.koKR,
-                zhCN: dbo.zhCN,
-                zhTW: dbo.zhTW,
+                translations: dbo.translations,
             };
         },
         mapFromDbArray: async (dbo: DB_Locale[]): Promise<Locale[]> => {
@@ -410,10 +457,9 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         },
     };
 
-    const ChapterMapper: Mapper<DB_Chapter, Chapter> = {
+    const ChapterMapper: LocalMapper<DB_Chapter, Chapter> = {
         map: (dto: Chapter): DB_Chapter => {
             return {
-                id: dto._id,
                 headerId: dto.header?._id,
                 pageIds: dto.pages.map((locale) => locale._id),
             };
@@ -426,7 +472,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
 
             return {
-                _id: dbo.id,
                 header: dbo.headerId
                     ? await LocaleMapper.mapFromDb(
                           (await database.get(
@@ -467,11 +512,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             chapters: ChapterMapper,
         },
         load,
+        //validate,
     };
 
     return (
-        <dbcontext.Provider value={context}>
+        <dbRepository.Provider value={context}>
             {loaded ? children : <Loader />}
-        </dbcontext.Provider>
+        </dbRepository.Provider>
     );
 }
