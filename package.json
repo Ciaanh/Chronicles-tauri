@@ -10,25 +10,25 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2",
+    "@tauri-apps/api": "^2.3.0",
     "@tauri-apps/plugin-dialog": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
-    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-opener": "^2.2.6",
     "ant-design": "^1.0.0",
-    "antd": "^5.24.0",
+    "antd": "^5.24.4",
     "archiver": "^7.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.5"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2",
+    "@tauri-apps/cli": "^2.3.1",
     "@types/archiver": "^6.0.3",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "^19.0.11",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "sass-embedded": "^1.85.0",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.3"
+    "sass-embedded": "^1.86.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.2"
   }
 }

@@ -102,16 +102,21 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         {
             title: "",
             dataIndex: "period",
+            width: 20,
             render: (period) => formatPeriod(period),
         },
         {
             title: "Name",
             dataIndex: "name",
+            width: 100,
             render: (name) => `${name}`,
         },
         {
             title: "",
+            dataIndex: '',
             key: "action",
+            fixed: 'right',
+            width: 10,
             render: (_, record) => (
                 <Space size="middle">
                     <Button
@@ -151,9 +156,10 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     }
 
     async function deleteEvent(eventid: number) {
-        await dbContext
-            .remove(eventid, tableNames.events)
-            .then(() => fetchEvents());
+        console.log("Deleting event", eventid);
+        // await dbContext
+        //     .remove(eventid, tableNames.events)
+        //     .then(() => fetchEvents());
     }
 
     async function addEvent() {
