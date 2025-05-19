@@ -35,7 +35,7 @@ export interface dbSchema {
 }
 
 export interface dbProviderProps {
-    children: JSX.Element[] | JSX.Element;
+    children: React.ReactNode;
     dbschema: dbSchema;
 }
 
@@ -184,28 +184,31 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
     const EventMapper: Mapper<DB_Event, Event> = {
         map: (dto: Event): DB_Event => {
-            return {
-                id: dto._id,
+            const mappedEvent =
+            {
+                id: dto.id,
                 name: dto.name,
                 yearStart: dto.period?.yearStart ?? 0,
                 yearEnd: dto.period?.yearEnd ?? 0,
                 eventType: dto.eventType,
                 timeline: dto.timeline,
                 link: dto.link,
-                factionIds: dto.factions.map((faction) => faction._id),
-                characterIds: dto.characters.map((character) => character._id),
-                labelId: dto.label._id,
+                factionIds: dto.factions.map((faction) => faction.id),
+                characterIds: dto.characters.map((character) => character.id),
+                labelId: dto.label.id,
                 //descriptionIds: dto.description.map((locale) => locale._id),
                 chapters: dto.chapters.map(
                     (chapter) =>
-                        ({
-                            headerId: chapter.header?._id,
-                            pageIds: chapter.pages.map((page) => page._id),
-                        } as DB_Chapter)
+                    ({
+                        headerId: chapter.header?.id,
+                        pageIds: chapter.pages.map((page) => page.id),
+                    } as DB_Chapter)
                 ),
-                collectionId: dto.collection._id,
+                collectionId: dto.collection.id,
                 order: dto.order,
             };
+
+            return mappedEvent;
         },
         mapFromDb: async (dbo: DB_Event): Promise<Event> => {
             if (dbo === null) {
@@ -233,7 +236,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
 
             return {
-                _id: dbo.id,
+                id: dbo.id,
                 name: dbo.name,
                 period: {
                     yearStart: dbo.yearStart,
@@ -285,13 +288,13 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const CharacterMapper: Mapper<DB_Character, Character> = {
         map: (dto: Character): DB_Character => {
             return {
-                id: dto._id,
+                id: dto.id,
                 name: dto.name,
-                labelId: dto.label._id,
-                biographyId: dto.biography._id,
+                labelId: dto.label.id,
+                biographyId: dto.biography.id,
                 timeline: dto.timeline,
-                factionIds: dto.factions.map((faction) => faction._id),
-                collectionId: dto.collection._id,
+                factionIds: dto.factions.map((faction) => faction.id),
+                collectionId: dto.collection.id,
             };
         },
         mapFromDb: async (dbo: DB_Character): Promise<Character> => {
@@ -322,7 +325,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
 
             return {
-                _id: dbo.id,
+                id: dbo.id,
                 name: dbo.name,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
                 biography: await LocaleMapper.mapFromDb(biography as DB_Locale),
@@ -351,12 +354,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const FactionMapper: Mapper<DB_Faction, Faction> = {
         map: (dto: Faction): DB_Faction => {
             return {
-                id: dto._id,
+                id: dto.id,
                 name: dto.name,
-                labelId: dto.label._id,
-                descriptionId: dto.description._id,
+                labelId: dto.label.id,
+                descriptionId: dto.description.id,
                 timeline: dto.timeline,
-                collectionId: dto.collection._id,
+                collectionId: dto.collection.id,
             };
         },
         mapFromDb: async (dbo: DB_Faction): Promise<Faction> => {
@@ -386,7 +389,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             }
 
             return {
-                _id: dbo.id,
+                id: dbo.id,
                 name: dbo.name,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
                 description: await LocaleMapper.mapFromDb(
@@ -410,7 +413,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const CollectionMapper: Mapper<DB_Collection, Collection> = {
         map: (dto: Collection): DB_Collection => {
             return {
-                id: dto._id,
+                id: dto.id,
                 name: dto.name,
             };
         },
@@ -418,7 +421,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             if (database === null) throw new Error("Database not loaded");
 
             return {
-                _id: dbo.id,
+                id: dbo.id,
                 name: dbo.name,
             };
         },
@@ -432,7 +435,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const LocaleMapper: Mapper<DB_Locale, Locale> = {
         map: (dto: Locale): DB_Locale => {
             return {
-                id: dto._id,
+                id: dto.id,
                 ishtml: dto.ishtml,
 
                 enUS: dto.enUS,
@@ -442,7 +445,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         },
         mapFromDb: async (dbo: DB_Locale): Promise<Locale> => {
             return {
-                _id: dbo.id,
+                id: dbo.id,
                 ishtml: dbo.ishtml,
 
                 enUS: dbo.enUS,
@@ -460,8 +463,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const ChapterMapper: LocalMapper<DB_Chapter, Chapter> = {
         map: (dto: Chapter): DB_Chapter => {
             return {
-                headerId: dto.header?._id,
-                pageIds: dto.pages.map((locale) => locale._id),
+                headerId: dto.header?.id,
+                pageIds: dto.pages.map((locale) => locale.id),
             };
         },
         mapFromDb: async (dbo: DB_Chapter): Promise<Chapter> => {
@@ -474,11 +477,11 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 header: dbo.headerId
                     ? await LocaleMapper.mapFromDb(
-                          (await database.get(
-                              dbo.headerId,
-                              tableNames.locales
-                          )) as DB_Locale
-                      )
+                        (await database.get(
+                            dbo.headerId,
+                            tableNames.locales
+                        )) as DB_Locale
+                    )
                     : null,
                 pages: await Promise.all(
                     pages.map(

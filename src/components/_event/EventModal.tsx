@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, Form, Input, InputNumber, Select } from "antd";
 import { EventTypes, Timelines } from "../../constants";
+import { dbRepository, tableNames } from "../../database/dbcontext";
+import { Collection, DB_Collection } from "../../database/models";
 
 export interface EventModalProps {
     visible: boolean;
@@ -18,6 +20,17 @@ const EventModal: React.FC<EventModalProps> = ({
     confirmLoading = false,
 }) => {
     const [form] = Form.useForm();
+    const dbContext = React.useContext(dbRepository);
+    const [collections, setCollections] = React.useState<Collection[]>([]);
+
+    React.useEffect(() => {
+        async function fetchCollections() {
+            const collectionList = await dbContext.getAll(tableNames.collections);
+            const mappedCollections = await dbContext.mappers.collections.mapFromDbArray(collectionList as DB_Collection[]);
+            setCollections(mappedCollections);
+        }
+        fetchCollections();
+    }, [dbContext]);
 
     React.useEffect(() => {
         if (visible) {
@@ -30,7 +43,14 @@ const EventModal: React.FC<EventModalProps> = ({
     const handleOk = async () => {
         try {
             const values = await form.validateFields();
-            onOk(values);
+            // Set the full collection object for parent
+            let selectedCollection = values.collection;
+            if (typeof selectedCollection === 'number') {
+                selectedCollection = collections.find(c => c.id === selectedCollection);
+            } else if (selectedCollection && selectedCollection.id) {
+                selectedCollection = collections.find(c => c.id === selectedCollection.id);
+            }
+            onOk({ ...values, collection: selectedCollection });
         } catch (err) {
             // Validation failed
         }
@@ -91,6 +111,18 @@ const EventModal: React.FC<EventModalProps> = ({
                 >
                     <Select
                         options={Timelines.map(tl => ({ value: tl.id, label: tl.name }))}
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Collection"
+                    name={["collection", "id"]}
+                    rules={[{ required: true, message: 'Please select a collection!' }]}
+                >
+                    <Select
+                        options={collections.map(c => ({ value: c.id, label: c.name }))}
+                        showSearch
+                        placeholder="Select a collection"
+                        optionFilterProp="label"
                     />
                 </Form.Item>
                 <Form.Item

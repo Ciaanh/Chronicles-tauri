@@ -30,7 +30,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         const filteredEvents = eventList.filter((e) => {
             if (filters?.collection === null) return true;
             const event = e as DB_Event;
-            return filters?.collection?._id === event.collectionId;
+            return filters?.collection?.id === event.collectionId;
         });
 
         const mappedEvents = await dbContext.mappers.events.mapFromDbArray(
@@ -127,7 +127,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                         type="dashed"
                         shape="circle"
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteEvent(record._id)}
+                        onClick={() => deleteEvent(record.id)}
                     />
                     <Button
                         type="dashed"
@@ -167,10 +167,13 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     }
 
     async function deleteEvent(eventid: number) {
-        console.log("Deleting event", eventid);
-        // await dbContext
-        //     .remove(eventid, tableNames.events)
-        //     .then(() => fetchEvents());
+        setLoading(true);
+        try {
+            await dbContext.remove(eventid, tableNames.events);
+            fetchEvents();
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function addEvent() {
@@ -186,6 +189,20 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     const handleModalOk = async (values: any) => {
         setModalLoading(true);
         try {
+            let label = values.label;
+
+// check if only having id = -1 is enough to create a new label
+
+            // If label does not have an id, create it in the database
+            if (!label.id) {
+                const newLabel = {
+                    id: Date.now(),
+                    ishtml: false,
+                    enUS: label.enUS,
+                    translations: {},
+                };
+                label = await dbContext.add(newLabel, tableNames.locales);
+            }
             if (editingEvent) {
                 // Update existing event
                 const updatedEvent = {
@@ -196,6 +213,11 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                         yearEnd: values.yearEnd,
                     },
                     order: values.order,
+                    eventType: values.eventType,
+                    timeline: values.timeline,
+                    link: values.link,
+                    label: label,
+                    collection: values.collection,
                 };
                 await dbContext.update(dbContext.mappers.events.map(updatedEvent), tableNames.events);
             } else {
@@ -210,12 +232,12 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     eventType: values.eventType,
                     timeline: values.timeline,
                     link: values.link,
-                    label: values.label,
-                    collection: filters?.collection as any, // assume always present, or handle default
+                    label: label,
+                    collection: values.collection,
                     factions: [],
                     characters: [],
                     chapters: [],
-                    _id: -1,
+                    id: -1,
                 };
                 await dbContext.add(dbContext.mappers.events.map(newEvent), tableNames.events);
             }

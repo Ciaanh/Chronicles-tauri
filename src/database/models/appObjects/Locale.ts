@@ -29,7 +29,7 @@ export function getLocaleKey(locale: Locale): string {
     if (!locale || locale.enUS === null) {
         return "<not set>";
     }
-    return `${locale._id}_${cleanString(locale.enUS)}`;
+    return `${locale.id}_${cleanString(locale.enUS)}`;
 }
 
 // export function getEmptyLocale(): Locale {

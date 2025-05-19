@@ -24,7 +24,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         const filteredFactions = factionList.filter((e) => {
             if (filters?.collection === null) return true;
             const faction = e as DB_Faction;
-            return filters?.collection?._id === faction.collectionId;
+            return filters?.collection?.id === faction.collectionId;
         });
 
         const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
@@ -62,7 +62,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                         type="dashed"
                         shape="circle"
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteFaction(record._id)}
+                        onClick={() => deleteFaction(record.id)}
                     />
                 </Space>
             ),

@@ -36,7 +36,7 @@ const CollectionSelect: React.FC<CollectionSelectProps> = (props) => {
     };
 
     const onChange = (value: number) => {
-        const selectedValue = collections.filter((c) => c._id === value);
+        const selectedValue = collections.filter((c) => c.id === value);
         if (selectedValue.length === 0) {
             return;
         }
@@ -50,7 +50,7 @@ const CollectionSelect: React.FC<CollectionSelectProps> = (props) => {
     return (
         <Select
             className={props.className}
-            options={collections.map((c) => ({ label: c.name, value: c._id }))}
+            options={collections.map((c) => ({ label: c.name, value: c.id }))}
             filterOption={filterOption}
             placeholder="Select a collection"
             onChange={onChange}

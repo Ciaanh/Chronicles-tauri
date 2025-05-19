@@ -96,7 +96,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                         type="dashed"
                         shape="circle"
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteLocale(record._id)}
+                        onClick={() => deleteLocale(record.id)}
                     />
                 </Space>
             ),

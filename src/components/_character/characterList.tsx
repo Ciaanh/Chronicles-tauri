@@ -24,7 +24,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
         const filteredCharacters = characterList.filter((e) => {
             if (filters?.collection === null) return true;
             const character = e as DB_Character;
-            return filters?.collection?._id === character.collectionId;
+            return filters?.collection?.id === character.collectionId;
         });
 
         const mappedCharacters =
@@ -63,7 +63,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                         type="dashed"
                         shape="circle"
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteCharacter(record._id)}
+                        onClick={() => deleteCharacter(record.id)}
                     />
                 </Space>
             ),

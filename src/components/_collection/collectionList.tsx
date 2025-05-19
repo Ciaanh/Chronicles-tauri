@@ -55,7 +55,7 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
                         type="dashed"
                         shape="circle"
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteCollection(record._id)}
+                        onClick={() => deleteCollection(record.id)}
                     />
                 </Space>
             ),
