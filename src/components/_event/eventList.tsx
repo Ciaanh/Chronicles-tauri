@@ -97,9 +97,8 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             return `${period.yearStart}`;
         }
 
-        return `${yearStart}${
-            yearStart !== "" && yearEnd !== "" ? " / " : ""
-        }${yearEnd}`;
+        return `${yearStart}${yearStart !== "" && yearEnd !== "" ? " / " : ""
+            }${yearEnd}`;
     }
 
     const columns: TableProps<Event>["columns"] = [
@@ -190,23 +189,21 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         setModalLoading(true);
         try {
             let label = values.label;
-
-// check if only having id = -1 is enough to create a new label
-
-            // If label does not have an id, create it in the database
             if (!label.id) {
                 const newLabel = {
-                    id: Date.now(),
+                    id: -1,
                     ishtml: false,
                     enUS: label.enUS,
                     translations: {},
                 };
                 label = await dbContext.add(newLabel, tableNames.locales);
             }
+
             if (editingEvent) {
-                // Update existing event
+                // Update existing event, ensure id is preserved and chapters are always included
                 const updatedEvent = {
                     ...editingEvent,
+                    id: editingEvent.id, // Ensure id is preserved
                     name: values.name,
                     period: {
                         yearStart: values.yearStart,
@@ -218,6 +215,9 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     link: values.link,
                     label: label,
                     collection: values.collection,
+                    factions: values.factions || [],
+                    characters: values.characters || [],
+                    chapters: Array.isArray(values.chapters) ? values.chapters : [], // Always include chapters
                 };
                 await dbContext.update(dbContext.mappers.events.map(updatedEvent), tableNames.events);
             } else {
@@ -234,9 +234,9 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     link: values.link,
                     label: label,
                     collection: values.collection,
-                    factions: [],
-                    characters: [],
-                    chapters: [],
+                    factions: values.factions || [],
+                    characters: values.characters || [],
+                    chapters: Array.isArray(values.chapters) ? values.chapters : [],
                     id: -1,
                 };
                 await dbContext.add(dbContext.mappers.events.map(newEvent), tableNames.events);
@@ -300,6 +300,10 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     timeline: editingEvent.timeline,
                     link: editingEvent.link,
                     label: editingEvent.label,
+                    collection: editingEvent.collection,
+                    factions: editingEvent.factions,
+                    characters: editingEvent.characters,
+                    chapters: editingEvent.chapters,
                 } : undefined}
             />
         </Space>
