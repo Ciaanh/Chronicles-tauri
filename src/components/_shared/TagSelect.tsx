@@ -3,17 +3,17 @@ import { Select, Tag } from "antd";
 
 interface TagSelectProps {
     label: string;
-    value: number[];
     options: { value: number; label: string }[];
     color?: string;
     placeholder?: string;
-    onChange: (value: number[]) => void;
     onSearch?: (search: string) => void;
+    value?: number[];
+    onChange?: (value: number[]) => void;
 }
 
 const TagSelect: React.FC<TagSelectProps> = ({
     label,
-    value,
+    value = [],
     options,
     color = "blue",
     placeholder,
@@ -35,7 +35,6 @@ const TagSelect: React.FC<TagSelectProps> = ({
             <span style={{ display: "block", marginBottom: 4 }}>{label}</span>
             <Select
                 mode="multiple"
-                showArrow
                 tagRender={({ label, closable, onClose }) => (
                     <Tag
                         color={color}

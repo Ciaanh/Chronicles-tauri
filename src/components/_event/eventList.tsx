@@ -97,8 +97,9 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             return `${period.yearStart}`;
         }
 
-        return `${yearStart}${yearStart !== "" && yearEnd !== "" ? " / " : ""
-            }${yearEnd}`;
+        return `${yearStart}${
+            yearStart !== "" && yearEnd !== "" ? " / " : ""
+        }${yearEnd}`;
     }
 
     const columns: TableProps<Event>["columns"] = [
@@ -116,18 +117,12 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         },
         {
             title: "",
-            dataIndex: '',
+            dataIndex: "",
             key: "action",
-            fixed: 'right',
-            width: 10,
+            fixed: "right",
+            width: 20,
             render: (_, record) => (
                 <Space size="middle">
-                    <Button
-                        type="dashed"
-                        shape="circle"
-                        icon={<DeleteOutlined />}
-                        onClick={() => deleteEvent(record.id)}
-                    />
                     <Button
                         type="dashed"
                         shape="circle"
@@ -135,6 +130,12 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     >
                         Edit
                     </Button>
+                    <Button
+                        type="dashed"
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        onClick={() => deleteEvent(record.id)}
+                    />
                 </Space>
             ),
         },
@@ -199,6 +200,26 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 label = await dbContext.add(newLabel, tableNames.locales);
             }
 
+            // --- PATCH: Ensure all chapter headers and pages are saved as locales ---
+            let chapters = Array.isArray(values.chapters) ? values.chapters : [];
+            for (let chapter of chapters) {
+                // Save header if needed
+                if (chapter.header && chapter.header.id === -1) {
+                    const savedHeader = await dbContext.add(chapter.header, tableNames.locales);
+                    chapter.header = savedHeader;
+                }
+                // Save pages if needed
+                if (Array.isArray(chapter.pages)) {
+                    for (let i = 0; i < chapter.pages.length; i++) {
+                        if (chapter.pages[i] && chapter.pages[i].id === -1) {
+                            const savedPage = await dbContext.add(chapter.pages[i], tableNames.locales);
+                            chapter.pages[i] = savedPage;
+                        }
+                    }
+                }
+            }
+            // --- END PATCH ---
+
             if (editingEvent) {
                 // Update existing event, ensure id is preserved and chapters are always included
                 const updatedEvent = {
@@ -217,9 +238,12 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     collection: values.collection,
                     factions: values.factions || [],
                     characters: values.characters || [],
-                    chapters: Array.isArray(values.chapters) ? values.chapters : [], // Always include chapters
+                    chapters: chapters, // Always include chapters
                 };
-                await dbContext.update(dbContext.mappers.events.map(updatedEvent), tableNames.events);
+                await dbContext.update(
+                    dbContext.mappers.events.map(updatedEvent),
+                    tableNames.events
+                );
             } else {
                 // Add new event
                 const newEvent: Event = {
@@ -236,10 +260,13 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     collection: values.collection,
                     factions: values.factions || [],
                     characters: values.characters || [],
-                    chapters: Array.isArray(values.chapters) ? values.chapters : [],
+                    chapters: chapters,
                     id: -1,
                 };
-                await dbContext.add(dbContext.mappers.events.map(newEvent), tableNames.events);
+                await dbContext.add(
+                    dbContext.mappers.events.map(newEvent),
+                    tableNames.events
+                );
             }
             setIsModalVisible(false);
             setEditingEvent(null);
@@ -277,7 +304,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             </Space>
 
             <Table<Event>
-                rowKey="_id"
+                rowKey="id"
                 columns={columns}
                 dataSource={events}
                 pagination={false}
@@ -291,20 +318,24 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 onOk={handleModalOk}
                 onCancel={handleModalCancel}
                 confirmLoading={modalLoading}
-                initialValues={editingEvent ? {
-                    name: editingEvent.name,
-                    yearStart: editingEvent.period?.yearStart,
-                    yearEnd: editingEvent.period?.yearEnd,
-                    order: editingEvent.order,
-                    eventType: editingEvent.eventType,
-                    timeline: editingEvent.timeline,
-                    link: editingEvent.link,
-                    label: editingEvent.label,
-                    collection: editingEvent.collection,
-                    factions: editingEvent.factions,
-                    characters: editingEvent.characters,
-                    chapters: editingEvent.chapters,
-                } : undefined}
+                initialValues={
+                    editingEvent
+                        ? {
+                              name: editingEvent.name,
+                              yearStart: editingEvent.period?.yearStart,
+                              yearEnd: editingEvent.period?.yearEnd,
+                              order: editingEvent.order,
+                              eventType: editingEvent.eventType,
+                              timeline: editingEvent.timeline,
+                              link: editingEvent.link,
+                              label: editingEvent.label,
+                              collection: editingEvent.collection,
+                              factions: editingEvent.factions,
+                              characters: editingEvent.characters,
+                              chapters: editingEvent.chapters,
+                          }
+                        : undefined
+                }
             />
         </Space>
     );

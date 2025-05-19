@@ -59,12 +59,13 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
 
     return (
         <div className="content">
-            <Breadcrumb className="breadCrumb">
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    {currentTab ? currentTab.label : ""}
-                </Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumb
+                className="breadCrumb"
+                items={[
+                    { title: "Home" },
+                    { title: currentTab ? currentTab.label : "" },
+                ]}
+            />
 
             <Tabs
                 className="tabs"

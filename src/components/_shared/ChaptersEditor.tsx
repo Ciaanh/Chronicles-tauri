@@ -52,7 +52,7 @@ export const ChaptersEditor: React.FC<ChaptersEditorProps> = ({ value = [], onCh
         <div>
             {chapters.map((chapter, idx) => (
                 <Card
-                    key={idx}
+                    key={chapter.header?.id ?? idx}
                     size="small"
                     style={{ marginBottom: 12 }}
                     title={`Chapter ${idx + 1}`}
@@ -94,7 +94,7 @@ export const ChaptersEditor: React.FC<ChaptersEditorProps> = ({ value = [], onCh
                     <div>
                         <b>Pages:</b>
                         {chapter.pages.map((page, pidx) => (
-                            <Space key={pidx} style={{ display: "flex", marginBottom: 4 }}>
+                            <Space key={page.id ?? pidx} style={{ display: "flex", marginBottom: 4 }}>
                                 <Input
                                     value={page.enUS}
                                     placeholder={`Page ${pidx + 1} (enUS)`}

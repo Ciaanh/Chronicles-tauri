@@ -50,18 +50,11 @@ const EventModal: React.FC<EventModalProps> = ({
         fetchFactions();
     }, [dbContext]);
 
-    React.useEffect(() => {
-        if (visible) {
-            // Patch initialValues to set collection.id for Select
-            const patchedValues = { ...initialValues };
-            if (initialValues && initialValues.collection && initialValues.collection.id) {
-                patchedValues.collection = { id: initialValues.collection.id };
-            }
-            form.setFieldsValue(patchedValues || {});
-        } else {
-            form.resetFields();
-        }
-    }, [visible, initialValues, form]);
+    // Patch initialValues for Form initialValues prop
+    let patchedInitialValues = initialValues;
+    if (initialValues && initialValues.collection && initialValues.collection.id) {
+        patchedInitialValues = { ...initialValues, collection: { id: initialValues.collection.id } };
+    }
 
     const handleCharacterSearch = async (search: string) => {
         if (!search) {
@@ -120,7 +113,7 @@ const EventModal: React.FC<EventModalProps> = ({
             cancelText="Cancel"
             confirmLoading={confirmLoading}
         >
-            <Form form={form} layout="vertical">
+            <Form form={form} layout="vertical" initialValues={patchedInitialValues}>
                 <Form.Item
                     label="Name"
                     name="name"
@@ -179,25 +172,21 @@ const EventModal: React.FC<EventModalProps> = ({
                         optionFilterProp="label"
                     />
                 </Form.Item>
-                <Form.Item label="Factions" name="factions">
+                <Form.Item label="Factions" name="factions" valuePropName="value" trigger="onChange">
                     <TagSelect
                         label="Factions"
-                        value={form.getFieldValue("factions") || []}
                         options={factionOptions}
                         color="blue"
                         placeholder="Select factions"
-                        onChange={val => form.setFieldsValue({ factions: val })}
                         onSearch={handleFactionSearch}
                     />
                 </Form.Item>
-                <Form.Item label="Characters" name="characters">
+                <Form.Item label="Characters" name="characters" valuePropName="value" trigger="onChange">
                     <TagSelect
                         label="Characters"
-                        value={form.getFieldValue("characters") || []}
                         options={characterOptions}
                         color="purple"
                         placeholder="Select characters"
-                        onChange={val => form.setFieldsValue({ characters: val })}
                         onSearch={handleCharacterSearch}
                     />
                 </Form.Item>
@@ -214,11 +203,8 @@ const EventModal: React.FC<EventModalProps> = ({
                 >
                     <Input.TextArea rows={2} />
                 </Form.Item>
-                <Form.Item label="Chapters" required>
-                    <ChaptersEditor
-                        value={form.getFieldValue("chapters") || []}
-                        onChange={chs => form.setFieldsValue({ chapters: chs })}
-                    />
+                <Form.Item label="Chapters" required name="chapters" valuePropName="value" trigger="onChange">
+                    <ChaptersEditor />
                 </Form.Item>
             </Form>
         </Modal>

@@ -85,7 +85,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         };
 
         const database = await Database.create(schema);
-        console.log(database);
 
         setDatabase(database);
         setLoaded(true);
@@ -184,8 +183,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
     const EventMapper: Mapper<DB_Event, Event> = {
         map: (dto: Event): DB_Event => {
-            const mappedEvent =
-            {
+            const mappedEvent = {
                 id: dto.id,
                 name: dto.name,
                 yearStart: dto.period?.yearStart ?? 0,
@@ -199,10 +197,10 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 //descriptionIds: dto.description.map((locale) => locale._id),
                 chapters: dto.chapters.map(
                     (chapter) =>
-                    ({
-                        headerId: chapter.header?.id,
-                        pageIds: chapter.pages.map((page) => page.id),
-                    } as DB_Chapter)
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
                 ),
                 collectionId: dto.collection.id,
                 order: dto.order,
@@ -226,13 +224,10 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 (character) => dbo.characterIds.includes(character.id)
             );
             const label = await database.get(dbo.labelId, tableNames.locales);
-            // const description = await database.getAll(
-            //     tableNames.locales,
-            //     (locale) => dbo.descriptionIds.includes(locale.id)
-            // );
+
             const collection = await database.get(
                 dbo.collectionId,
-                tableNames.locales
+                tableNames.collections
             );
 
             return {
@@ -260,12 +255,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                     )
                 ),
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                // description: await Promise.all(
-                //     description.map(
-                //         async (locale) =>
-                //             await LocaleMapper.mapFromDb(locale as DB_Locale)
-                //     )
-                // ),
                 chapters: await Promise.all(
                     dbo.chapters.map(
                         async (chapter) =>
@@ -477,11 +466,11 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 header: dbo.headerId
                     ? await LocaleMapper.mapFromDb(
-                        (await database.get(
-                            dbo.headerId,
-                            tableNames.locales
-                        )) as DB_Locale
-                    )
+                          (await database.get(
+                              dbo.headerId,
+                              tableNames.locales
+                          )) as DB_Locale
+                      )
                     : null,
                 pages: await Promise.all(
                     pages.map(
