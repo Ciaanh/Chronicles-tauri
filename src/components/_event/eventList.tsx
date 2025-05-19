@@ -4,6 +4,7 @@ import { DB_Event, Event } from "../../database/models";
 import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
+import EventModal from "./EventModal";
 
 import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
@@ -16,6 +17,9 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [events, setEvents] = useState<Event[]>([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [editingEvent, setEditingEvent] = useState<Event | null>(null);
     const dbContext = useContext(dbRepository);
 
     async function fetchEvents() {
@@ -125,6 +129,13 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                         icon={<DeleteOutlined />}
                         onClick={() => deleteEvent(record._id)}
                     />
+                    <Button
+                        type="dashed"
+                        shape="circle"
+                        onClick={() => handleEditEvent(record)}
+                    >
+                        Edit
+                    </Button>
                 </Space>
             ),
         },
@@ -163,8 +174,63 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     }
 
     async function addEvent() {
-        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
+        setEditingEvent(null);
+        setIsModalVisible(true);
     }
+
+    function handleEditEvent(event: Event) {
+        setEditingEvent(event);
+        setIsModalVisible(true);
+    }
+
+    const handleModalOk = async (values: any) => {
+        setModalLoading(true);
+        try {
+            if (editingEvent) {
+                // Update existing event
+                const updatedEvent = {
+                    ...editingEvent,
+                    name: values.name,
+                    period: {
+                        yearStart: values.yearStart,
+                        yearEnd: values.yearEnd,
+                    },
+                    order: values.order,
+                };
+                await dbContext.update(dbContext.mappers.events.map(updatedEvent), tableNames.events);
+            } else {
+                // Add new event
+                const newEvent: Event = {
+                    name: values.name,
+                    period: {
+                        yearStart: values.yearStart,
+                        yearEnd: values.yearEnd,
+                    },
+                    order: values.order,
+                    eventType: values.eventType,
+                    timeline: values.timeline,
+                    link: values.link,
+                    label: values.label,
+                    collection: filters?.collection as any, // assume always present, or handle default
+                    factions: [],
+                    characters: [],
+                    chapters: [],
+                    _id: -1,
+                };
+                await dbContext.add(dbContext.mappers.events.map(newEvent), tableNames.events);
+            }
+            setIsModalVisible(false);
+            setEditingEvent(null);
+            fetchEvents();
+        } finally {
+            setModalLoading(false);
+        }
+    };
+
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+        setEditingEvent(null);
+    };
 
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
@@ -197,6 +263,22 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     scrollToFirstRowOnChange: false,
                     y: 440,
                 }}
+            />
+            <EventModal
+                visible={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+                confirmLoading={modalLoading}
+                initialValues={editingEvent ? {
+                    name: editingEvent.name,
+                    yearStart: editingEvent.period?.yearStart,
+                    yearEnd: editingEvent.period?.yearEnd,
+                    order: editingEvent.order,
+                    eventType: editingEvent.eventType,
+                    timeline: editingEvent.timeline,
+                    link: editingEvent.link,
+                    label: editingEvent.label,
+                } : undefined}
             />
         </Space>
     );
