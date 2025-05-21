@@ -10,17 +10,17 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@tauri-apps/api": "^2.5.0",
-    "@tauri-apps/plugin-dialog": "^2.2.1",
-    "@tauri-apps/plugin-fs": "^2.2.1",
+    "@tauri-apps/plugin-dialog": "^2.2.0",
+    "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2.2.6",
     "ant-design": "^1.0.0",
     "antd": "^5.25.2",
     "archiver": "^7.0.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.0"
+    "jszip": "^3.10.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.5.0",

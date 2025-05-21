@@ -1,6 +1,5 @@
 import "../../_style/homeview.scss";
 
-import { useState } from "react";
 import { Breadcrumb, Tabs, TabsProps } from "antd";
 
 import { Filters } from "../filters";
@@ -9,6 +8,7 @@ import FactionList from "../_faction/factionList";
 import CharacterList from "../_character/characterList";
 import CollectionList from "../_collection/collectionList";
 import LocaleList from "../_locale/localeList";
+import ExportTab from "../ExportTab";
 
 interface HomeViewProps {
     filters: Filters;
@@ -41,21 +41,14 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
             key: "collections",
             children: <CollectionList filters={filters} />,
         },
+        {
+            label: "Export",
+            key: "export",
+            children: <ExportTab />,
+        },
     ];
 
     const defaultTabName = "events";
-    const defaultTabIndex = tabItems.findIndex(
-        (item) => item.key === defaultTabName
-    );
-    const [currentTab, setCurrentTab] = useState(tabItems[defaultTabIndex]);
-
-    const onTabChange = (key: string) => {
-        const selectedTab = tabItems.filter((item) => item.key === key);
-
-        if (selectedTab && selectedTab.length > 0) {
-            setCurrentTab(selectedTab[0]);
-        }
-    };
 
     return (
         <div className="content">
@@ -72,7 +65,6 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
                 defaultActiveKey={defaultTabName}
                 tabPosition="left"
                 items={tabItems}
-                onChange={onTabChange}
             />
         </div>
     );
