@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Breadcrumb, Tabs, TabsProps } from "antd";
 
 import { Filters } from "../filters";
-import EventList from "../_event/eventList";
-import FactionList from "../_faction/factionList";
-import CharacterList from "../_character/characterList";
-import CollectionList from "../_collection/collectionList";
-import LocaleList from "../_locale/localeList";
+import EventList from "../_event/EventList";
+import FactionList from "../_faction/FactionList";
+import CharacterList from "../_character/CharacterList";
+import CollectionList from "../_collection/CollectionList";
+import LocaleList from "../_locale/LocaleList";
 import ExportTab from "../ExportTab";
 
 interface HomeViewProps {

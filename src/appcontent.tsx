@@ -7,11 +7,11 @@ const { Header, Content, Footer } = Layout;
 
 import { MenuItems, Path } from "./constants";
 
-import HomeView from "./components/home/homeView";
+import HomeView from "./components/home/HomeView";
 import SettingsView from "./components/settings/settingsView";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Filters } from "./components/filters";
-import CollectionSelect from "./components/_collection/collectionSelect";
+import CollectionSelect from "./components/_collection/CollectionSelect";
 
 import { Collection } from "./database/models";
 

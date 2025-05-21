@@ -55,6 +55,43 @@ const EventModal: React.FC<EventModalProps> = ({
     if (initialValues && initialValues.collection && initialValues.collection.id) {
         patchedInitialValues = { ...initialValues, collection: { id: initialValues.collection.id } };
     }
+    // Patch characters and factions to be arrays of IDs for the form
+    if (patchedInitialValues) {
+        if (Array.isArray(patchedInitialValues.characters)) {
+            patchedInitialValues = {
+                ...patchedInitialValues,
+                characters: patchedInitialValues.characters.map((c: any) => typeof c === 'object' && c !== null ? c.id : c)
+            };
+        }
+        if (Array.isArray(patchedInitialValues.factions)) {
+            patchedInitialValues = {
+                ...patchedInitialValues,
+                factions: patchedInitialValues.factions.map((f: any) => typeof f === 'object' && f !== null ? f.id : f)
+            };
+        }
+    }
+
+    // Ensure form fields update when initialValues or modal visibility changes
+    React.useEffect(() => {
+        if (visible) {
+            form.setFieldsValue(patchedInitialValues || {});
+            // Pre-populate characterOptions and factionOptions for selected values
+            if (patchedInitialValues?.characters && characters.length > 0) {
+                setCharacterOptions(
+                    characters
+                        .filter(c => patchedInitialValues.characters.includes(c.id))
+                        .map(c => ({ value: c.id, label: c.name }))
+                );
+            }
+            if (patchedInitialValues?.factions && factions.length > 0) {
+                setFactionOptions(
+                    factions
+                        .filter(f => patchedInitialValues.factions.includes(f.id))
+                        .map(f => ({ value: f.id, label: f.name }))
+                );
+            }
+        }
+    }, [patchedInitialValues, visible, form, characters, factions]);
 
     const handleCharacterSearch = async (search: string) => {
         if (!search) {
