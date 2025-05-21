@@ -2136,7 +2136,9 @@
             "eventType": 3,
             "timeline": 2,
             "factionIds": [],
-            "characterIds": [1],
+            "characterIds": [
+                1
+            ],
             "labelId": 226,
             "chapters": [
                 {
@@ -3316,55 +3318,19 @@
             "id": 217,
             "enUS": "header 1",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 218,
             "enUS": "page 1",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 219,
             "enUS": "page 2",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 220,
@@ -3375,19 +3341,7 @@
         {
             "enUS": "header",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            },
+            "translations": {},
             "id": 221
         },
         {
@@ -3400,55 +3354,19 @@
             "id": 223,
             "enUS": "Header",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 224,
             "enUS": "page 1",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 225,
             "enUS": "2 page",
             "ishtml": false,
-            "translations": {
-                "enUS": "",
-                "deDE": "",
-                "esES": "",
-                "esMX": "",
-                "frFR": "",
-                "itIT": "",
-                "ptBR": "",
-                "ruRU": "",
-                "koKR": "",
-                "zhCN": "",
-                "zhTW": ""
-            }
+            "translations": {}
         },
         {
             "id": 226,
