@@ -28,6 +28,7 @@ const ExportTab: React.FC = () => {
             new AddonGenerator().Create(request, fileApi);
             messageApi.success("Export completed! ZIP file will be saved.");
         } catch (e) {
+            console.error("Export failed:", e);
             messageApi.error("Export failed: " + (e as Error).message);
         } finally {
             setExporting(false);

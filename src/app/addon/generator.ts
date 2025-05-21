@@ -52,8 +52,12 @@ export class AddonGenerator {
                 eventType: event.eventType,
                 timeline: event.timeline,
                 order: event.order,
-                characters: event.characters?.map(c => c.id) || [],
-                factions: event.factions?.map(f => f.id) || [],
+                characters: Array.isArray(event.characters)
+                    ? event.characters.filter(c => c && typeof c.id !== 'undefined').map(c => c.id)
+                    : [],
+                factions: Array.isArray(event.factions)
+                    ? event.factions.filter(f => f && typeof f.id !== 'undefined').map(f => f.id)
+                    : [],
             });
             const mapFaction = (faction: Faction) => ({
                 id: faction.id,
@@ -66,7 +70,9 @@ export class AddonGenerator {
                 name: character.label, // Localized key or object
                 biography: character.biography, // Localized key or object
                 timeline: character.timeline,
-                factions: character.factions?.map(f => f.id) || [],
+                factions: Array.isArray(character.factions)
+                    ? character.factions.filter(f => f && typeof f.id !== 'undefined').map(f => f.id)
+                    : [],
             });
 
             // Prepare mapped data for file generation

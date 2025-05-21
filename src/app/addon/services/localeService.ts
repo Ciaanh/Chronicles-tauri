@@ -62,13 +62,13 @@ export class LocaleService {
     private CreateLocaleFiles(request: FileGenerationRequest) {
         const dbLocaleGroups = request.collections.map((collection: FormatedCollection) => {
             const filteredEvents = request.events.filter(
-                (event: Event) => String(event.collection.id) == String(collection.id)
+                (event: Event) => event.collection && String(event.collection.id) == String(collection.id)
             );
             const filteredFactions = request.factions.filter(
-                (faction: Faction) => String(faction.collection.id) == String(collection.id)
+                (faction: Faction) => faction.collection && String(faction.collection.id) == String(collection.id)
             );
             const filteredCharacters = request.characters.filter(
-                (character: Character) => String(character.collection.id) == String(collection.id)
+                (character: Character) => character.collection && String(character.collection.id) == String(collection.id)
             );
 
             const localeGroups = LanguageArray.map((language) => {
