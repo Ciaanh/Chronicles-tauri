@@ -2116,16 +2116,17 @@
             "link": "",
             "factionIds": [],
             "characterIds": [],
-            "labelId": 207,
-            "collectionId": 18,
-            "order": 0,
+            "labelId": 220,
             "chapters": [
                 {
+                    "headerId": 221,
                     "pageIds": [
                         208
                     ]
                 }
-            ]
+            ],
+            "collectionId": 18,
+            "order": 0
         }
     ],
     "characters": [
@@ -3342,6 +3343,30 @@
                 "zhCN": "",
                 "zhTW": ""
             }
+        },
+        {
+            "id": 220,
+            "ishtml": false,
+            "enUS": "The fall of Dalaran",
+            "translations": {}
+        },
+        {
+            "enUS": "header",
+            "ishtml": false,
+            "translations": {
+                "enUS": "",
+                "deDE": "",
+                "esES": "",
+                "esMX": "",
+                "frFR": "",
+                "itIT": "",
+                "ptBR": "",
+                "ruRU": "",
+                "koKR": "",
+                "zhCN": "",
+                "zhTW": ""
+            },
+            "id": 221
         }
     ]
 }
