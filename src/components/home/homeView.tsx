@@ -1,5 +1,6 @@
 import "../../_style/homeview.scss";
 
+import { useState } from "react";
 import { Breadcrumb, Tabs, TabsProps } from "antd";
 
 import { Filters } from "../filters";
@@ -49,6 +50,18 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
     ];
 
     const defaultTabName = "events";
+    const defaultTabIndex = tabItems.findIndex(
+        (item) => item.key === defaultTabName
+    );
+    const [currentTab, setCurrentTab] = useState(tabItems[defaultTabIndex]);
+
+    const onTabChange = (key: string) => {
+        const selectedTab = tabItems.filter((item) => item.key === key);
+
+        if (selectedTab && selectedTab.length > 0) {
+            setCurrentTab(selectedTab[0]);
+        }
+    };
 
     return (
         <div className="content">
@@ -65,6 +78,7 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
                 defaultActiveKey={defaultTabName}
                 tabPosition="left"
                 items={tabItems}
+                onChange={onTabChange}
             />
         </div>
     );
