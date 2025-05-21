@@ -2135,6 +2135,7 @@
             "yearEnd": 47,
             "eventType": 3,
             "timeline": 2,
+            "link": "",
             "factionIds": [],
             "characterIds": [
                 1
@@ -3339,10 +3340,10 @@
             "translations": {}
         },
         {
-            "enUS": "header",
+            "id": 221,
             "ishtml": false,
-            "translations": {},
-            "id": 221
+            "enUS": "The fall of dalaran city",
+            "translations": {}
         },
         {
             "id": 222,
@@ -3352,20 +3353,20 @@
         },
         {
             "id": 223,
-            "enUS": "Header",
             "ishtml": false,
+            "enUS": "Header",
             "translations": {}
         },
         {
             "id": 224,
-            "enUS": "page 1",
             "ishtml": false,
+            "enUS": "page 1",
             "translations": {}
         },
         {
             "id": 225,
-            "enUS": "2 page",
             "ishtml": false,
+            "enUS": "2 page",
             "translations": {}
         },
         {

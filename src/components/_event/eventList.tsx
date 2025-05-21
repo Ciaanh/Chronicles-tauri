@@ -187,6 +187,8 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     }
 
     const handleModalOk = async (values: any) => {
+        debugger;
+        
         setModalLoading(true);
         try {
             let label = values.label;
@@ -200,25 +202,38 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 label = await dbContext.add(newLabel, tableNames.locales);
             }
 
-            // --- PATCH: Ensure all chapter headers and pages are saved as locales ---
-            let chapters = Array.isArray(values.chapters) ? values.chapters : [];
+            let chapters = Array.isArray(values.chapters)
+                ? values.chapters
+                : [];                
             for (let chapter of chapters) {
                 // Save header if needed
                 if (chapter.header && chapter.header.id === -1) {
-                    const savedHeader = await dbContext.add(chapter.header, tableNames.locales);
+                    const savedHeader = await dbContext.add(
+                        chapter.header,
+                        tableNames.locales
+                    );
+                    // Ensure the header is updated in the chapter object
                     chapter.header = savedHeader;
+                } else if (chapter.header && chapter.header.id && chapter.header.id > 0) {
+                    // If header exists and has a valid id, update it in the database
+                    await dbContext.update(chapter.header, tableNames.locales);
                 }
+                
                 // Save pages if needed
                 if (Array.isArray(chapter.pages)) {
                     for (let i = 0; i < chapter.pages.length; i++) {
                         if (chapter.pages[i] && chapter.pages[i].id === -1) {
-                            const savedPage = await dbContext.add(chapter.pages[i], tableNames.locales);
+                            const savedPage = await dbContext.add(
+                                chapter.pages[i],
+                                tableNames.locales
+                            );
                             chapter.pages[i] = savedPage;
+                        } else if (chapter.pages[i] && chapter.pages[i].id && chapter.pages[i].id > 0) {
+                            await dbContext.update(chapter.pages[i], tableNames.locales);
                         }
                     }
                 }
             }
-            // --- END PATCH ---
 
             if (editingEvent) {
                 // Update existing event, ensure id is preserved and chapters are always included
@@ -318,24 +333,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 onOk={handleModalOk}
                 onCancel={handleModalCancel}
                 confirmLoading={modalLoading}
-                initialValues={
-                    editingEvent
-                        ? {
-                              name: editingEvent.name,
-                              yearStart: editingEvent.period?.yearStart,
-                              yearEnd: editingEvent.period?.yearEnd,
-                              order: editingEvent.order,
-                              eventType: editingEvent.eventType,
-                              timeline: editingEvent.timeline,
-                              link: editingEvent.link,
-                              label: editingEvent.label,
-                              collection: editingEvent.collection,
-                              factions: editingEvent.factions,
-                              characters: editingEvent.characters,
-                              chapters: editingEvent.chapters,
-                          }
-                        : undefined
-                }
+                eventToEdit={editingEvent ? editingEvent : undefined}
             />
         </Space>
     );

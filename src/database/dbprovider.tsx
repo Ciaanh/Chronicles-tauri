@@ -211,7 +211,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         mapFromDb: async (dbo: DB_Event): Promise<Event> => {
             if (dbo === null) {
                 console.log(dbo);
-                debugger;
             }
             if (database === null) throw new Error("Database not loaded");
 
