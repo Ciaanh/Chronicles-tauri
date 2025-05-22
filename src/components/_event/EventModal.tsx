@@ -363,7 +363,10 @@ const EventModal: React.FC<EventModalProps> = ({
                         onSearch={handleCharacterSearch}
                     />
                 </Form.Item>
-                <Form.Item label="Link" name="link">
+                <Form.Item
+                    label="Link"
+                    name="link"
+                >
                     <Input />
                 </Form.Item>
                 <Form.Item
@@ -375,6 +378,8 @@ const EventModal: React.FC<EventModalProps> = ({
                             message: "Please input the label!",
                         },
                     ]}
+                    valuePropName="value"
+                    trigger="onChange"
                 >
                     <LabelEditor />
                 </Form.Item>
