@@ -34,6 +34,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [locales, setLocales] = useState<Locale[]>([]);
     const [editingLocale, setEditingLocale] = useState<Locale | null>(null);
+    const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(null);
     const [showOnlyUnreferenced, setShowOnlyUnreferenced] = useState(false);
     const [deleteModal, setDeleteModal] = useState<{
         visible: boolean;
@@ -121,6 +122,29 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         setLocales([]);
     };
 
+    const handleEditLocale = (locale: Locale) => {
+        setEditingLocale(locale);
+        setEditingLocaleDraft(locale);
+    };
+
+    const handleEditLocaleChange = (updated: Locale) => {
+        setEditingLocaleDraft(updated);
+    };
+
+    const handleEditLocaleSave = async () => {
+        if (editingLocaleDraft) {
+            await dbContext.update(editingLocaleDraft, tableNames.locales);
+            setEditingLocale(null);
+            setEditingLocaleDraft(null);
+            fetchLocales();
+        }
+    };
+
+    const handleEditLocaleCancel = () => {
+        setEditingLocale(null);
+        setEditingLocaleDraft(null);
+    };
+
     const columns: TableProps<Locale>["columns"] = [
         {
             title: "",
@@ -160,7 +184,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                         type="default"
                         shape="circle"
                         icon={<EditOutlined />}
-                        onClick={() => setEditingLocale(record)}
+                        onClick={() => handleEditLocale(record)}
                         style={{ background: "transparent" }}
                         title="Edit Locale"
                     />
@@ -310,20 +334,19 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 <Modal
                     open={!!editingLocale}
                     title="Edit Locale"
-                    onCancel={() => setEditingLocale(null)}
-                    onOk={async () => {
-                        setEditingLocale(null);
-                        fetchLocales();
-                    }}
-                    footer={null}
+                    onCancel={handleEditLocaleCancel}
+                    footer={[
+                        <Button key="cancel" onClick={handleEditLocaleCancel}>
+                            Cancel
+                        </Button>,
+                        <Button key="save" type="primary" onClick={handleEditLocaleSave}>
+                            Save
+                        </Button>,
+                    ]}
                 >
                     <LocaleEditor
-                        value={editingLocale}
-                        onChange={async (updated) => {
-                            await dbContext.update(updated, tableNames.locales);
-                            setEditingLocale(null);
-                            fetchLocales();
-                        }}
+                        value={editingLocaleDraft || editingLocale}
+                        onChange={handleEditLocaleChange}
                     />
                 </Modal>
             )}
