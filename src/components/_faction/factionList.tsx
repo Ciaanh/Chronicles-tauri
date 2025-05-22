@@ -116,7 +116,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
             </Space>
 
             <Table<Faction>
-                rowKey="_id"
+                rowKey="id"
                 columns={columns}
                 dataSource={factions}
                 pagination={false}

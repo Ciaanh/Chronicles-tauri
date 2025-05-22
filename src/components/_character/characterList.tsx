@@ -117,7 +117,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
             </Space>
 
             <Table<Character>
-                rowKey="_id"
+                rowKey="id"
                 columns={columns}
                 dataSource={characters}
                 pagination={false}

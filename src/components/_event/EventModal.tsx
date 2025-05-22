@@ -13,7 +13,7 @@ import {
 import TagSelect from "../_shared/TagSelect";
 import ChaptersEditor from "../_shared/ChaptersEditor";
 import { Event } from "../../database/models";
-import LabelEditor from "../_shared/LabelEditor";
+import LocaleEditor from "../_shared/LocaleEditor";
 
 export interface EventModalProps {
     visible: boolean;
@@ -381,7 +381,7 @@ const EventModal: React.FC<EventModalProps> = ({
                     valuePropName="value"
                     trigger="onChange"
                 >
-                    <LabelEditor />
+                    <LocaleEditor />
                 </Form.Item>
                 <Form.Item
                     label="Chapters"

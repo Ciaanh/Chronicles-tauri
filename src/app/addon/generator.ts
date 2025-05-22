@@ -43,7 +43,7 @@ export class AddonGenerator {
 
             // Use the original objects (with all properties) for events, factions, characters
             const fileGenerationRequest: FileGenerationRequest = {
-                collections: preparedCollections as any, // id instead of _id
+                collections: preparedCollections as any, // id instead of id
                 events: request.events as any, // full objects
                 factions: request.factions as any, // full objects
                 characters: request.characters as any, // full objects

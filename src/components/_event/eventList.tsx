@@ -6,7 +6,11 @@ import { Filters } from "../filters";
 import { Constants } from "../../constants";
 import EventModal from "./EventModal";
 
-import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+    DeleteOutlined,
+    EditOutlined,
+    PlusCircleOutlined,
+} from "@ant-design/icons";
 
 const { Text, Title } = Typography;
 
@@ -112,8 +116,15 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
         {
             title: "Name",
             dataIndex: "name",
-            width: 100,
-            render: (name) => `${name}`,
+            width: 180,
+            render: (name: string) => (
+                <Typography.Text
+                    ellipsis
+                    style={{ maxWidth: 220, display: "block" }}
+                >
+                    {name}
+                </Typography.Text>
+            ),
         },
         {
             title: "",
@@ -126,10 +137,9 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     <Button
                         type="dashed"
                         shape="circle"
+                        icon={<EditOutlined />}
                         onClick={() => handleEditEvent(record)}
-                    >
-                        Edit
-                    </Button>
+                    />
                     <Button
                         type="dashed"
                         shape="circle"
@@ -188,7 +198,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
 
     const handleModalOk = async (values: any) => {
         debugger;
-        
+
         setModalLoading(true);
         try {
             let label = values.label;
@@ -204,7 +214,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
 
             let chapters = Array.isArray(values.chapters)
                 ? values.chapters
-                : [];                
+                : [];
             for (let chapter of chapters) {
                 // Save header if needed
                 if (chapter.header && chapter.header.id === -1) {
@@ -214,11 +224,15 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     );
                     // Ensure the header is updated in the chapter object
                     chapter.header = savedHeader;
-                } else if (chapter.header && chapter.header.id && chapter.header.id > 0) {
+                } else if (
+                    chapter.header &&
+                    chapter.header.id &&
+                    chapter.header.id > 0
+                ) {
                     // If header exists and has a valid id, update it in the database
                     await dbContext.update(chapter.header, tableNames.locales);
                 }
-                
+
                 // Save pages if needed
                 if (Array.isArray(chapter.pages)) {
                     for (let i = 0; i < chapter.pages.length; i++) {
@@ -228,8 +242,15 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                                 tableNames.locales
                             );
                             chapter.pages[i] = savedPage;
-                        } else if (chapter.pages[i] && chapter.pages[i].id && chapter.pages[i].id > 0) {
-                            await dbContext.update(chapter.pages[i], tableNames.locales);
+                        } else if (
+                            chapter.pages[i] &&
+                            chapter.pages[i].id &&
+                            chapter.pages[i].id > 0
+                        ) {
+                            await dbContext.update(
+                                chapter.pages[i],
+                                tableNames.locales
+                            );
                         }
                     }
                 }

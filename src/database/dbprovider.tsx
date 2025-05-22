@@ -194,7 +194,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 factionIds: dto.factions.map((faction) => faction.id),
                 characterIds: dto.characters.map((character) => character.id),
                 labelId: dto.label.id,
-                //descriptionIds: dto.description.map((locale) => locale._id),
+                //descriptionIds: dto.description.map((locale) => locale.id),
                 chapters: dto.chapters.map(
                     (chapter) =>
                         ({

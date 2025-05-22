@@ -34,7 +34,7 @@ export function getLocaleKey(locale: Locale): string {
 
 // export function getEmptyLocale(): Locale {
 //     return {
-//         _id: null,
+//         id: null,
 //         ishtml: false,
 
 //         enUS: null,

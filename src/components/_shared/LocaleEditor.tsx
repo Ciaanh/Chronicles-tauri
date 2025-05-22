@@ -4,7 +4,7 @@ import { Locale } from "../../database/models";
 import { Language } from "../../constants";
 import { EnumDictionary } from "../../database/models/EnumDictionary";
 
-interface LabelEditorProps {
+interface LocaleEditorProps {
     value?: Locale;
     onChange?: (value: Locale) => void;
 }
@@ -23,7 +23,7 @@ const defaultTranslations: EnumDictionary<Language, string> = {
     zhTW: "",
 };
 
-const LabelEditor: React.FC<LabelEditorProps> = ({ value, onChange }) => {
+const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
     // Ensure all required fields are present
     const safeValue: Locale = {
         id: value?.id ?? -1,
@@ -64,4 +64,4 @@ const LabelEditor: React.FC<LabelEditorProps> = ({ value, onChange }) => {
     );
 };
 
-export default LabelEditor;
+export default LocaleEditor;
