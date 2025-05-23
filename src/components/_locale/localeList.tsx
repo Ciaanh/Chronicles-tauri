@@ -34,7 +34,9 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [locales, setLocales] = useState<Locale[]>([]);
     const [editingLocale, setEditingLocale] = useState<Locale | null>(null);
-    const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(null);
+    const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(
+        null
+    );
     const [showOnlyUnreferenced, setShowOnlyUnreferenced] = useState(false);
     const [deleteModal, setDeleteModal] = useState<{
         visible: boolean;
@@ -83,13 +85,39 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         });
         characterList.forEach((c) => {
             if (typeof c.labelId === "number") referencedIds.add(c.labelId);
-            if (typeof c.biographyId === "number")
-                referencedIds.add(c.biographyId);
+            // biographyId has been replaced by chapters
+            // if (typeof c.biographyId === "number")
+            //     referencedIds.add(c.biographyId);
+
+            // Add references from chapters if available
+            if (c.chapters && Array.isArray(c.chapters)) {
+                c.chapters.forEach((chapter) => {
+                    if (chapter.headerId) referencedIds.add(chapter.headerId);
+                    if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
+                        chapter.pageIds.forEach((pageId) =>
+                            referencedIds.add(pageId)
+                        );
+                    }
+                });
+            }
         });
         factionList.forEach((f) => {
             if (typeof f.labelId === "number") referencedIds.add(f.labelId);
-            if (typeof f.descriptionId === "number")
-                referencedIds.add(f.descriptionId);
+            // descriptionId has been replaced by chapters
+            // if (typeof f.descriptionId === "number")
+            //     referencedIds.add(f.descriptionId);
+
+            // Add references from chapters if available
+            if (f.chapters && Array.isArray(f.chapters)) {
+                f.chapters.forEach((chapter) => {
+                    if (chapter.headerId) referencedIds.add(chapter.headerId);
+                    if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
+                        chapter.pageIds.forEach((pageId) =>
+                            referencedIds.add(pageId)
+                        );
+                    }
+                });
+            }
         });
 
         // Defensive: ensure locale.id is a number
@@ -217,17 +245,51 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         });
         const referencedInCharacters = characters.some((c) => {
             const character = c as DB_Character;
-            return (
-                character.labelId === localeId ||
-                character.biographyId === localeId
-            );
+
+            // Check in label
+            if (character.labelId === localeId) return true;
+
+            // biographyId has been replaced by chapters
+            // if (character.biographyId === localeId) return true;
+
+            // Check in chapters
+            if (character.chapters && Array.isArray(character.chapters)) {
+                return character.chapters.some((chapter) => {
+                    if (chapter.headerId === localeId) return true;
+                    if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
+                        return chapter.pageIds.some(
+                            (pageId) => pageId === localeId
+                        );
+                    }
+                    return false;
+                });
+            }
+
+            return false;
         });
         const referencedInFactions = factions.some((f) => {
             const faction = f as DB_Faction;
-            return (
-                faction.labelId === localeId ||
-                faction.descriptionId === localeId
-            );
+
+            // Check in label
+            if (faction.labelId === localeId) return true;
+
+            // descriptionId has been replaced by chapters
+            // if (faction.descriptionId === localeId) return true;
+
+            // Check in chapters
+            if (faction.chapters && Array.isArray(faction.chapters)) {
+                return faction.chapters.some((chapter) => {
+                    if (chapter.headerId === localeId) return true;
+                    if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
+                        return chapter.pageIds.some(
+                            (pageId) => pageId === localeId
+                        );
+                    }
+                    return false;
+                });
+            }
+
+            return false;
         });
 
         return (
@@ -275,10 +337,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         setDeleteModal({ ...deleteModal, visible: false });
     };
 
-    async function addLocale() {
-        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
-    }
-
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
             <Space>
@@ -294,7 +352,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                     Load locales from DB
                 </Button>
 
-                <Button icon={<PlusCircleOutlined />} onClick={addLocale} />
                 <Space align="center">
                     <Switch
                         checked={showOnlyUnreferenced}
@@ -339,7 +396,11 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                         <Button key="cancel" onClick={handleEditLocaleCancel}>
                             Cancel
                         </Button>,
-                        <Button key="save" type="primary" onClick={handleEditLocaleSave}>
+                        <Button
+                            key="save"
+                            type="primary"
+                            onClick={handleEditLocaleSave}
+                        >
                             Save
                         </Button>,
                     ]}

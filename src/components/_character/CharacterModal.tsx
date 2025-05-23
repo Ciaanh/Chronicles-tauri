@@ -1,16 +1,18 @@
 import React from "react";
 import { Modal, Form, Input, Select, Divider, Row, Col } from "antd";
 import { dbRepository, tableNames } from "../../database/dbcontext";
-import { 
-    Collection, 
-    DB_Collection, 
-    Character, 
-    Faction, 
-    Locale 
+import {
+    Collection,
+    DB_Collection,
+    Character,
+    Faction,
+    Locale,
+    Chapter,
 } from "../../database/models";
 import { Timelines } from "../../constants";
 import TagSelect from "../_shared/TagSelect";
 import LocaleEditor from "../_shared/LocaleEditor";
+import ChaptersEditor from "../_shared/ChaptersEditor";
 
 export interface CharacterModalProps {
     visible: boolean;
@@ -23,7 +25,8 @@ export interface CharacterModalProps {
 export interface EditableCharacter {
     id: number;
     name: string;
-    biography: Locale;
+    // biography: Locale; // Replaced with chapters
+    chapters: Chapter[];
     label: Locale;
     timeline: number;
     factions: number[];
@@ -44,7 +47,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
     const [factionOptions, setFactionOptions] = React.useState<
         { value: number; label: string }[]
     >([]);
-    const [editableCharacterState, setEditableCharacterState] = 
+    const [editableCharacterState, setEditableCharacterState] =
         React.useState<any>(undefined);
 
     React.useEffect(() => {
@@ -69,16 +72,18 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
         fetchCollections();
         fetchFactions();
     }, [dbContext]);
-
-    React.useEffect(() => {        let editableCharacter: EditableCharacter | undefined = characterToEdit
+    React.useEffect(() => {
+        let editableCharacter: EditableCharacter | undefined = characterToEdit
             ? {
                   id: characterToEdit.id,
                   name: characterToEdit.name ?? "",
-                  biography: characterToEdit.biography ?? {},
+                  // biography: characterToEdit.biography ?? {}, // Replaced with chapters
+                  chapters: characterToEdit.chapters ?? [],
                   label: characterToEdit.label ?? {},
                   timeline: characterToEdit.timeline ?? undefined,
                   collection:
-                      characterToEdit.collection && characterToEdit.collection.id
+                      characterToEdit.collection &&
+                      characterToEdit.collection.id
                           ? characterToEdit.collection.id
                           : undefined,
                   factions: Array.isArray(characterToEdit.factions)
@@ -140,12 +145,12 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                     (c) => c.id === selectedCollection.id
                 );
             }
-            
+
             // Map selected ids to full objects for factions
             const selectedFactions = (values.factions || [])
                 .map((id: number) => factions.find((f) => f.id === id))
                 .filter(Boolean);
-                
+
             onOk({
                 ...values,
                 collection: selectedCollection,
@@ -178,7 +183,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                     style={{ fontSize: 18, marginBottom: 24 }}
                 >
                     Basic Info
-                </Divider>                <Row gutter={24} style={{ marginBottom: 12 }}>
+                </Divider>{" "}
+                <Row gutter={24} style={{ marginBottom: 12 }}>
                     <Col span={24}>
                         <Form.Item
                             label="Name"
@@ -268,7 +274,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                     style={{ fontSize: 18, margin: "32px 0 24px 0" }}
                 >
                     Label
-                </Divider>                <Row gutter={24}>
+                </Divider>{" "}
+                <Row gutter={24}>
                     <Col span={12}>
                         <Form.Item
                             label="Label"
@@ -284,15 +291,15 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         >
                             <LocaleEditor />
                         </Form.Item>
-                    </Col>
+                    </Col>{" "}
                     <Col span={12}>
                         <Form.Item
                             label="Biography"
-                            name="biography"
+                            name="chapters"
                             valuePropName="value"
                             trigger="onChange"
                         >
-                            <LocaleEditor />
+                            <ChaptersEditor />
                         </Form.Item>
                     </Col>
                 </Row>

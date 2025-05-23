@@ -272,14 +272,20 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-
     const CharacterMapper: Mapper<DB_Character, Character> = {
         map: (dto: Character): DB_Character => {
             return {
                 id: dto.id,
                 name: dto.name,
                 labelId: dto.label.id,
-                biographyId: dto.biography.id,
+                // biographyId: dto.biography.id, // phased out and converted to chapters
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
+                ),
                 timeline: dto.timeline,
                 factionIds: dto.factions.map((faction) => faction.id),
                 collectionId: dto.collection.id,
@@ -287,21 +293,21 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         },
         mapFromDb: async (dbo: DB_Character): Promise<Character> => {
             if (database === null) throw new Error("Database not loaded");
-
             const label = await database.get(dbo.labelId, tableNames.locales);
             if (!label) {
                 throw new Error(`Label not found for character ${dbo.name}`);
             }
 
-            const biography = await database.get(
-                dbo.biographyId,
-                tableNames.locales
-            );
-            if (!biography) {
-                throw new Error(
-                    `Biography not found for character ${dbo.name}`
-                );
-            }
+            // Now we're using chapters instead of biography
+            // const biography = await database.get(
+            //     dbo.biographyId,
+            //     tableNames.locales
+            // );
+            // if (!biography) {
+            //     throw new Error(
+            //         `Biography not found for character ${dbo.name}`
+            //     );
+            // }
 
             const factions = await database.getAll(
                 tableNames.factions,
@@ -311,12 +317,21 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 dbo.collectionId,
                 tableNames.collections
             );
-
             return {
                 id: dbo.id,
                 name: dbo.name,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                biography: await LocaleMapper.mapFromDb(biography as DB_Locale),
+                // biography: await LocaleMapper.mapFromDb(biography as DB_Locale),
+                chapters: dbo.chapters
+                    ? await Promise.all(
+                          dbo.chapters.map(
+                              async (chapter) =>
+                                  await ChapterMapper.mapFromDb(
+                                      chapter as DB_Chapter
+                                  )
+                          )
+                      )
+                    : [], // default to empty array if chapters undefined
                 timeline: dbo.timeline,
                 factions: await Promise.all(
                     factions.map(
@@ -338,14 +353,20 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-
     const FactionMapper: Mapper<DB_Faction, Faction> = {
         map: (dto: Faction): DB_Faction => {
             return {
                 id: dto.id,
                 name: dto.name,
                 labelId: dto.label.id,
-                descriptionId: dto.description.id,
+                // descriptionId: dto.description.id, // phased out and converted to chapters
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
+                ),
                 timeline: dto.timeline,
                 collectionId: dto.collection.id,
             };
@@ -358,31 +379,42 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 throw new Error(`Label not found for faction ${dbo.name}`);
             }
 
-            const description = await database.get(
-                dbo.descriptionId,
-                tableNames.locales
-            );
-            if (!description) {
-                throw new Error(
-                    `Description not found for faction ${dbo.name}`
-                );
-            }
+            // Now we're using chapters instead of description
+            // const description = await database.get(
+            //     dbo.descriptionId,
+            //     tableNames.locales
+            // );
+            // if (!description) {
+            //     throw new Error(
+            //         `Description not found for faction ${dbo.name}`
+            //     );
+            // }
 
             const collection = await database.get(
                 dbo.collectionId,
                 tableNames.collections
             );
             if (!collection) {
-                throw new Error(`DBName not found for faction ${dbo.name}`);
+                throw new Error(`Collection not found for faction ${dbo.name}`);
             }
 
             return {
                 id: dbo.id,
                 name: dbo.name,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                description: await LocaleMapper.mapFromDb(
-                    description as DB_Locale
-                ),
+                // description: await LocaleMapper.mapFromDb(
+                //     description as DB_Locale
+                // ),
+                chapters: dbo.chapters
+                    ? await Promise.all(
+                          dbo.chapters.map(
+                              async (chapter) =>
+                                  await ChapterMapper.mapFromDb(
+                                      chapter as DB_Chapter
+                                  )
+                          )
+                      )
+                    : [], // default to empty array if chapters undefined
                 timeline: dbo.timeline,
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection

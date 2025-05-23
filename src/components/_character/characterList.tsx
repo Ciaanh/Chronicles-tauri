@@ -151,14 +151,42 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
     function handleEditCharacter(character: Character) {
         setEditingCharacter(character);
         setIsModalVisible(true);
-    }    const handleModalOk = async (values: any) => {
+    }
+    const handleModalOk = async (values: any) => {
         setModalLoading(true);
         try {
             // Use the centralized LocaleUtils to create or update the label
-            const label = await LocaleUtils.createOrUpdateLocale(values.label, dbContext);
-            
-            // Use the centralized LocaleUtils to create or update the biography
-            const biography = await LocaleUtils.createOrUpdateLocale(values.biography, dbContext);
+            const label = await LocaleUtils.createOrUpdateLocale(
+                values.label,
+                dbContext
+            );
+
+            // Process chapters
+            const processedChapters = await Promise.all(
+                values.chapters?.map(async (chapter: any) => {
+                    const header = chapter.header
+                        ? await LocaleUtils.createOrUpdateLocale(
+                              chapter.header,
+                              dbContext
+                          )
+                        : null;
+
+                    const pages = await Promise.all(
+                        chapter.pages.map(
+                            async (page: any) =>
+                                await LocaleUtils.createOrUpdateLocale(
+                                    page,
+                                    dbContext
+                                )
+                        )
+                    );
+
+                    return {
+                        header,
+                        pages,
+                    };
+                }) || []
+            );
 
             if (editingCharacter) {
                 // Update existing character
@@ -166,7 +194,8 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     ...editingCharacter,
                     id: editingCharacter.id,
                     name: values.name,
-                    biography: biography,
+                    // biography: biography, // Replaced with chapters
+                    chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
@@ -180,7 +209,8 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                 // Add new character
                 const newCharacter: Character = {
                     name: values.name,
-                    biography: biography,
+                    // biography: biography, // Replaced with chapters
+                    chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,

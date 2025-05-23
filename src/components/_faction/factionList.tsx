@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Faction, Faction } from "../../database/models";
-import { Button, Card, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import FactionModal from "./FactionModal";
 import { LocaleUtils } from "../../_utils/localeUtils";
@@ -152,10 +152,37 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         setModalLoading(true);
         try {
             // Use the centralized LocaleUtils to create or update the label
-            const label = await LocaleUtils.createOrUpdateLocale(values.label, dbContext);
-            
-            // Use the centralized LocaleUtils to create or update the description
-            const description = await LocaleUtils.createOrUpdateLocale(values.description, dbContext);
+            const label = await LocaleUtils.createOrUpdateLocale(
+                values.label,
+                dbContext
+            );
+
+            // Process chapters
+            const processedChapters = await Promise.all(
+                values.chapters?.map(async (chapter: any) => {
+                    const header = chapter.header
+                        ? await LocaleUtils.createOrUpdateLocale(
+                              chapter.header,
+                              dbContext
+                          )
+                        : null;
+
+                    const pages = await Promise.all(
+                        chapter.pages.map(
+                            async (page: any) =>
+                                await LocaleUtils.createOrUpdateLocale(
+                                    page,
+                                    dbContext
+                                )
+                        )
+                    );
+
+                    return {
+                        header,
+                        pages,
+                    };
+                }) || []
+            );
 
             if (editingFaction) {
                 // Update existing faction
@@ -163,7 +190,8 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     ...editingFaction,
                     id: editingFaction.id,
                     name: values.name,
-                    description: description,
+                    // description: description, // Replaced with chapters
+                    chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
@@ -176,7 +204,8 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                 // Add new faction
                 const newFaction: Faction = {
                     name: values.name,
-                    description: description,
+                    // description: description, // Replaced with chapters
+                    chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,

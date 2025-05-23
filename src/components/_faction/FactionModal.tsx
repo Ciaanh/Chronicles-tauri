@@ -1,9 +1,16 @@
 import React from "react";
 import { Modal, Form, Input, Select, Divider, Row, Col } from "antd";
 import { dbRepository, tableNames } from "../../database/dbcontext";
-import { Collection, DB_Collection, Faction, Locale } from "../../database/models";
+import {
+    Collection,
+    DB_Collection,
+    Faction,
+    Locale,
+    Chapter,
+} from "../../database/models";
 import { Timelines } from "../../constants";
 import LocaleEditor from "../_shared/LocaleEditor";
+import ChaptersEditor from "../_shared/ChaptersEditor";
 
 export interface FactionModalProps {
     visible: boolean;
@@ -16,7 +23,8 @@ export interface FactionModalProps {
 export interface EditableFaction {
     id: number;
     name: string;
-    description: Locale;
+    // description: Locale; // Replaced with chapters
+    chapters: Chapter[];
     label: Locale;
     timeline: number;
     collection?: number;
@@ -32,7 +40,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
     const [form] = Form.useForm();
     const dbContext = React.useContext(dbRepository);
     const [collections, setCollections] = React.useState<Collection[]>([]);
-    const [editableFactionState, setEditableFactionState] = 
+    const [editableFactionState, setEditableFactionState] =
         React.useState<any>(undefined);
 
     React.useEffect(() => {
@@ -48,12 +56,13 @@ const FactionModal: React.FC<FactionModalProps> = ({
         }
         fetchCollections();
     }, [dbContext]);
-
-    React.useEffect(() => {        let editableFaction: EditableFaction | undefined = factionToEdit
+    React.useEffect(() => {
+        let editableFaction: EditableFaction | undefined = factionToEdit
             ? {
                   id: factionToEdit.id,
                   name: factionToEdit.name ?? "",
-                  description: factionToEdit.description ?? {},
+                  // description: factionToEdit.description ?? {}, // Replaced with chapters
+                  chapters: factionToEdit.chapters ?? [],
                   label: factionToEdit.label ?? {},
                   timeline: factionToEdit.timeline ?? undefined,
                   collection:
@@ -86,7 +95,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                     (c) => c.id === selectedCollection.id
                 );
             }
-            
+
             onOk({
                 ...values,
                 collection: selectedCollection,
@@ -118,7 +127,8 @@ const FactionModal: React.FC<FactionModalProps> = ({
                     style={{ fontSize: 18, marginBottom: 24 }}
                 >
                     Basic Info
-                </Divider>                <Row gutter={24} style={{ marginBottom: 12 }}>
+                </Divider>{" "}
+                <Row gutter={24} style={{ marginBottom: 12 }}>
                     <Col span={24}>
                         <Form.Item
                             label="Name"
@@ -185,7 +195,8 @@ const FactionModal: React.FC<FactionModalProps> = ({
                     style={{ fontSize: 18, margin: "32px 0 24px 0" }}
                 >
                     Label
-                </Divider>                <Row gutter={24}>
+                </Divider>{" "}
+                <Row gutter={24}>
                     <Col span={12}>
                         <Form.Item
                             label="Label"
@@ -201,15 +212,15 @@ const FactionModal: React.FC<FactionModalProps> = ({
                         >
                             <LocaleEditor />
                         </Form.Item>
-                    </Col>
+                    </Col>{" "}
                     <Col span={12}>
                         <Form.Item
                             label="Description"
-                            name="description"
+                            name="chapters"
                             valuePropName="value"
                             trigger="onChange"
                         >
-                            <LocaleEditor />
+                            <ChaptersEditor />
                         </Form.Item>
                     </Col>
                 </Row>

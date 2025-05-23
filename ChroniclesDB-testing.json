@@ -2157,10 +2157,33 @@
             "id": 1,
             "name": "Test character",
             "labelId": 209,
-            "biographyId": 210,
+            "chapters": [
+                {
+                    "headerId": null,
+                    "pageIds": [
+                        210
+                    ]
+                }
+            ],
             "timeline": 1,
             "factionIds": [],
             "collectionId": 18
+        },
+        {
+            "id": 2,
+            "name": "char 2",
+            "labelId": 228,
+            "chapters": [
+                {
+                    "headerId": null,
+                    "pageIds": [
+                        229
+                    ]
+                }
+            ],
+            "timeline": 1,
+            "factionIds": [],
+            "collectionId": 17
         }
     ],
     "factions": [],
@@ -3327,6 +3350,42 @@
             "translations": {
                 "enUS": "",
                 "frFR": "test"
+            }
+        },
+        {
+            "id": 228,
+            "ishtml": false,
+            "enUS": "lc2",
+            "translations": {
+                "enUS": "",
+                "deDE": "",
+                "esES": "",
+                "esMX": "",
+                "frFR": "",
+                "itIT": "",
+                "ptBR": "",
+                "ruRU": "",
+                "koKR": "",
+                "zhCN": "",
+                "zhTW": ""
+            }
+        },
+        {
+            "id": 229,
+            "ishtml": false,
+            "enUS": "bc2",
+            "translations": {
+                "enUS": "",
+                "deDE": "",
+                "esES": "",
+                "esMX": "",
+                "frFR": "",
+                "itIT": "",
+                "ptBR": "",
+                "ruRU": "",
+                "koKR": "",
+                "zhCN": "",
+                "zhTW": ""
             }
         }
     ]
