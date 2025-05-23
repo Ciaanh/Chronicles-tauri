@@ -197,8 +197,6 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     }
 
     const handleModalOk = async (values: any) => {
-        debugger;
-
         setModalLoading(true);
         try {
             let label = values.label;

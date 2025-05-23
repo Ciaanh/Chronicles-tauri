@@ -1,5 +1,14 @@
 import React from "react";
-import { Modal, Form, Input, InputNumber, Select } from "antd";
+import {
+    Modal,
+    Form,
+    Input,
+    InputNumber,
+    Select,
+    Divider,
+    Row,
+    Col,
+} from "antd";
 import { EventTypes, Timelines } from "../../constants";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import {
@@ -230,168 +239,234 @@ const EventModal: React.FC<EventModalProps> = ({
             okText={eventToEdit ? "Save" : "Create"}
             cancelText="Cancel"
             confirmLoading={confirmLoading}
+            width={800}
+            bodyStyle={{ padding: 32 }}
         >
             <Form
                 form={form}
                 layout="vertical"
                 initialValues={editableEventState}
             >
-                <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the event name!",
-                        },
-                    ]}
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, marginBottom: 24 }}
                 >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Year Start"
-                    name="yearStart"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the start year!",
-                        },
-                    ]}
+                    Basic Info
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={16}>
+                        <Form.Item
+                            label="Name"
+                            name="name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the event name!",
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder="Event name"
+                                allowClear
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            label="Order"
+                            name="order"
+                            tooltip="Order for sorting events in the same year"
+                        >
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                min={0}
+                                placeholder="Order"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Year Start"
+                            name="yearStart"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the start year!",
+                                },
+                            ]}
+                        >
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                placeholder="Start year"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label="Year End" name="yearEnd">
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                placeholder="End year (optional)"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
                 >
-                    <InputNumber style={{ width: "100%" }} />
-                </Form.Item>
-                <Form.Item
-                    label="Year End"
-                    name="yearEnd"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the end year!",
-                        },
-                    ]}
-                >
-                    <InputNumber style={{ width: "100%" }} />
-                </Form.Item>
-                <Form.Item
-                    label="Order"
-                    name="order"
-                    rules={[
-                        { required: true, message: "Please input the order!" },
-                    ]}
-                >
-                    <InputNumber style={{ width: "100%" }} />
-                </Form.Item>
-                <Form.Item
-                    label="Event Type"
-                    name="eventType"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the event type!",
-                        },
-                    ]}
-                >
-                    <Select
-                        options={EventTypes.map((type) => ({
-                            value: type.id,
-                            label: type.name,
-                        }))}
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Timeline"
-                    name="timeline"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the timeline!",
-                        },
-                    ]}
-                >
-                    <Select
-                        options={Timelines.map((tl) => ({
-                            value: tl.id,
-                            label: tl.name,
-                        }))}
-                    />
-                </Form.Item>
+                    Classification
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Event Type"
+                            name="eventType"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the event type!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                options={EventTypes.map((type) => ({
+                                    value: type.id,
+                                    label: type.name,
+                                }))}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Timeline"
+                            name="timeline"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the timeline!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                options={Timelines.map((tl) => ({
+                                    value: tl.id,
+                                    label: tl.name,
+                                }))}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
                 <Form.Item
                     label="Collection"
                     name="collection"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please select a collection!",
-                        },
-                    ]}
+                    style={{ marginBottom: 24 }}
                 >
                     <Select
+                        showSearch
+                        placeholder="Select collection"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
                         options={collections.map((c) => ({
                             value: c.id,
                             label: c.name,
                         }))}
-                        showSearch
-                        placeholder="Select a collection"
-                        optionFilterProp="label"
+                        size="large"
                     />
                 </Form.Item>
-                <Form.Item
-                    label="Factions"
-                    name="factions"
-                    valuePropName="value"
-                    trigger="onChange"
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
                 >
-                    <TagSelect
-                        label="Factions"
-                        options={factionOptions}
-                        color="blue"
-                        placeholder="Select factions"
-                        onSearch={handleFactionSearch}
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Characters"
-                    name="characters"
-                    valuePropName="value"
-                    trigger="onChange"
-                >
-                    <TagSelect
-                        label="Characters"
-                        options={characterOptions}
-                        color="purple"
-                        placeholder="Select characters"
-                        onSearch={handleCharacterSearch}
-                    />
-                </Form.Item>
+                    Associations
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="factions"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <TagSelect
+                                label="Factions"
+                                options={factionOptions}
+                                color="blue"
+                                placeholder="Select factions"
+                                onSearch={handleFactionSearch}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="characters"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <TagSelect
+                                label="Characters"
+                                options={characterOptions}
+                                color="purple"
+                                placeholder="Select characters"
+                                onSearch={handleCharacterSearch}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
                 <Form.Item
                     label="Link"
                     name="link"
+                    style={{ marginBottom: 24 }}
                 >
-                    <Input />
+                    <Input
+                        placeholder="External link (optional)"
+                        allowClear
+                        size="large"
+                    />
                 </Form.Item>
-                <Form.Item
-                    label="Label"
-                    name="label"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input the label!",
-                        },
-                    ]}
-                    valuePropName="value"
-                    trigger="onChange"
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
                 >
-                    <LocaleEditor />
-                </Form.Item>
-                <Form.Item
-                    label="Chapters"
-                    required
-                    name="chapters"
-                    valuePropName="value"
-                    trigger="onChange"
-                >
-                    <ChaptersEditor />
-                </Form.Item>
+                    Label & Chapters
+                </Divider>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Label"
+                            name="label"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the label!",
+                                },
+                            ]}
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <LocaleEditor />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Chapters"
+                            required
+                            name="chapters"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <ChaptersEditor />
+                        </Form.Item>
+                    </Col>
+                </Row>
             </Form>
         </Modal>
     );
