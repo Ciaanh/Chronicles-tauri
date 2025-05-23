@@ -3,10 +3,16 @@ import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Faction, Faction } from "../../database/models";
 import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
+import FactionModal from "./FactionModal";
+import { LocaleUtils } from "../../_utils/localeUtils";
 
-import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+    DeleteOutlined,
+    EditOutlined,
+    PlusCircleOutlined,
+} from "@ant-design/icons";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface FactionListProps {
     filters: Filters;
@@ -15,24 +21,48 @@ interface FactionListProps {
 const FactionList: React.FC<FactionListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [factions, setFactions] = useState<Faction[]>([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [editingFaction, setEditingFaction] = useState<Faction | null>(null);
     const dbContext = useContext(dbRepository);
-
     async function fetchFactions() {
         setLoading(true);
-        const factionList = await dbContext.getAll(tableNames.factions);
+        try {
+            const factionList = await dbContext.getAll(tableNames.factions);
 
-        const filteredFactions = factionList.filter((e) => {
-            if (filters?.collection === null) return true;
-            const faction = e as DB_Faction;
-            return filters?.collection?.id === faction.collectionId;
-        });
+            const filteredFactions = factionList.filter((e) => {
+                if (filters?.collection === null) return true;
+                const faction = e as DB_Faction;
+                return filters?.collection?.id === faction.collectionId;
+            });
 
-        const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
-            filteredFactions as DB_Faction[]
-        );
+            // Create an array to hold successfully mapped factions
+            let successfullyMappedFactions: Faction[] = [];
 
-        setFactions(sortedFactions(mappedFactions));
-        setLoading(false);
+            // Process each faction individually to handle errors
+            for (const factionDb of filteredFactions as DB_Faction[]) {
+                try {
+                    const mappedFaction =
+                        await dbContext.mappers.factions.mapFromDb(factionDb);
+                    successfullyMappedFactions.push(mappedFaction);
+                } catch (error) {
+                    console.error(
+                        `Error mapping faction ${
+                            factionDb.name || factionDb.id
+                        }:`,
+                        error
+                    );
+                    // Optionally, you could attempt to fix the faction here
+                    // For example, by creating missing labels/descriptions
+                }
+            }
+
+            setFactions(sortedFactions(successfullyMappedFactions));
+        } catch (error) {
+            console.error("Error fetching factions:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -51,13 +81,30 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         {
             title: "Name",
             dataIndex: "name",
-            render: (name) => `${name}`,
+            width: 180,
+            render: (name: string) => (
+                <Typography.Text
+                    ellipsis
+                    style={{ maxWidth: 220, display: "block" }}
+                >
+                    {name}
+                </Typography.Text>
+            ),
         },
         {
             title: "",
+            dataIndex: "",
             key: "action",
+            fixed: "right",
+            width: 20,
             render: (_, record) => (
                 <Space size="middle">
+                    <Button
+                        type="dashed"
+                        shape="circle"
+                        icon={<EditOutlined />}
+                        onClick={() => handleEditFaction(record)}
+                    />
                     <Button
                         type="dashed"
                         shape="circle"
@@ -74,24 +121,84 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         : "";
 
     function sortedFactions(factionList: Faction[]) {
-        return factionList
-            .sort((a, b) => {
-                // sort returns -1 if a is before b, 1 if a is after b, 0 if they are equal
-
-                return 0;
-            })
-            .reverse();
+        return factionList.sort((a, b) => {
+            if (a.name && b.name) {
+                return a.name.localeCompare(b.name);
+            }
+            return 0;
+        });
     }
 
-    async function deleteFaction(eventid: number) {
-        await dbContext
-            .remove(eventid, tableNames.events)
-            .then(() => fetchFactions());
+    async function deleteFaction(factionId: number) {
+        setLoading(true);
+        try {
+            await dbContext.remove(factionId, tableNames.factions);
+            fetchFactions();
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function addFaction() {
-        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
+        setEditingFaction(null);
+        setIsModalVisible(true);
     }
+
+    function handleEditFaction(faction: Faction) {
+        setEditingFaction(faction);
+        setIsModalVisible(true);
+    }
+    const handleModalOk = async (values: any) => {
+        setModalLoading(true);
+        try {
+            // Use the centralized LocaleUtils to create or update the label
+            const label = await LocaleUtils.createOrUpdateLocale(values.label, dbContext);
+            
+            // Use the centralized LocaleUtils to create or update the description
+            const description = await LocaleUtils.createOrUpdateLocale(values.description, dbContext);
+
+            if (editingFaction) {
+                // Update existing faction
+                const updatedFaction = {
+                    ...editingFaction,
+                    id: editingFaction.id,
+                    name: values.name,
+                    description: description,
+                    label: label,
+                    timeline: values.timeline,
+                    collection: values.collection,
+                };
+                await dbContext.update(
+                    dbContext.mappers.factions.map(updatedFaction),
+                    tableNames.factions
+                );
+            } else {
+                // Add new faction
+                const newFaction: Faction = {
+                    name: values.name,
+                    description: description,
+                    label: label,
+                    timeline: values.timeline,
+                    collection: values.collection,
+                    id: -1,
+                };
+                await dbContext.add(
+                    dbContext.mappers.factions.map(newFaction),
+                    tableNames.factions
+                );
+            }
+            setIsModalVisible(false);
+            setEditingFaction(null);
+            fetchFactions();
+        } finally {
+            setModalLoading(false);
+        }
+    };
+
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+        setEditingFaction(null);
+    };
 
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
@@ -124,6 +231,13 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     scrollToFirstRowOnChange: false,
                     y: 440,
                 }}
+            />
+            <FactionModal
+                visible={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+                confirmLoading={modalLoading}
+                factionToEdit={editingFaction ? editingFaction : undefined}
             />
         </Space>
     );

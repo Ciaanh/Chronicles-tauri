@@ -3,10 +3,16 @@ import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Character, Character } from "../../database/models";
 import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
+import CharacterModal from "./CharacterModal";
+import { LocaleUtils } from "../../_utils/localeUtils";
 
-import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+    DeleteOutlined,
+    EditOutlined,
+    PlusCircleOutlined,
+} from "@ant-design/icons";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface CharacterListProps {
     filters: Filters;
@@ -15,25 +21,52 @@ interface CharacterListProps {
 const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [characters, setCharacters] = useState<Character[]>([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [editingCharacter, setEditingCharacter] = useState<Character | null>(
+        null
+    );
     const dbContext = useContext(dbRepository);
-
     async function fetchCharacters() {
         setLoading(true);
-        const characterList = await dbContext.getAll(tableNames.characters);
+        try {
+            const characterList = await dbContext.getAll(tableNames.characters);
 
-        const filteredCharacters = characterList.filter((e) => {
-            if (filters?.collection === null) return true;
-            const character = e as DB_Character;
-            return filters?.collection?.id === character.collectionId;
-        });
+            const filteredCharacters = characterList.filter((e) => {
+                if (filters?.collection === null) return true;
+                const character = e as DB_Character;
+                return filters?.collection?.id === character.collectionId;
+            });
 
-        const mappedCharacters =
-            await dbContext.mappers.characters.mapFromDbArray(
-                filteredCharacters as DB_Character[]
-            );
+            // Create an array to hold successfully mapped characters
+            let successfullyMappedCharacters: Character[] = [];
 
-        setCharacters(sortedCharacters(mappedCharacters));
-        setLoading(false);
+            // Process each character individually to handle errors
+            for (const characterDb of filteredCharacters as DB_Character[]) {
+                try {
+                    const mappedCharacter =
+                        await dbContext.mappers.characters.mapFromDb(
+                            characterDb
+                        );
+                    successfullyMappedCharacters.push(mappedCharacter);
+                } catch (error) {
+                    console.error(
+                        `Error mapping character ${
+                            characterDb.name || characterDb.id
+                        }:`,
+                        error
+                    );
+                    // Optionally, you could attempt to fix the character here
+                    // For example, by creating missing labels/descriptions
+                }
+            }
+
+            setCharacters(sortedCharacters(successfullyMappedCharacters));
+        } catch (error) {
+            console.error("Error fetching characters:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -52,13 +85,30 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
         {
             title: "Name",
             dataIndex: "name",
-            render: (name) => `${name}`,
+            width: 180,
+            render: (name: string) => (
+                <Typography.Text
+                    ellipsis
+                    style={{ maxWidth: 220, display: "block" }}
+                >
+                    {name}
+                </Typography.Text>
+            ),
         },
         {
             title: "",
+            dataIndex: "",
             key: "action",
+            fixed: "right",
+            width: 20,
             render: (_, record) => (
                 <Space size="middle">
+                    <Button
+                        type="dashed"
+                        shape="circle"
+                        icon={<EditOutlined />}
+                        onClick={() => handleEditCharacter(record)}
+                    />
                     <Button
                         type="dashed"
                         shape="circle"
@@ -75,24 +125,85 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
         : "";
 
     function sortedCharacters(characterList: Character[]) {
-        return characterList
-            .sort((a, b) => {
-                // sort returns -1 if a is before b, 1 if a is after b, 0 if they are equal
-
-                return 0;
-            })
-            .reverse();
+        return characterList.sort((a, b) => {
+            if (a.name && b.name) {
+                return a.name.localeCompare(b.name);
+            }
+            return 0;
+        });
     }
 
-    async function deleteCharacter(eventid: number) {
-        await dbContext
-            .remove(eventid, tableNames.events)
-            .then(() => fetchCharacters());
+    async function deleteCharacter(characterId: number) {
+        setLoading(true);
+        try {
+            await dbContext.remove(characterId, tableNames.characters);
+            fetchCharacters();
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function addCharacter() {
-        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
+        setEditingCharacter(null);
+        setIsModalVisible(true);
     }
+
+    function handleEditCharacter(character: Character) {
+        setEditingCharacter(character);
+        setIsModalVisible(true);
+    }    const handleModalOk = async (values: any) => {
+        setModalLoading(true);
+        try {
+            // Use the centralized LocaleUtils to create or update the label
+            const label = await LocaleUtils.createOrUpdateLocale(values.label, dbContext);
+            
+            // Use the centralized LocaleUtils to create or update the biography
+            const biography = await LocaleUtils.createOrUpdateLocale(values.biography, dbContext);
+
+            if (editingCharacter) {
+                // Update existing character
+                const updatedCharacter = {
+                    ...editingCharacter,
+                    id: editingCharacter.id,
+                    name: values.name,
+                    biography: biography,
+                    label: label,
+                    timeline: values.timeline,
+                    collection: values.collection,
+                    factions: values.factions || [],
+                };
+                await dbContext.update(
+                    dbContext.mappers.characters.map(updatedCharacter),
+                    tableNames.characters
+                );
+            } else {
+                // Add new character
+                const newCharacter: Character = {
+                    name: values.name,
+                    biography: biography,
+                    label: label,
+                    timeline: values.timeline,
+                    collection: values.collection,
+                    factions: values.factions || [],
+                    id: -1,
+                };
+                await dbContext.add(
+                    dbContext.mappers.characters.map(newCharacter),
+                    tableNames.characters
+                );
+            }
+            setIsModalVisible(false);
+            setEditingCharacter(null);
+            fetchCharacters();
+        } finally {
+            setModalLoading(false);
+        }
+    };
+
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+        setEditingCharacter(null);
+    };
 
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
@@ -125,6 +236,15 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     scrollToFirstRowOnChange: false,
                     y: 440,
                 }}
+            />
+            <CharacterModal
+                visible={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+                confirmLoading={modalLoading}
+                characterToEdit={
+                    editingCharacter ? editingCharacter : undefined
+                }
             />
         </Space>
     );

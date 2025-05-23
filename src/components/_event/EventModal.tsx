@@ -240,7 +240,7 @@ const EventModal: React.FC<EventModalProps> = ({
             cancelText="Cancel"
             confirmLoading={confirmLoading}
             width={800}
-            bodyStyle={{ padding: 32 }}
+            styles={{ body: { padding: 32 } }}
         >
             <Form
                 form={form}

@@ -60,7 +60,10 @@ const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
         id: value?.id ?? -1,
         ishtml: value?.ishtml ?? false,
         enUS: value?.enUS ?? "",
-        translations: { ...defaultTranslations, ...(value?.translations || {}) },
+        translations: {
+            ...defaultTranslations,
+            ...(value?.translations || {}),
+        },
     };
 
     // Track which field is focused for expansion
@@ -75,62 +78,164 @@ const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
             // Remove empty/null translations except enUS
             const cleanedTranslations = Object.fromEntries(
                 Object.entries(newTranslations).filter(
-                    ([key, value]) => key === 'enUS' || (value !== null && value !== undefined && value !== "")
+                    ([key, value]) =>
+                        key === "enUS" ||
+                        (value !== null && value !== undefined && value !== "")
                 )
             ) as EnumDictionary<Language, string>;
-            const newValue: Locale = { ...safeValue, translations: cleanedTranslations };
+            const newValue: Locale = {
+                ...safeValue,
+                translations: cleanedTranslations,
+            };
             if (onChange) onChange(newValue);
         }
     };
 
     return (
         <>
-            <Form.Item label={<span><ReactCountryFlag countryCode={languageCountryCodes.enUS} svg style={{ width: '1.5em', height: '1.5em', marginRight: 6 }} /> English (enUS)</span>} required>
+            <Form.Item
+                label={
+                    <span>
+                        <ReactCountryFlag
+                            countryCode={languageCountryCodes.enUS}
+                            svg
+                            style={{
+                                width: "1.5em",
+                                height: "1.5em",
+                                marginRight: 6,
+                            }}
+                        />{" "}
+                        English (enUS)
+                    </span>
+                }
+                required
+            >
                 <Input.TextArea
                     value={safeValue.enUS}
-                    onChange={e => handleChange(Language.enUS, e.target.value)}
+                    onChange={(e) =>
+                        handleChange(Language.enUS, e.target.value)
+                    }
                     placeholder="Enter label in English"
-                    autoSize={focusedField === 'enUS' ? { minRows: 6, maxRows: 12 } : { minRows: 1, maxRows: 1 }}
-                    onFocus={() => setFocusedField('enUS')}
+                    autoSize={
+                        focusedField === "enUS"
+                            ? { minRows: 6, maxRows: 12 }
+                            : { minRows: 1, maxRows: 1 }
+                    }
+                    onFocus={() => setFocusedField("enUS")}
                     onBlur={() => setFocusedField(null)}
-                    style={{ resize: 'vertical', whiteSpace: 'pre-line', overflow: 'hidden' }}
+                    style={{
+                        resize: "vertical",
+                        whiteSpace: "pre-line",
+                        overflowX: "hidden",
+                        overflowY: "hidden",
+                    }}
                 />
             </Form.Item>
             <Collapse
                 style={{ marginTop: 16 }}
-                items={[{
-                    key: 'translations',
-                    label: 'Other Translations',
-                    children: (
-                        <div style={{ maxHeight: 350, overflowY: 'auto', paddingRight: 8 }}>
-                            {Object.keys(defaultTranslations)
-                                .filter(lang => lang !== 'enUS')
-                                .map(lang => {
-                                    const value = safeValue.translations[lang as Language];
-                                    const isMissing = !value;
-                                    const countryCode = languageCountryCodes[lang as Language];
-                                    return (
-                                        <Form.Item
-                                            key={lang}
-                                            label={<span><ReactCountryFlag countryCode={countryCode} svg style={{ width: '1.5em', height: '1.5em', marginRight: 6 }} /> {languageNames[lang as Language]} ({lang})</span>}
-                                            validateStatus={isMissing ? "warning" : undefined}
-                                            help={isMissing ? "Translation missing" : undefined}
-                                        >
-                                            <Input.TextArea
-                                                value={value}
-                                                onChange={e => handleChange(lang as Language, e.target.value)}
-                                                placeholder={`Enter label in ${languageNames[lang as Language]}`}
-                                                autoSize={focusedField === lang ? { minRows: 6, maxRows: 12 } : { minRows: 1, maxRows: 1 }}
-                                                onFocus={() => setFocusedField(lang)}
-                                                onBlur={() => setFocusedField(null)}
-                                                style={{ resize: 'vertical', whiteSpace: 'pre-line', overflow: 'hidden' }}
-                                            />
-                                        </Form.Item>
-                                    );
-                                })}
-                        </div>
-                    )
-                }]}
+                items={[
+                    {
+                        key: "translations",
+                        label: "Other Translations",
+                        children: (
+                            <div
+                                style={{
+                                    maxHeight: 350,
+                                    overflowY: "auto",
+                                    paddingRight: 8,
+                                }}
+                            >
+                                {Object.keys(defaultTranslations)
+                                    .filter((lang) => lang !== "enUS")
+                                    .map((lang) => {
+                                        const value =
+                                            safeValue.translations[
+                                                lang as Language
+                                            ];
+                                        const isMissing = !value;
+                                        const countryCode =
+                                            languageCountryCodes[
+                                                lang as Language
+                                            ];
+                                        return (
+                                            <Form.Item
+                                                key={lang}
+                                                label={
+                                                    <span>
+                                                        <ReactCountryFlag
+                                                            countryCode={
+                                                                countryCode
+                                                            }
+                                                            svg
+                                                            style={{
+                                                                width: "1.5em",
+                                                                height: "1.5em",
+                                                                marginRight: 6,
+                                                            }}
+                                                        />{" "}
+                                                        {
+                                                            languageNames[
+                                                                lang as Language
+                                                            ]
+                                                        }{" "}
+                                                        ({lang})
+                                                    </span>
+                                                }
+                                                validateStatus={
+                                                    isMissing
+                                                        ? "warning"
+                                                        : undefined
+                                                }
+                                                help={
+                                                    isMissing
+                                                        ? "Translation missing"
+                                                        : undefined
+                                                }
+                                            >
+                                                <Input.TextArea
+                                                    value={value}
+                                                    onChange={(e) =>
+                                                        handleChange(
+                                                            lang as Language,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder={`Enter label in ${
+                                                        languageNames[
+                                                            lang as Language
+                                                        ]
+                                                    }`}
+                                                    autoSize={
+                                                        focusedField === lang
+                                                            ? {
+                                                                  minRows: 6,
+                                                                  maxRows: 12,
+                                                              }
+                                                            : {
+                                                                  minRows: 1,
+                                                                  maxRows: 1,
+                                                              }
+                                                    }
+                                                    onFocus={() =>
+                                                        setFocusedField(lang)
+                                                    }
+                                                    onBlur={() =>
+                                                        setFocusedField(null)
+                                                    }
+                                                    style={{
+                                                        resize: "vertical",
+                                                        whiteSpace: "pre-line",
+                                                        overflowX: "hidden",
+                                                        overflowY: "hidden",
+                                                    }}
+                                                />
+                                            </Form.Item>
+                                        );
+                                    })}
+                            </div>
+                        ),
+                    },
+                ]}
             />
         </>
     );

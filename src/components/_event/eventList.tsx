@@ -5,6 +5,7 @@ import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
 import EventModal from "./EventModal";
+import { LocaleUtils } from "../../_utils/localeUtils";
 
 import {
     DeleteOutlined,
@@ -194,64 +195,18 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     function handleEditEvent(event: Event) {
         setEditingEvent(event);
         setIsModalVisible(true);
-    }
-
-    const handleModalOk = async (values: any) => {
+    }    const handleModalOk = async (values: any) => {
         setModalLoading(true);
         try {
-            let label = values.label;
-            if (!label.id) {
-                const newLabel = {
-                    id: -1,
-                    ishtml: false,
-                    enUS: label.enUS,
-                    translations: {},
-                };
-                label = await dbContext.add(newLabel, tableNames.locales);
-            }
-
-            let chapters = Array.isArray(values.chapters)
+            // Use the centralized LocaleUtils to create or update the label
+            const label = await LocaleUtils.createOrUpdateLocale(values.label, dbContext);            let chapters = Array.isArray(values.chapters)
                 ? values.chapters
                 : [];
-            for (let chapter of chapters) {
-                // Save header if needed
-                if (chapter.header && chapter.header.id === -1) {
-                    const savedHeader = await dbContext.add(
-                        chapter.header,
-                        tableNames.locales
-                    );
-                    // Ensure the header is updated in the chapter object
-                    chapter.header = savedHeader;
-                } else if (
-                    chapter.header &&
-                    chapter.header.id &&
-                    chapter.header.id > 0
-                ) {
-                    // If header exists and has a valid id, update it in the database
-                    await dbContext.update(chapter.header, tableNames.locales);
-                }
-
-                // Save pages if needed
-                if (Array.isArray(chapter.pages)) {
-                    for (let i = 0; i < chapter.pages.length; i++) {
-                        if (chapter.pages[i] && chapter.pages[i].id === -1) {
-                            const savedPage = await dbContext.add(
-                                chapter.pages[i],
-                                tableNames.locales
-                            );
-                            chapter.pages[i] = savedPage;
-                        } else if (
-                            chapter.pages[i] &&
-                            chapter.pages[i].id &&
-                            chapter.pages[i].id > 0
-                        ) {
-                            await dbContext.update(
-                                chapter.pages[i],
-                                tableNames.locales
-                            );
-                        }
-                    }
-                }
+                
+            // Process chapters with LocaleUtils
+            for (let i = 0; i < chapters.length; i++) {
+                // Use the processChapterLocales utility to handle all locale updates for this chapter
+                chapters[i] = await LocaleUtils.processChapterLocales(chapters[i], dbContext);
             }
 
             if (editingEvent) {
