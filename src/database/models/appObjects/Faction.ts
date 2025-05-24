@@ -6,7 +6,6 @@ import { Locale } from "./Locale";
 export interface Faction extends Dto {
     name: string;
     label: Locale;
-    // description: Locale; // phased out and converted to chapters
     chapters: Chapter[];
     timeline: number;
     collection: Collection;

@@ -91,62 +91,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         setLoading(false);
     };
 
-    // const validate = async () => {
-    //     const currentSchema: dbSchema = {
-    //         dbname: dbschema.dbname,
-    //         tables: dbschema.tables,
-    //         location: dbschema.location,
-    //     };
-
-    //     if (currentSchema.location === undefined) {
-    //         const chosenLocation = await open({
-    //             multiple: false,
-    //             directory: false,
-    //         });
-    //         if (chosenLocation !== null) {
-    //             currentSchema.location = chosenLocation;
-    //         } else {
-    //             console.error("No location provided to dbContextProvider");
-    //             return;
-    //         }
-    //     }
-
-    //     const schema: Schema = {
-    //         dbname: currentSchema.dbname,
-    //         tables: currentSchema.tables,
-    //         oneIndexed: true,
-    //         compressedJson: true,
-    //         location: currentSchema.location,
-    //     };
-
-    //     const database = await Database.create(schema);
-
-    //     const events = await database.getAll<DB_Event>(tableNames.events);
-
-    //     for (const event of events) {
-    //         console.log(event);
-    //         if (event.descriptionIds.length > 0) {
-    //             if (event.chapters === undefined) event.chapters = [];
-
-    //             if (event.chapters?.length === 0) {
-    //                 const newChapter: DB_Chapter = {
-    //                     headerId: undefined,
-    //                     pageIds: event.descriptionIds,
-    //                 };
-    //                 event.descriptionIds = [];
-    //                 event.chapters = [newChapter];
-    //             }
-    //             var updated = await database.update(event, tableNames.events);
-    //         }
-    //     }
-
-    //     const locales = await database.getAll<DB_Locale>(tableNames.locales);
-
-    //     for (const locale of locales) {
-    //         await database.update(locale, tableNames.locales);
-    //     }
-    // };
-
     const getAll = async <T extends DbObject>(dbName: string): Promise<T[]> => {
         if (database === null) return [];
         return await database.getAll<T>(dbName);
@@ -194,7 +138,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 factionIds: dto.factions.map((faction) => faction.id),
                 characterIds: dto.characters.map((character) => character.id),
                 labelId: dto.label.id,
-                //descriptionIds: dto.description.map((locale) => locale.id),
                 chapters: dto.chapters.map(
                     (chapter) =>
                         ({
@@ -359,7 +302,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 id: dto.id,
                 name: dto.name,
                 labelId: dto.label.id,
-                // descriptionId: dto.description.id, // phased out and converted to chapters
                 chapters: dto.chapters.map(
                     (chapter) =>
                         ({
@@ -379,17 +321,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 throw new Error(`Label not found for faction ${dbo.name}`);
             }
 
-            // Now we're using chapters instead of description
-            // const description = await database.get(
-            //     dbo.descriptionId,
-            //     tableNames.locales
-            // );
-            // if (!description) {
-            //     throw new Error(
-            //         `Description not found for faction ${dbo.name}`
-            //     );
-            // }
-
             const collection = await database.get(
                 dbo.collectionId,
                 tableNames.collections
@@ -402,9 +333,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 id: dbo.id,
                 name: dbo.name,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                // description: await LocaleMapper.mapFromDb(
-                //     description as DB_Locale
-                // ),
+
                 chapters: dbo.chapters
                     ? await Promise.all(
                           dbo.chapters.map(

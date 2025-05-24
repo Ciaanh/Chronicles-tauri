@@ -23,7 +23,6 @@ export interface FactionModalProps {
 export interface EditableFaction {
     id: number;
     name: string;
-    // description: Locale; // Replaced with chapters
     chapters: Chapter[];
     label: Locale;
     timeline: number;
@@ -61,7 +60,6 @@ const FactionModal: React.FC<FactionModalProps> = ({
             ? {
                   id: factionToEdit.id,
                   name: factionToEdit.name ?? "",
-                  // description: factionToEdit.description ?? {}, // Replaced with chapters
                   chapters: factionToEdit.chapters ?? [],
                   label: factionToEdit.label ?? {},
                   timeline: factionToEdit.timeline ?? undefined,
@@ -215,7 +213,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                     </Col>{" "}
                     <Col span={12}>
                         <Form.Item
-                            label="Description"
+                            label="Chapters"
                             name="chapters"
                             valuePropName="value"
                             trigger="onChange"

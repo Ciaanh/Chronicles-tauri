@@ -103,9 +103,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         });
         factionList.forEach((f) => {
             if (typeof f.labelId === "number") referencedIds.add(f.labelId);
-            // descriptionId has been replaced by chapters
-            // if (typeof f.descriptionId === "number")
-            //     referencedIds.add(f.descriptionId);
 
             // Add references from chapters if available
             if (f.chapters && Array.isArray(f.chapters)) {
@@ -272,9 +269,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
 
             // Check in label
             if (faction.labelId === localeId) return true;
-
-            // descriptionId has been replaced by chapters
-            // if (faction.descriptionId === localeId) return true;
 
             // Check in chapters
             if (faction.chapters && Array.isArray(faction.chapters)) {

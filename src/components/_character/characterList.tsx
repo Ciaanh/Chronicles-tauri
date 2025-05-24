@@ -56,8 +56,6 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                         }:`,
                         error
                     );
-                    // Optionally, you could attempt to fix the character here
-                    // For example, by creating missing labels/descriptions
                 }
             }
 

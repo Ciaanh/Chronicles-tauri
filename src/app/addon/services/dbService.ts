@@ -209,16 +209,13 @@ export class DBService {
         // Use event.period.yearStart/yearEnd for years
         const yearStart = event.period?.yearStart ?? 0;
         const yearEnd = event.period?.yearEnd ?? 0;
-        // No event.description in Tauri, use chapters/pages for description
-        // For compatibility, generate an empty array for description
-        // Ensure chapters is initialized, use empty array if undefined
         const chapters = event.chapters || [];
 
         return `[${event.id}] = {\n            id=${
             event.id
         },\n            label=Locale[\"${getLocaleKey(
             event.label
-        )}\"],\n            description={},\n            chapters={${this.MapChapterList(
+        )}\"],\n            chapters={${this.MapChapterList(
             chapters
         )}},\n            yearStart=${yearStart},\n            yearEnd=${yearEnd},\n            eventType=${
             event.eventType

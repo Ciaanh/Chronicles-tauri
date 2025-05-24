@@ -15,7 +15,6 @@ export interface DB_Event extends DbObject {
     characterIds: number[];
 
     labelId: number;
-    // descriptionIds: number[]; // to phased out and converted to chapters
     chapters: DB_Chapter[];
 
     order: number;

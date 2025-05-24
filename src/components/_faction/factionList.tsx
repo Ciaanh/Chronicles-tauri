@@ -52,8 +52,6 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                         }:`,
                         error
                     );
-                    // Optionally, you could attempt to fix the faction here
-                    // For example, by creating missing labels/descriptions
                 }
             }
 
@@ -190,7 +188,6 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     ...editingFaction,
                     id: editingFaction.id,
                     name: values.name,
-                    // description: description, // Replaced with chapters
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
@@ -204,7 +201,6 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                 // Add new faction
                 const newFaction: Faction = {
                     name: values.name,
-                    // description: description, // Replaced with chapters
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
