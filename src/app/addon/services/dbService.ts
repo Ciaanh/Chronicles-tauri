@@ -102,13 +102,42 @@ export class DBService {
                     typeof collection.index === "undefined"
                 )
                     return "";
-                return (
-                    this.FormatDeclaration(collection.name, TypeName.Event) +
-                    "\n" +
-                    this.FormatDeclaration(collection.name, TypeName.Faction) +
-                    "\n" +
-                    this.FormatDeclaration(collection.name, TypeName.Character)
+
+                const hasEvents = request.events.some(
+                    (event) =>
+                        event.collection &&
+                        String(event.collection.id) === String(collection.id)
                 );
+                const hasFactions = request.factions.some(
+                    (faction) =>
+                        faction.collection &&
+                        String(faction.collection.id) === String(collection.id)
+                );
+                const hasCharacters = request.characters.some(
+                    (character) =>
+                        character.collection &&
+                        String(character.collection.id) ===
+                            String(collection.id)
+                );
+
+                const eventDeclaration = hasEvents
+                    ? this.FormatDeclaration(collection.name, TypeName.Event) +
+                      "\n"
+                    : "";
+                const factionDeclaration = hasFactions
+                    ? this.FormatDeclaration(
+                          collection.name,
+                          TypeName.Faction
+                      ) + "\n"
+                    : "";
+                const characterDeclaration = hasCharacters
+                    ? this.FormatDeclaration(
+                          collection.name,
+                          TypeName.Character
+                      ) + "\n"
+                    : "";
+
+                return `${eventDeclaration}${factionDeclaration}${characterDeclaration}`;
             })
             .filter((value: string) => value.length > 0)
             .join("\n");
@@ -309,23 +338,30 @@ export class DBService {
     }
 
     private CreateFactionDbFile(request: FileGenerationRequest): FileContent[] {
-        const files = request.collections.map((c: FormatedCollection) => {
-            const dbFoldername = this.GetDbFolderName(c.index, c.name);
-            const collection = this.GetCollection(c.name, TypeName.Faction);
-            const filteredFactions = request.factions.filter(
-                (faction: Faction) =>
-                    String(faction.collection.id) == String(c.id)
-            );
-            const factionDbContent = `${
-                this.dbHeader
-            }\n\n    ${collection} = {\n        ${filteredFactions
-                .map((faction) => this.MapFactionContent(faction))
-                .join(",\n        ")}\n    }`;
-            return {
-                content: factionDbContent,
-                name: `Custom/DB/${dbFoldername}/${collection}.lua`,
-            } as FileContent;
-        });
+        const files = request.collections
+            .map((c: FormatedCollection) => {
+                if (!c || typeof c.id === "undefined") return null;
+
+                const filteredFactions = request.factions.filter(
+                    (faction: Faction) =>
+                        faction.collection &&
+                        String(faction.collection.id) === String(c.id)
+                );
+                if (filteredFactions.length === 0) return null;
+
+                const dbFoldername = this.GetDbFolderName(c.index, c.name);
+                const collection = this.GetCollection(c.name, TypeName.Faction);
+                const factionDbContent = `${
+                    this.dbHeader
+                }\n\n    ${collection} = {\n        ${filteredFactions
+                    .map((faction) => this.MapFactionContent(faction))
+                    .join(",\n        ")}\n    }`;
+                return {
+                    content: factionDbContent,
+                    name: `Custom/DB/${dbFoldername}/${collection}.lua`,
+                } as FileContent;
+            })
+            .filter((file): file is FileContent => file !== null);
         return files;
     }
     private MapFactionContent(faction: Faction): string {
