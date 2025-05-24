@@ -31,9 +31,11 @@ export class DBService {
         // character db content
         const characterDbFile = this.CreateCharacterDbFile(request);
         files.push(...characterDbFile);
+
         // faction db content
         const factionDbFile = this.CreateFactionDbFile(request);
         files.push(...factionDbFile);
+
         // event db content
         const eventDbFile = this.CreateEventDbFile(request);
         files.push(...eventDbFile);
@@ -52,7 +54,7 @@ export class DBService {
     private FormatDeclaration(collection: string, typeName: TypeName) {
         const lowerName = collection.toLowerCase();
         const formatedName = this.FormatCollection(collection);
-        return `\tChronicles.DB:Register${typeName}DB(Chronicles.Custom.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
+        return `\tChronicles.Data:Register${typeName}DB(Chronicles.Custom.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
     }
 
     private FormatIndex(index: string, collection: string, typeName: TypeName) {
@@ -123,7 +125,6 @@ export class DBService {
     private CreateIndexFile(request: FileGenerationRequest): FileContent {
         const indexes = request.collections
             .map((collection: FormatedCollection) => {
-                // Defensive: ensure collection has id, name, index
                 if (
                     !collection ||
                     typeof collection.id === "undefined" ||
@@ -131,7 +132,7 @@ export class DBService {
                     typeof collection.index === "undefined"
                 )
                     return "";
-                // Defensive: filter events, factions, characters with valid collection property
+
                 const hasEvents = request.events.some(
                     (event) =>
                         event.collection &&
@@ -148,27 +149,32 @@ export class DBService {
                         String(character.collection.id) ===
                             String(collection.id)
                 );
-                if (!hasEvents && !hasFactions && !hasCharacters) return "";
-                // Only add index if there is at least one related item
-                return (
-                    this.FormatIndex(
-                        collection.index,
-                        collection.name,
-                        TypeName.Event
-                    ) +
-                    "\n" +
-                    this.FormatIndex(
-                        collection.index,
-                        collection.name,
-                        TypeName.Faction
-                    ) +
-                    "\n" +
-                    this.FormatIndex(
-                        collection.index,
-                        collection.name,
-                        TypeName.Character
-                    )
-                );
+
+                const eventIndex = hasEvents
+                    ? this.FormatIndex(
+                          collection.index,
+                          collection.name,
+                          TypeName.Event
+                      ) + "\n"
+                    : "";
+
+                const factionIndex = hasFactions
+                    ? this.FormatIndex(
+                          collection.index,
+                          collection.name,
+                          TypeName.Faction
+                      ) + "\n"
+                    : "";
+
+                const characterIndex = hasCharacters
+                    ? this.FormatIndex(
+                          collection.index,
+                          collection.name,
+                          TypeName.Character
+                      ) + "\n"
+                    : "";
+
+                return `${eventIndex}${factionIndex}${characterIndex}`;
             })
             .filter((value: string) => value.length > 0)
             .join("\n");
@@ -341,13 +347,14 @@ export class DBService {
         const files = request.collections
             .map((c: FormatedCollection) => {
                 if (!c || typeof c.id === "undefined") return null;
-                // Defensive: filter characters with valid collection property
+
                 const filteredCharacters = request.characters.filter(
                     (character: Character) =>
                         character.collection &&
                         String(character.collection.id) === String(c.id)
                 );
                 if (filteredCharacters.length === 0) return null;
+
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
                 const collection = this.GetCollection(
                     c.name,
@@ -358,12 +365,14 @@ export class DBService {
                 }\n\n    ${collection} = {\n        ${filteredCharacters
                     .map((character) => this.MapCharacterContent(character))
                     .join(",\n        ")}\n    }`;
+
                 return {
                     content: characterDbContent,
                     name: `Custom/DB/${dbFoldername}/${collection}.lua`,
                 } as FileContent;
             })
             .filter((file): file is FileContent => file !== null);
+
         return files;
     }
     private MapCharacterContent(character: Character): string {
