@@ -82,9 +82,11 @@ export class DBService {
                     typeof collection.index === "undefined"
                 )
                     return "";
-                return `${collection.name}: "${
-                    collection.index
-                }_${this.FormatCollection(collection.name)}"`;
+
+                const lowerCollection = collection.name.toLowerCase();
+                return `\t${lowerCollection} = \"${this.FormatCollection(
+                    collection.name
+                )}\"`;
             })
             .filter((value: string) => value.length > 0)
             .join(",\n");
@@ -289,52 +291,12 @@ export class DBService {
                 const headerKey = chapter.header
                     ? getLocaleKey(chapter.header)
                     : "";
-                    
+
                 // chapter.pages: Locale[]
                 const pageKeys = chapter.pages
                     .filter((page) => page)
                     .map((page) => `Locale[\"${getLocaleKey(page)}\"]`)
                     .join(", ");
-                return `{\n                header = Locale[\"${headerKey}\"],\n                pages = {${pageKeys}} }`;
-            })
-            .join(", ");
-    }
-
-    private MapChapterList_new(chapters: any[]): string {
-        return chapters
-            .map((chapter) => {
-                // Support both formats:
-                // 1. chapter.header/chapter.pages (application model)
-                // 2. chapter.headerId/chapter.pageIds (database model)
-
-                let headerKey = "";
-                if (chapter.header) {
-                    // Application model
-                    headerKey = chapter.header
-                        ? getLocaleKey(chapter.header)
-                        : "";
-                } else if (chapter.headerId) {
-                    // Database model
-                    headerKey = chapter.headerId
-                        ? String(chapter.headerId)
-                        : "";
-                }
-
-                let pageKeys = "";
-                if (chapter.pages) {
-                    // Application model
-                    pageKeys = chapter.pages
-                        .filter((page: any) => page)
-                        .map((page: any) => `Locale[\"${getLocaleKey(page)}\"]`)
-                        .join(", ");
-                } else if (chapter.pageIds) {
-                    // Database model
-                    pageKeys = chapter.pageIds
-                        .filter((pageId: any) => pageId)
-                        .map((pageId: any) => `Locale[\"${pageId}\"]`)
-                        .join(", ");
-                }
-
                 return `{\n                header = Locale[\"${headerKey}\"],\n                pages = {${pageKeys}} }`;
             })
             .join(", ");
