@@ -28,15 +28,12 @@ export class DBService {
         const indexFile = this.CreateIndexFile(request);
         files.push(indexFile);
 
-        // character db content
         const characterDbFile = this.CreateCharacterDbFile(request);
         files.push(...characterDbFile);
 
-        // faction db content
         const factionDbFile = this.CreateFactionDbFile(request);
         files.push(...factionDbFile);
 
-        // event db content
         const eventDbFile = this.CreateEventDbFile(request);
         files.push(...eventDbFile);
 
@@ -76,7 +73,6 @@ export class DBService {
     private CreateDeclarationFile(request: FileGenerationRequest): FileContent {
         const names = request.collections
             .map((collection: FormatedCollection) => {
-                // Defensive: ensure collection has id, name, index
                 if (
                     !collection ||
                     typeof collection.id === "undefined" ||
@@ -220,7 +216,7 @@ export class DBService {
         const files = request.collections
             .map((c: FormatedCollection) => {
                 if (!c || typeof c.id === "undefined") return null;
-                // Defensive: filter events with valid collection property
+
                 const filteredEvents = request.events.filter(
                     (event: Event) =>
                         event.collection &&
@@ -242,8 +238,8 @@ export class DBService {
             .filter((file): file is FileContent => file !== null);
         return files;
     }
+
     private MapEventContent(event: Event): string {
-        // Use event.period.yearStart/yearEnd for years
         const yearStart = event.period?.yearStart ?? 0;
         const yearEnd = event.period?.yearEnd ?? 0;
         const chapters = event.chapters || [];
@@ -262,14 +258,14 @@ export class DBService {
             event
         )}},\n            factions={${this.MapFactionList(event)}},\n        }`;
     }
+
     private MapFactionList(event: Event): string {
-        // Ensure factions is initialized, use empty array if undefined
         const factions = event.factions || [];
 
         const factionsByDB = factions.reduce(
             (acc: DepsAccumulator<Faction>[], faction: Faction) => {
                 const db = faction.collection;
-                if (!db || typeof db.id === "undefined") return acc; // Skip if collection or id is invalid
+                if (!db || typeof db.id === "undefined") return acc;
 
                 if (!acc[db.id]) {
                     acc[db.id] = {
@@ -322,12 +318,10 @@ export class DBService {
     private MapChapterList(chapters: Chapter[]): string {
         return chapters
             .map((chapter) => {
-                // chapter.header: Locale | null
                 const headerKey = chapter.header
                     ? getLocaleKey(chapter.header)
                     : "";
 
-                // chapter.pages: Locale[]
                 const pageKeys = chapter.pages
                     .filter((page) => page)
                     .map((page) => `Locale[\"${getLocaleKey(page)}\"]`)
@@ -364,8 +358,8 @@ export class DBService {
             .filter((file): file is FileContent => file !== null);
         return files;
     }
+
     private MapFactionContent(faction: Faction): string {
-        // Ensure chapters is initialized, use empty array if undefined
         const chapters = faction.chapters || [];
 
         return `[${faction.id}] = {\n            id = ${
@@ -411,8 +405,8 @@ export class DBService {
 
         return files;
     }
+
     private MapCharacterContent(character: Character): string {
-        // Ensure chapters is initialized, use empty array if undefined
         const chapters = character.chapters || [];
 
         return `[${character.id}] = {\n            id = ${
