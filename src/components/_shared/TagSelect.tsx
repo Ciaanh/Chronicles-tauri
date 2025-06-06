@@ -22,7 +22,6 @@ const TagSelect: React.FC<TagSelectProps> = ({
 }) => {
     const [searchValue, setSearchValue] = useState("");
 
-    // Custom notFoundContent logic
     let notFoundContent = null;
     if (searchValue.trim() === "") {
         notFoundContent = <span>Type to search...</span>;

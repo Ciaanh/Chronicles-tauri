@@ -40,7 +40,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.Custom.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.Data.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -51,7 +51,7 @@ export class DBService {
     private FormatDeclaration(collection: string, typeName: TypeName) {
         const lowerName = collection.toLowerCase();
         const formatedName = this.FormatCollection(collection);
-        return `\tChronicles.Data:Register${typeName}DB(Chronicles.Custom.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
+        return `\tChronicles.Data:Register${typeName}DB(Chronicles.Data.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
     }
 
     private FormatIndex(index: string, collection: string, typeName: TypeName) {
@@ -138,11 +138,11 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.Custom = {}\nChronicles.Custom.DB = {}\nChronicles.Custom.Modules = {\n${names}\n}\nfunction Chronicles.Custom.DB:Init()\n${declarations}   \nend`;
+        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.Data = {}\nChronicles.Data.DB = {}\nChronicles.Data.Modules = {\n${names}\n}\nfunction Chronicles.Data.DB:Init()\n${declarations}   \nend`;
 
         const dbDeclarationContent: FileContent = {
             content: content,
-            name: "Custom/DB/ChroniclesDB.lua",
+            name: "Data/DB/ChroniclesDB.lua",
         };
         return dbDeclarationContent;
     }
@@ -208,7 +208,7 @@ export class DBService {
 
         return {
             content: content,
-            name: "Custom/DB/ChroniclesDB.xml",
+            name: "Data/DB/ChroniclesDB.xml",
         };
     }
 
@@ -232,7 +232,7 @@ export class DBService {
                     .join(",\n        ")}\n    }`;
                 return {
                     content: eventDbContent,
-                    name: `Custom/DB/${dbFoldername}/${collection}.lua`,
+                    name: `Data/DB/${dbFoldername}/${collection}.lua`,
                 } as FileContent;
             })
             .filter((file): file is FileContent => file !== null);
@@ -352,7 +352,7 @@ export class DBService {
                     .join(",\n        ")}\n    }`;
                 return {
                     content: factionDbContent,
-                    name: `Custom/DB/${dbFoldername}/${collection}.lua`,
+                    name: `Data/DB/${dbFoldername}/${collection}.lua`,
                 } as FileContent;
             })
             .filter((file): file is FileContent => file !== null);
@@ -398,7 +398,7 @@ export class DBService {
 
                 return {
                     content: characterDbContent,
-                    name: `Custom/DB/${dbFoldername}/${collection}.lua`,
+                    name: `Data/DB/${dbFoldername}/${collection}.lua`,
                 } as FileContent;
             })
             .filter((file): file is FileContent => file !== null);
