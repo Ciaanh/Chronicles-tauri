@@ -26,7 +26,6 @@ import {
     Locale,
 } from "./models";
 import Loader from "./loader";
-import { data } from "react-router-dom";
 
 export interface dbSchema {
     tables: string[];
@@ -220,8 +219,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 id: dto.id,
                 name: dto.name,
+                author: dto.author,
                 labelId: dto.label.id,
-                // biographyId: dto.biography.id, // phased out and converted to chapters
                 chapters: dto.chapters.map(
                     (chapter) =>
                         ({
@@ -241,17 +240,6 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 throw new Error(`Label not found for character ${dbo.name}`);
             }
 
-            // Now we're using chapters instead of biography
-            // const biography = await database.get(
-            //     dbo.biographyId,
-            //     tableNames.locales
-            // );
-            // if (!biography) {
-            //     throw new Error(
-            //         `Biography not found for character ${dbo.name}`
-            //     );
-            // }
-
             const factions = await database.getAll(
                 tableNames.factions,
                 (faction) => dbo.factionIds.includes(faction.id)
@@ -263,8 +251,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 id: dbo.id,
                 name: dbo.name,
+                author: dbo.author,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
-                // biography: await LocaleMapper.mapFromDb(biography as DB_Locale),
                 chapters: dbo.chapters
                     ? await Promise.all(
                           dbo.chapters.map(
@@ -274,7 +262,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                                   )
                           )
                       )
-                    : [], // default to empty array if chapters undefined
+                    : [],
                 timeline: dbo.timeline,
                 factions: await Promise.all(
                     factions.map(
@@ -301,6 +289,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 id: dto.id,
                 name: dto.name,
+                author: dto.author,
                 labelId: dto.label.id,
                 chapters: dto.chapters.map(
                     (chapter) =>
@@ -328,10 +317,10 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             if (!collection) {
                 throw new Error(`Collection not found for faction ${dbo.name}`);
             }
-
             return {
                 id: dbo.id,
                 name: dbo.name,
+                author: dbo.author,
                 label: await LocaleMapper.mapFromDb(label as DB_Locale),
 
                 chapters: dbo.chapters
@@ -343,7 +332,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                                   )
                           )
                       )
-                    : [], // default to empty array if chapters undefined
+                    : [],
                 timeline: dbo.timeline,
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection

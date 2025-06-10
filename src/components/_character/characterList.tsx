@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Character, Character } from "../../database/models";
-import { Button, Card, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import CharacterModal from "./CharacterModal";
 import { LocaleUtils } from "../../_utils/localeUtils";
@@ -78,7 +78,6 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
     const cleanCharacters = async () => {
         setCharacters([]);
     };
-
     const columns: TableProps<Character>["columns"] = [
         {
             title: "Name",
@@ -185,14 +184,13 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     };
                 }) || []
             );
-
             if (editingCharacter) {
                 // Update existing character
                 const updatedCharacter = {
                     ...editingCharacter,
                     id: editingCharacter.id,
                     name: values.name,
-                    // biography: biography, // Replaced with chapters
+                    author: values.author,
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
@@ -207,7 +205,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                 // Add new character
                 const newCharacter: Character = {
                     name: values.name,
-                    // biography: biography, // Replaced with chapters
+                    author: values.author,
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,

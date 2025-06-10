@@ -6,8 +6,8 @@ import { Locale } from "./Locale";
 
 export interface Character extends Dto {
     name: string;
+    author: string;
     label: Locale;
-    // biography: Locale; // phased out and converted to chapters
     chapters: Chapter[];
     timeline: number;
     factions: Faction[];

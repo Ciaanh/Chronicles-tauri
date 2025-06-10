@@ -358,7 +358,6 @@ export class DBService {
             .filter((file): file is FileContent => file !== null);
         return files;
     }
-
     private MapFactionContent(faction: Faction): string {
         const chapters = faction.chapters || [];
 
@@ -366,7 +365,9 @@ export class DBService {
             faction.id
         },\n            name = Locale[\"${getLocaleKey(
             faction.label
-        )}\"],\n            chapters = {${this.MapChapterList(
+        )}\"],\n            author = \"${
+            faction.author || ""
+        }\",\n            chapters = {${this.MapChapterList(
             chapters
         )}},\n            timeline = ${faction.timeline}\n        }`;
     }
@@ -405,7 +406,6 @@ export class DBService {
 
         return files;
     }
-
     private MapCharacterContent(character: Character): string {
         const chapters = character.chapters || [];
 
@@ -413,7 +413,9 @@ export class DBService {
             character.id
         },\n            name = Locale[\"${getLocaleKey(
             character.label
-        )}\"],\n            chapters = {${this.MapChapterList(
+        )}\"],\n            author = \"${
+            character.author || ""
+        }\",\n            chapters = {${this.MapChapterList(
             chapters
         )}},\n            timeline = ${
             character.timeline

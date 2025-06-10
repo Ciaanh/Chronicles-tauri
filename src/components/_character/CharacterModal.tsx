@@ -25,7 +25,7 @@ export interface CharacterModalProps {
 export interface EditableCharacter {
     id: number;
     name: string;
-    // biography: Locale; // Replaced with chapters
+    author: string;
     chapters: Chapter[];
     label: Locale;
     timeline: number;
@@ -77,7 +77,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
             ? {
                   id: characterToEdit.id,
                   name: characterToEdit.name ?? "",
-                  // biography: characterToEdit.biography ?? {}, // Replaced with chapters
+                  author: characterToEdit.author ?? "",
                   chapters: characterToEdit.chapters ?? [],
                   label: characterToEdit.label ?? {},
                   timeline: characterToEdit.timeline ?? undefined,
@@ -185,7 +185,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                     Basic Info
                 </Divider>{" "}
                 <Row gutter={24} style={{ marginBottom: 12 }}>
-                    <Col span={24}>
+                    <Col span={12}>
                         <Form.Item
                             label="Name"
                             name="name"
@@ -198,6 +198,15 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         >
                             <Input
                                 placeholder="Character name"
+                                allowClear
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label="Author" name="author">
+                            <Input
+                                placeholder="Author name"
                                 allowClear
                                 size="large"
                             />

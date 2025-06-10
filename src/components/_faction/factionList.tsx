@@ -74,7 +74,6 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
     const cleanFactions = async () => {
         setFactions([]);
     };
-
     const columns: TableProps<Faction>["columns"] = [
         {
             title: "Name",
@@ -181,13 +180,13 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     };
                 }) || []
             );
-
             if (editingFaction) {
                 // Update existing faction
                 const updatedFaction = {
                     ...editingFaction,
                     id: editingFaction.id,
                     name: values.name,
+                    author: values.author,
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
@@ -201,6 +200,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                 // Add new faction
                 const newFaction: Faction = {
                     name: values.name,
+                    author: values.author,
                     chapters: processedChapters,
                     label: label,
                     timeline: values.timeline,
