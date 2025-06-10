@@ -180,7 +180,7 @@ export class LocaleService {
                 if (localeContent.length > 0) {
                     const localeFile: FileContent = {
                         content: `local AceLocale = LibStub:GetLibrary(\"AceLocale-3.0\")\nlocal L = AceLocale:NewLocale(\"Chronicles\", \"enUS\", true, true)\n                \n${localeContent}`,
-                        name: `Data/Locales/${localeGroup.fileName}`,
+                        name: `DB/Locales/${localeGroup.fileName}`,
                     };
                     return localeFile;
                 }
@@ -211,7 +211,7 @@ export class LocaleService {
 
         const indexFile: FileContent = {
             content: `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Ui xmlns=\"http://www.blizzard.com/wow/ui/\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.blizzard.com/wow/ui/\">\n${indexContent}\n</Ui>`,
-            name: "Data/Locales/Locales.xml",
+            name: "DB/Locales/Locales.xml",
         };
         return indexFile;
     }
