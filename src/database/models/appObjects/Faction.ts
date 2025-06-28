@@ -10,4 +10,6 @@ export interface Faction extends Dto {
     chapters: Chapter[];
     timeline: number;
     collection: Collection;
+    description?: string; // Cover page description
+    image?: string; // Cover page image path
 }

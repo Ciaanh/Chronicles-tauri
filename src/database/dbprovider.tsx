@@ -214,8 +214,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-    const CharacterMapper: Mapper<DB_Character, Character> = {
-        map: (dto: Character): DB_Character => {
+    const CharacterMapper: Mapper<DB_Character, Character> = {        map: (dto: Character): DB_Character => {
             return {
                 id: dto.id,
                 name: dto.name,
@@ -231,6 +230,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 timeline: dto.timeline,
                 factionIds: dto.factions.map((faction) => faction.id),
                 collectionId: dto.collection.id,
+                description: dto.description,
+                image: dto.image,
             };
         },
         mapFromDb: async (dbo: DB_Character): Promise<Character> => {
@@ -263,8 +264,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                           )
                       )
                     : [],
-                timeline: dbo.timeline,
-                factions: await Promise.all(
+                timeline: dbo.timeline,                factions: await Promise.all(
                     factions.map(
                         async (faction) =>
                             await FactionMapper.mapFromDb(faction as DB_Faction)
@@ -273,6 +273,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection
                 ),
+                description: dbo.description,
+                image: dbo.image,
             };
         },
         mapFromDbArray: async (dbo: DB_Character[]): Promise<Character[]> => {
@@ -284,8 +286,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-    const FactionMapper: Mapper<DB_Faction, Faction> = {
-        map: (dto: Faction): DB_Faction => {
+    const FactionMapper: Mapper<DB_Faction, Faction> = {        map: (dto: Faction): DB_Faction => {
             return {
                 id: dto.id,
                 name: dto.name,
@@ -300,6 +301,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 ),
                 timeline: dto.timeline,
                 collectionId: dto.collection.id,
+                description: dto.description,
+                image: dto.image,
             };
         },
         mapFromDb: async (dbo: DB_Faction): Promise<Faction> => {
@@ -332,11 +335,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                                   )
                           )
                       )
-                    : [],
-                timeline: dbo.timeline,
+                    : [],                timeline: dbo.timeline,
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection
                 ),
+                description: dbo.description,
+                image: dbo.image,
             };
         },
         mapFromDbArray: async (dbo: DB_Faction[]): Promise<Faction[]> => {

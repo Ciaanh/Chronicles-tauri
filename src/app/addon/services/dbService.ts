@@ -357,8 +357,7 @@ export class DBService {
             })
             .filter((file): file is FileContent => file !== null);
         return files;
-    }
-    private MapFactionContent(faction: Faction): string {
+    }    private MapFactionContent(faction: Faction): string {
         const chapters = faction.chapters || [];
 
         return `[${faction.id}] = {\n            id = ${
@@ -369,7 +368,7 @@ export class DBService {
             faction.author || ""
         }\",\n            chapters = {${this.MapChapterList(
             chapters
-        )}},\n            timeline = ${faction.timeline}\n        }`;
+        )}},\n            timeline = ${faction.timeline},\n            description = ${faction.description ? `"${faction.description.replace(/"/g, '\\"')}"` : "nil"},\n            image = ${faction.image ? `"${faction.image}"` : "nil"}\n        }`;
     }
 
     private CreateCharacterDbFile(
@@ -405,8 +404,7 @@ export class DBService {
             .filter((file): file is FileContent => file !== null);
 
         return files;
-    }
-    private MapCharacterContent(character: Character): string {
+    }    private MapCharacterContent(character: Character): string {
         const chapters = character.chapters || [];
 
         return `[${character.id}] = {\n            id = ${
@@ -419,7 +417,7 @@ export class DBService {
             chapters
         )}},\n            timeline = ${
             character.timeline
-        },\n            factions = {${character.factions
+        },\n            description = ${character.description ? `"${character.description.replace(/"/g, '\\"')}"` : "nil"},\n            image = ${character.image ? `"${character.image}"` : "nil"},\n            factions = {${character.factions
             .map((fac) => fac.id)
             .join(", ")}}\n        }`;
     }

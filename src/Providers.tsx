@@ -7,14 +7,12 @@ import { ConfigProvider, theme } from "antd";
 import { StyleProvider } from "@ant-design/cssinjs";
 
 const schema: dbSchema = {
-    dbname: "ChroniclesDB",
-    tables: [
+    dbname: "ChroniclesDB",    tables: [
         tableNames.events,
         tableNames.characters,
         tableNames.factions,
         tableNames.collections,
         tableNames.locales,
-        tableNames.chapters,
     ],
     location: undefined,
 };

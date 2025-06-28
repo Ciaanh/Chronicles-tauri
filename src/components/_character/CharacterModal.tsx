@@ -276,6 +276,39 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                                 onSearch={handleFactionSearch}
                             />
                         </Form.Item>
+                    </Col>                </Row>
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+                >
+                    Cover Page
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 24 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Description"
+                            name="description"
+                            tooltip="Short description displayed on the character's cover page"
+                        >
+                            <Input.TextArea
+                                placeholder="Character description for cover page"
+                                rows={3}
+                                maxLength={300}
+                                showCount
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Cover Image"
+                            name="image"
+                            tooltip="Path to the character's portrait image (e.g., Interface\\AddOns\\Chronicles\\Art\\Characters\\portrait.tga)"
+                        >
+                            <Input
+                                placeholder="Interface\\AddOns\\Chronicles\\Art\\Characters\\portrait.tga"
+                                allowClear
+                            />
+                        </Form.Item>
                     </Col>
                 </Row>
                 <Divider

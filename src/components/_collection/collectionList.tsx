@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Collection, Collection } from "../../database/models";
-import { Button, Card, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 
 import { DeleteOutlined, PlusCircleOutlined, EditOutlined } from "@ant-design/icons";
@@ -127,10 +127,18 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
         await dbContext
             .remove(collectionId, tableNames.collections)
             .then(() => fetchCollections());
-    }
-
-    async function addCollection() {
-        //dbContext.remove(eventid, tableNames.events).then(() => fetchEvents());
+    }    async function addCollection() {
+        const newCollection: Collection = {
+            id: -1,
+            name: "New Collection",
+        };
+        
+        await dbContext.add(
+            dbContext.mappers.collections.map(newCollection),
+            tableNames.collections
+        );
+        
+        fetchCollections();
     }
 
     return (
