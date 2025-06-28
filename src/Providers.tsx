@@ -7,7 +7,8 @@ import { ConfigProvider, theme } from "antd";
 import { StyleProvider } from "@ant-design/cssinjs";
 
 const schema: dbSchema = {
-    dbname: "ChroniclesDB",    tables: [
+    dbname: "ChroniclesDB",
+    tables: [
         tableNames.events,
         tableNames.characters,
         tableNames.factions,
@@ -21,20 +22,7 @@ export default function Providers({ children }: PropsWithChildren) {
     return (
         <ConfigProvider
             theme={{
-                // token: {
-                //     colorLink: "#1f82ec",
-                //     colorPrimary: "#7793cad9",
-                //     colorInfo: "#7793cad9",
-                //     colorSuccess: "#9fe27ed9",
-                //     colorWarning: "#f9b836d9",
-                //     colorError: "#fd5a5dd9",
-                //     colorBgBase: "#0e0f10",
-                //     borderRadius: 0,
-                //     wireframe: true,
-                //     colorTextBase: "#c4f4ff"
-                //   },
                 algorithm: theme.defaultAlgorithm,
-                //   algorithm: theme.darkAlgorithm,
                 hashed: false,
             }}
         >

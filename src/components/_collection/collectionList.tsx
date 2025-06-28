@@ -1,10 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Collection, Collection } from "../../database/models";
-import { Button, Space, Table, TableProps, Typography } from "antd";
+import { Button, Card, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 
-import { DeleteOutlined, PlusCircleOutlined, EditOutlined } from "@ant-design/icons";
+import {
+    DeleteOutlined,
+    PlusCircleOutlined,
+    EditOutlined,
+} from "@ant-design/icons";
 
 interface CollectionListProps {
     filters: Filters;
@@ -48,23 +52,31 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
             dataIndex: "id",
             width: 20,
             render: (id: number) => (
-                <Typography.Text ellipsis style={{ maxWidth: 60, display: "block", color: '#888' }}>{id}</Typography.Text>
+                <Typography.Text
+                    ellipsis
+                    style={{ maxWidth: 60, display: "block", color: "#888" }}
+                >
+                    {id}
+                </Typography.Text>
             ),
         },
         {
             title: "Name",
             dataIndex: "name",
             width: 180,
-            render: (name: string, record: Collection) => (
+            render: (name: string, record: Collection) =>
                 editingId === record.id ? (
                     <input
                         value={editingName}
-                        onChange={e => setEditingName(e.target.value)}
-                        style={{ width: '100%' }}
+                        onChange={(e) => setEditingName(e.target.value)}
+                        style={{ width: "100%" }}
                         autoFocus
                         onKeyDown={async (e) => {
-                            if (e.key === 'Enter') {
-                                await dbContext.update({ ...record, name: editingName }, tableNames.collections);
+                            if (e.key === "Enter") {
+                                await dbContext.update(
+                                    { ...record, name: editingName },
+                                    tableNames.collections
+                                );
                                 setEditingId(null);
                                 setEditingName("");
                                 fetchCollections();
@@ -72,9 +84,13 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
                         }}
                     />
                 ) : (
-                    <Typography.Text ellipsis style={{ maxWidth: 160, display: "block" }}>{name}</Typography.Text>
-                )
-            ),
+                    <Typography.Text
+                        ellipsis
+                        style={{ maxWidth: 160, display: "block" }}
+                    >
+                        {name}
+                    </Typography.Text>
+                ),
         },
         {
             title: "",
@@ -88,7 +104,10 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
                             type="primary"
                             size="small"
                             onClick={async () => {
-                                await dbContext.update({ ...record, name: editingName }, tableNames.collections);
+                                await dbContext.update(
+                                    { ...record, name: editingName },
+                                    tableNames.collections
+                                );
                                 setEditingId(null);
                                 setEditingName("");
                                 fetchCollections();
@@ -119,25 +138,26 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
     ];
 
     function sortedCollections(collectionList: Collection[]) {
-        return collectionList
-            .sort((a, b) => a.id - b.id);
+        return collectionList.sort((a, b) => a.id - b.id);
     }
 
     async function deleteCollection(collectionId: number) {
         await dbContext
             .remove(collectionId, tableNames.collections)
             .then(() => fetchCollections());
-    }    async function addCollection() {
+    }
+
+    async function addCollection() {
         const newCollection: Collection = {
             id: -1,
             name: "New Collection",
         };
-        
+
         await dbContext.add(
             dbContext.mappers.collections.map(newCollection),
             tableNames.collections
         );
-        
+
         fetchCollections();
     }
 

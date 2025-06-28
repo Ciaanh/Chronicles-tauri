@@ -40,7 +40,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = _G.Chronicles or Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(\"Chronicles\")`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -138,11 +138,11 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = _G.Chronicles or Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
+        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
 
         const dbDeclarationContent: FileContent = {
             content: content,
-            name: "DB/ChroniclesDB.lua",
+            name: "DB/DB.lua",
         };
         return dbDeclarationContent;
     }
@@ -204,11 +204,11 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Ui xmlns=\"http://www.blizzard.com/wow/ui/\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.blizzard.com/wow/ui/\">\n\t<Script file=\"ChroniclesDB.lua\" />\n${indexes}\n</Ui>`;
+        const content = `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Ui xmlns=\"http://www.blizzard.com/wow/ui/\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.blizzard.com/wow/ui/\">\n\t<Script file=\"DB.lua\" />\n${indexes}\n</Ui>`;
 
         return {
             content: content,
-            name: "DB/ChroniclesDB.xml",
+            name: "DB/DB.xml",
         };
     }
 
@@ -320,17 +320,13 @@ export class DBService {
             .map((chapter) => {
                 const headerKey = chapter.header
                     ? getLocaleKey(chapter.header)
-                    : null;
+                    : "";
 
                 const pageKeys = chapter.pages
                     .filter((page) => page)
                     .map((page) => `Locale[\"${getLocaleKey(page)}\"]`)
                     .join(", ");
-
-                const headerStr = headerKey
-                    ? `Locale[\"${headerKey}\"]`
-                    : "nil";
-                return `{\n                header = ${headerStr},\n                pages = {${pageKeys}} }`;
+                return `{\n                header = Locale[\"${headerKey}\"],\n                pages = {${pageKeys}} }`;
             })
             .join(", ");
     }
