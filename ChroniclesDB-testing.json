@@ -2157,7 +2157,8 @@
             "biographyId": 210,
             "timeline": 1,
             "factionIds": [],
-            "collectionId": 18
+            "collectionId": 18,
+            "image": "Interface\\AddOns\\Chronicles\\Art\\Portrait\\Tyrande"
         }
     ],
     "factions": [],
