@@ -214,7 +214,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-    const CharacterMapper: Mapper<DB_Character, Character> = {        map: (dto: Character): DB_Character => {
+    const CharacterMapper: Mapper<DB_Character, Character> = {
+        map: (dto: Character): DB_Character => {
             return {
                 id: dto.id,
                 name: dto.name,
@@ -230,7 +231,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 timeline: dto.timeline,
                 factionIds: dto.factions.map((faction) => faction.id),
                 collectionId: dto.collection.id,
-                description: dto.description,
+                descriptionId: dto.description?.id,
                 image: dto.image,
             };
         },
@@ -249,6 +250,21 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 dbo.collectionId,
                 tableNames.collections
             );
+
+            // Load description locale if it exists
+            let description = undefined;
+            if (dbo.descriptionId) {
+                const descriptionLocale = await database.get(
+                    dbo.descriptionId,
+                    tableNames.locales
+                );
+                if (descriptionLocale) {
+                    description = await LocaleMapper.mapFromDb(
+                        descriptionLocale as DB_Locale
+                    );
+                }
+            }
+
             return {
                 id: dbo.id,
                 name: dbo.name,
@@ -264,7 +280,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                           )
                       )
                     : [],
-                timeline: dbo.timeline,                factions: await Promise.all(
+                timeline: dbo.timeline,
+                factions: await Promise.all(
                     factions.map(
                         async (faction) =>
                             await FactionMapper.mapFromDb(faction as DB_Faction)
@@ -273,7 +290,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection
                 ),
-                description: dbo.description,
+                description: description,
                 image: dbo.image,
             };
         },
@@ -286,7 +303,9 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             );
         },
     };
-    const FactionMapper: Mapper<DB_Faction, Faction> = {        map: (dto: Faction): DB_Faction => {
+
+    const FactionMapper: Mapper<DB_Faction, Faction> = {
+        map: (dto: Faction): DB_Faction => {
             return {
                 id: dto.id,
                 name: dto.name,
@@ -301,7 +320,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 ),
                 timeline: dto.timeline,
                 collectionId: dto.collection.id,
-                description: dto.description,
+                descriptionId: dto.description?.id,
                 image: dto.image,
             };
         },
@@ -320,6 +339,21 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             if (!collection) {
                 throw new Error(`Collection not found for faction ${dbo.name}`);
             }
+
+            // Load description locale if it exists
+            let description = undefined;
+            if (dbo.descriptionId) {
+                const descriptionLocale = await database.get(
+                    dbo.descriptionId,
+                    tableNames.locales
+                );
+                if (descriptionLocale) {
+                    description = await LocaleMapper.mapFromDb(
+                        descriptionLocale as DB_Locale
+                    );
+                }
+            }
+
             return {
                 id: dbo.id,
                 name: dbo.name,
@@ -335,11 +369,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                                   )
                           )
                       )
-                    : [],                timeline: dbo.timeline,
+                    : [],
+                timeline: dbo.timeline,
                 collection: await CollectionMapper.mapFromDb(
                     collection as DB_Collection
                 ),
-                description: dbo.description,
+                description: description,
                 image: dbo.image,
             };
         },

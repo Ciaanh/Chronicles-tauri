@@ -31,6 +31,8 @@ export interface EditableCharacter {
     timeline: number;
     factions: number[];
     collection?: number;
+    description?: Locale; // Cover page description
+    image?: string; // Cover page image path
 }
 
 const CharacterModal: React.FC<CharacterModalProps> = ({
@@ -91,6 +93,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                             typeof f === "object" && f !== null ? f.id : f
                         )
                       : [],
+                  description: characterToEdit.description,
+                  image: characterToEdit.image ?? "",
               }
             : undefined;
 
@@ -276,7 +280,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                                 onSearch={handleFactionSearch}
                             />
                         </Form.Item>
-                    </Col>                </Row>
+                    </Col>{" "}
+                </Row>
                 <Divider
                     orientation="left"
                     style={{ fontSize: 18, margin: "32px 0 24px 0" }}

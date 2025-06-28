@@ -28,6 +28,8 @@ export interface EditableFaction {
     label: Locale;
     timeline: number;
     collection?: number;
+    description?: Locale; // Cover page description
+    image?: string; // Cover page image path
 }
 
 const FactionModal: React.FC<FactionModalProps> = ({
@@ -69,6 +71,8 @@ const FactionModal: React.FC<FactionModalProps> = ({
                       factionToEdit.collection && factionToEdit.collection.id
                           ? factionToEdit.collection.id
                           : undefined,
+                  description: factionToEdit.description,
+                  image: factionToEdit.image ?? "",
               }
             : undefined;
 
@@ -197,7 +201,8 @@ const FactionModal: React.FC<FactionModalProps> = ({
                             label: c.name,
                         }))}
                         size="large"
-                    />                </Form.Item>
+                    />{" "}
+                </Form.Item>
                 <Divider
                     orientation="left"
                     style={{ fontSize: 18, margin: "32px 0 24px 0" }}

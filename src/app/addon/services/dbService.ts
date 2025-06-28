@@ -40,7 +40,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = _G.Chronicles or Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(\"Chronicles\")`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -138,7 +138,7 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
+        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = _G.Chronicles or Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
 
         const dbDeclarationContent: FileContent = {
             content: content,
@@ -320,13 +320,17 @@ export class DBService {
             .map((chapter) => {
                 const headerKey = chapter.header
                     ? getLocaleKey(chapter.header)
-                    : "";
+                    : null;
 
                 const pageKeys = chapter.pages
                     .filter((page) => page)
                     .map((page) => `Locale[\"${getLocaleKey(page)}\"]`)
                     .join(", ");
-                return `{\n                header = Locale[\"${headerKey}\"],\n                pages = {${pageKeys}} }`;
+
+                const headerStr = headerKey
+                    ? `Locale[\"${headerKey}\"]`
+                    : "nil";
+                return `{\n                header = ${headerStr},\n                pages = {${pageKeys}} }`;
             })
             .join(", ");
     }
@@ -357,7 +361,9 @@ export class DBService {
             })
             .filter((file): file is FileContent => file !== null);
         return files;
-    }    private MapFactionContent(faction: Faction): string {
+    }
+
+    private MapFactionContent(faction: Faction): string {
         const chapters = faction.chapters || [];
 
         return `[${faction.id}] = {\n            id = ${
@@ -368,7 +374,15 @@ export class DBService {
             faction.author || ""
         }\",\n            chapters = {${this.MapChapterList(
             chapters
-        )}},\n            timeline = ${faction.timeline},\n            description = ${faction.description ? `"${faction.description.replace(/"/g, '\\"')}"` : "nil"},\n            image = ${faction.image ? `"${faction.image}"` : "nil"}\n        }`;
+        )}},\n            timeline = ${
+            faction.timeline
+        },\n            description = ${
+            faction.description
+                ? `Locale[\"${getLocaleKey(faction.description)}\"]`
+                : "nil"
+        },\n            image = ${
+            faction.image ? `"${faction.image}"` : "nil"
+        }\n        }`;
     }
 
     private CreateCharacterDbFile(
@@ -404,7 +418,9 @@ export class DBService {
             .filter((file): file is FileContent => file !== null);
 
         return files;
-    }    private MapCharacterContent(character: Character): string {
+    }
+
+    private MapCharacterContent(character: Character): string {
         const chapters = character.chapters || [];
 
         return `[${character.id}] = {\n            id = ${
@@ -417,7 +433,13 @@ export class DBService {
             chapters
         )}},\n            timeline = ${
             character.timeline
-        },\n            description = ${character.description ? `"${character.description.replace(/"/g, '\\"')}"` : "nil"},\n            image = ${character.image ? `"${character.image}"` : "nil"},\n            factions = {${character.factions
+        },\n            description = ${
+            character.description
+                ? `Locale[\"${getLocaleKey(character.description)}\"]`
+                : "nil"
+        },\n            image = ${
+            character.image ? `"${character.image}"` : "nil"
+        },\n            factions = {${character.factions
             .map((fac) => fac.id)
             .join(", ")}}\n        }`;
     }

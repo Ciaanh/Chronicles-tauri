@@ -9,6 +9,6 @@ export interface DB_Character extends DbObject {
     timeline: number;
     factionIds: number[];
     collectionId: number;
-    description?: string; // Cover page description
+    descriptionId?: number; // Cover page description locale ID
     image?: string; // Cover page image path
 }

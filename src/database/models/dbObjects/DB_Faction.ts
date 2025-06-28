@@ -8,6 +8,6 @@ export interface DB_Faction extends DbObject {
     chapters: DB_Chapter[];
     timeline: number;
     collectionId: number;
-    description?: string; // Cover page description
+    descriptionId?: number; // Cover page description locale ID
     image?: string; // Cover page image path
 }

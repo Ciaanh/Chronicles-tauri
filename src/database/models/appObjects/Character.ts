@@ -12,6 +12,6 @@ export interface Character extends Dto {
     timeline: number;
     factions: Faction[];
     collection: Collection;
-    description?: string; // Cover page description
+    description?: Locale; // Cover page description as locale
     image?: string; // Cover page image path
 }

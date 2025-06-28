@@ -191,6 +191,8 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
+                    description: values.description,
+                    image: values.image,
                 };
                 await dbContext.update(
                     dbContext.mappers.factions.map(updatedFaction),
@@ -205,6 +207,8 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
+                    description: values.description,
+                    image: values.image,
                     id: -1,
                 };
                 await dbContext.add(
