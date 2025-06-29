@@ -40,7 +40,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -49,9 +49,9 @@ export class DBService {
     }
 
     private FormatDeclaration(collection: string, typeName: TypeName) {
-        const lowerName = collection.toLowerCase();
         const formatedName = this.FormatCollection(collection);
-        return `\tChronicles.Data:Register${typeName}DB(Chronicles.DB.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
+
+        return `\tif ${formatedName}${typeName}sDB then DataRegistry:Register${typeName}DB("${collection}", ${formatedName}${typeName}sDB) end`;
     }
 
     private FormatIndex(index: string, collection: string, typeName: TypeName) {
@@ -71,24 +71,6 @@ export class DBService {
     }
 
     private CreateDeclarationFile(request: FileGenerationRequest): FileContent {
-        const names = request.collections
-            .map((collection: FormatedCollection) => {
-                if (
-                    !collection ||
-                    typeof collection.id === "undefined" ||
-                    typeof collection.name === "undefined" ||
-                    typeof collection.index === "undefined"
-                )
-                    return "";
-
-                const lowerCollection = collection.name.toLowerCase();
-                return `\t${lowerCollection} = \"${this.FormatCollection(
-                    collection.name
-                )}\"`;
-            })
-            .filter((value: string) => value.length > 0)
-            .join(",\n");
-
         const declarations = request.collections
             .map((collection: FormatedCollection) => {
                 if (
@@ -138,7 +120,42 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
+        const names = request.collections
+            .map((collection: FormatedCollection) => {
+                if (
+                    !collection ||
+                    typeof collection.id === "undefined" ||
+                    typeof collection.name === "undefined" ||
+                    typeof collection.index === "undefined"
+                )
+                    return "";
+
+                return this.FormatCollection(collection.name);
+            })
+            .filter((value: string) => value.length > 0)
+            .join(", ");
+
+        const content = `local FOLDER_NAME, private = ...
+
+ChroniclesPluginData = ChroniclesPluginData or {}
+
+function ChroniclesPluginData.Register()
+	local DataRegistry
+	if (private.Chronicles) then
+		DataRegistry = Chronicles.Data
+	else
+		if _G.Chronicles and _G.Chronicles.Data then
+			DataRegistry = _G.Chronicles.Data
+		else
+			print("|cffff0000Error:|r Chronicles DataRegistry not found!")
+			return
+		end
+	end
+
+${declarations}
+
+	print("|cff00ff00Chronicles:|r ${names} data registered successfully")
+end`;
 
         const dbDeclarationContent: FileContent = {
             content: content,

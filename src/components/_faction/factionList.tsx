@@ -154,6 +154,15 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                 dbContext
             );
 
+            // Process description if provided (similar to label processing)
+            let description = undefined;
+            if (values.description) {
+                description = await LocaleUtils.createOrUpdateLocale(
+                    values.description,
+                    dbContext
+                );
+            }
+
             // Process chapters
             const processedChapters = await Promise.all(
                 values.chapters?.map(async (chapter: any) => {
@@ -191,7 +200,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
-                    description: values.description,
+                    description: description,
                     image: values.image,
                 };
                 await dbContext.update(
@@ -207,7 +216,7 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     label: label,
                     timeline: values.timeline,
                     collection: values.collection,
-                    description: values.description,
+                    description: description,
                     image: values.image,
                     id: -1,
                 };

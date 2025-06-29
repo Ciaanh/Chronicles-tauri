@@ -184,6 +184,15 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     };
                 }) || []
             );
+            // Process description if provided (similar to label processing)
+            let description = undefined;
+            if (values.description) {
+                description = await LocaleUtils.createOrUpdateLocale(
+                    values.description,
+                    dbContext
+                );
+            }
+
             if (editingCharacter) {
                 // Update existing character
                 const updatedCharacter = {
@@ -196,7 +205,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     timeline: values.timeline,
                     collection: values.collection,
                     factions: values.factions || [],
-                    description: values.description,
+                    description: description,
                     image: values.image,
                 };
                 await dbContext.update(
@@ -213,7 +222,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     timeline: values.timeline,
                     collection: values.collection,
                     factions: values.factions || [],
-                    description: values.description,
+                    description: description,
                     image: values.image,
                     id: -1,
                 };

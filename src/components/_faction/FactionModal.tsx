@@ -215,13 +215,10 @@ const FactionModal: React.FC<FactionModalProps> = ({
                             label="Description"
                             name="description"
                             tooltip="Short description displayed on the faction's cover page"
+                            valuePropName="value"
+                            trigger="onChange"
                         >
-                            <Input.TextArea
-                                placeholder="Faction description for cover page"
-                                rows={3}
-                                maxLength={300}
-                                showCount
-                            />
+                            <LocaleEditor />
                         </Form.Item>
                     </Col>
                     <Col span={12}>

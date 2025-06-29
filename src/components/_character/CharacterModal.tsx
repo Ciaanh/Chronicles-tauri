@@ -31,7 +31,7 @@ export interface EditableCharacter {
     timeline: number;
     factions: number[];
     collection?: number;
-    description?: Locale; // Cover page description
+    description?: Locale; // Cover page description as locale object
     image?: string; // Cover page image path
 }
 
@@ -294,13 +294,10 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                             label="Description"
                             name="description"
                             tooltip="Short description displayed on the character's cover page"
+                            valuePropName="value"
+                            trigger="onChange"
                         >
-                            <Input.TextArea
-                                placeholder="Character description for cover page"
-                                rows={3}
-                                maxLength={300}
-                                showCount
-                            />
+                            <LocaleEditor />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
