@@ -393,8 +393,6 @@ end`;
             faction.description
                 ? `Locale[\"${getLocaleKey(faction.description)}\"]`
                 : "nil"
-        },\n            image = ${
-            faction.image ? `"${faction.image}"` : "nil"
         }\n        }`;
     }
 
@@ -450,8 +448,6 @@ end`;
             character.description
                 ? `Locale[\"${getLocaleKey(character.description)}\"]`
                 : "nil"
-        },\n            image = ${
-            character.image ? `"${character.image}"` : "nil"
         },\n            factions = {${character.factions
             .map((fac) => fac.id)
             .join(", ")}}\n        }`;

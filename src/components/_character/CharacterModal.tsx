@@ -32,7 +32,6 @@ export interface EditableCharacter {
     factions: number[];
     collection?: number;
     description?: Locale; // Cover page description as locale object
-    image?: string; // Cover page image path
 }
 
 const CharacterModal: React.FC<CharacterModalProps> = ({
@@ -94,7 +93,6 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         )
                       : [],
                   description: characterToEdit.description,
-                  image: characterToEdit.image ?? "",
               }
             : undefined;
 
@@ -289,7 +287,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                     Cover Page
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 24 }}>
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -298,18 +296,6 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                             trigger="onChange"
                         >
                             <LocaleEditor />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Cover Image"
-                            name="image"
-                            tooltip="Path to the character's portrait image (e.g., Interface\\AddOns\\Chronicles\\Art\\Characters\\portrait.tga)"
-                        >
-                            <Input
-                                placeholder="Interface\\AddOns\\Chronicles\\Art\\Characters\\portrait.tga"
-                                allowClear
-                            />
                         </Form.Item>
                     </Col>
                 </Row>

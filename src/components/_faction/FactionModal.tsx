@@ -29,7 +29,6 @@ export interface EditableFaction {
     timeline: number;
     collection?: number;
     description?: Locale; // Cover page description
-    image?: string; // Cover page image path
 }
 
 const FactionModal: React.FC<FactionModalProps> = ({
@@ -72,7 +71,6 @@ const FactionModal: React.FC<FactionModalProps> = ({
                           ? factionToEdit.collection.id
                           : undefined,
                   description: factionToEdit.description,
-                  image: factionToEdit.image ?? "",
               }
             : undefined;
 
@@ -210,7 +208,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                     Cover Page
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 24 }}>
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -219,18 +217,6 @@ const FactionModal: React.FC<FactionModalProps> = ({
                             trigger="onChange"
                         >
                             <LocaleEditor />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Cover Image"
-                            name="image"
-                            tooltip="Path to the faction's banner image (e.g., Interface\\AddOns\\Chronicles\\Art\\Factions\\banner.tga)"
-                        >
-                            <Input
-                                placeholder="Interface\\AddOns\\Chronicles\\Art\\Factions\\banner.tga"
-                                allowClear
-                            />
                         </Form.Item>
                     </Col>
                 </Row>

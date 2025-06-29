@@ -13,5 +13,4 @@ export interface Character extends Dto {
     factions: Faction[];
     collection: Collection;
     description?: Locale; // Cover page description as locale
-    image?: string; // Cover page image path
 }
