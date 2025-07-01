@@ -11,4 +11,5 @@ export interface Faction extends Dto {
     timeline: number;
     collection: Collection;
     description?: Locale; // Cover page description as locale
+    image?: string; // Faction image/crest path
 }

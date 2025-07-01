@@ -29,6 +29,7 @@ export interface EditableFaction {
     timeline: number;
     collection?: number;
     description?: Locale; // Cover page description
+    image?: string; // Faction image/crest path
 }
 
 const FactionModal: React.FC<FactionModalProps> = ({
@@ -71,6 +72,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                           ? factionToEdit.collection.id
                           : undefined,
                   description: factionToEdit.description,
+                  image: factionToEdit.image,
               }
             : undefined;
 
@@ -217,6 +219,20 @@ const FactionModal: React.FC<FactionModalProps> = ({
                             trigger="onChange"
                         >
                             <LocaleEditor />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24} style={{ marginBottom: 24 }}>
+                    <Col span={24}>
+                        <Form.Item
+                            label="Image/Crest Path"
+                            name="image"
+                            tooltip="Path to the faction's image or crest (e.g., Interface\\AddOns\\Chronicles\\Art\\Images\\FactionCrest)"
+                        >
+                            <Input 
+                                placeholder="Interface\\AddOns\\Chronicles\\Art\\Images\\FactionCrest"
+                                style={{ fontFamily: 'monospace' }}
+                            />
                         </Form.Item>
                     </Col>
                 </Row>

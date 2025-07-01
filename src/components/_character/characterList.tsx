@@ -206,6 +206,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     collection: values.collection,
                     factions: values.factions || [],
                     description: description,
+                    image: values.image,
                 };
                 await dbContext.update(
                     dbContext.mappers.characters.map(updatedCharacter),
@@ -222,6 +223,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     collection: values.collection,
                     factions: values.factions || [],
                     description: description,
+                    image: values.image,
                     id: -1,
                 };
                 await dbContext.add(

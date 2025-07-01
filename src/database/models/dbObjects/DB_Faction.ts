@@ -9,4 +9,5 @@ export interface DB_Faction extends DbObject {
     timeline: number;
     collectionId: number;
     descriptionId?: number; // Cover page description locale ID
+    image?: string; // Faction image/crest path
 }

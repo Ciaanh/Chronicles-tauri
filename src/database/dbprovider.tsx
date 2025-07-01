@@ -232,6 +232,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 factionIds: dto.factions.map((faction) => faction.id),
                 collectionId: dto.collection.id,
                 descriptionId: dto.description?.id,
+                image: dto.image,
             };
         },
         mapFromDb: async (dbo: DB_Character): Promise<Character> => {
@@ -290,6 +291,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                     collection as DB_Collection
                 ),
                 description: description,
+                image: dbo.image,
             };
         },
         mapFromDbArray: async (dbo: DB_Character[]): Promise<Character[]> => {
@@ -319,6 +321,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                 timeline: dto.timeline,
                 collectionId: dto.collection.id,
                 descriptionId: dto.description?.id,
+                image: dto.image,
             };
         },
         mapFromDb: async (dbo: DB_Faction): Promise<Faction> => {
@@ -372,6 +375,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
                     collection as DB_Collection
                 ),
                 description: description,
+                image: dbo.image,
             };
         },
         mapFromDbArray: async (dbo: DB_Faction[]): Promise<Faction[]> => {

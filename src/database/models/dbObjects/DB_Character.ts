@@ -10,4 +10,5 @@ export interface DB_Character extends DbObject {
     factionIds: number[];
     collectionId: number;
     descriptionId?: number; // Cover page description locale ID
+    image?: string; // Character portrait/image path
 }
