@@ -273,7 +273,9 @@ end`;
             event.order
         },\n            characters={${this.MapCharacterList(
             event
-        )}},\n            factions={${this.MapFactionList(event)}},\n        }`;
+        )}},\n            factions={${this.MapFactionList(
+            event
+        )}},\n            author = "${event.author || ""}",\n        }`;
     }
 
     private MapFactionList(event: Event): string {

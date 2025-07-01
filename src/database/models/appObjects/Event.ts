@@ -7,6 +7,7 @@ import { Locale } from "./Locale";
 
 export interface Event extends Dto {
     name: string;
+    author: string;
     eventType: number;
     timeline: number;
     link: string;

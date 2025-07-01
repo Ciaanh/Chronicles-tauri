@@ -35,6 +35,7 @@ export interface EventModalProps {
 export interface EditableEvent {
     id: number;
     name: string;
+    author: string;
     eventType: number;
     timeline: number;
     link: string;
@@ -106,6 +107,7 @@ const EventModal: React.FC<EventModalProps> = ({
             ? {
                   id: eventToEdit.id,
                   name: eventToEdit.name ?? "",
+                  author: eventToEdit.author ?? "",
                   yearStart: eventToEdit.period?.yearStart ?? undefined,
                   yearEnd: eventToEdit.period?.yearEnd ?? undefined,
                   order: eventToEdit.order ?? undefined,
@@ -282,6 +284,20 @@ const EventModal: React.FC<EventModalProps> = ({
                                 style={{ width: "100%" }}
                                 min={0}
                                 placeholder="Order"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={24}>
+                        <Form.Item
+                            label="Author"
+                            name="author"
+                        >
+                            <Input
+                                placeholder="Author name"
+                                allowClear
                                 size="large"
                             />
                         </Form.Item>

@@ -215,6 +215,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                     ...editingEvent,
                     id: editingEvent.id, // Ensure id is preserved
                     name: values.name,
+                    author: values.author,
                     period: {
                         yearStart: values.yearStart,
                         yearEnd: values.yearEnd,
@@ -237,6 +238,7 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                 // Add new event
                 const newEvent: Event = {
                     name: values.name,
+                    author: values.author,
                     period: {
                         yearStart: values.yearStart,
                         yearEnd: values.yearEnd,

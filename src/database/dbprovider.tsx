@@ -129,6 +129,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             const mappedEvent = {
                 id: dto.id,
                 name: dto.name,
+                author: dto.author,
                 yearStart: dto.period?.yearStart ?? 0,
                 yearEnd: dto.period?.yearEnd ?? 0,
                 eventType: dto.eventType,
@@ -174,6 +175,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             return {
                 id: dbo.id,
                 name: dbo.name,
+                author: dbo.author,
                 period: {
                     yearStart: dbo.yearStart,
                     yearEnd: dbo.yearEnd,

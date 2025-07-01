@@ -3,6 +3,7 @@ import { DB_Chapter } from "./DB_Chapter";
 
 export interface DB_Event extends DbObject {
     name: string;
+    author: string;
     yearStart: number;
     yearEnd: number;
     eventType: number;
