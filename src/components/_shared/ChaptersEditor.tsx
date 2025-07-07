@@ -4,6 +4,7 @@ import { Chapter } from "../../database/models/appObjects/Chapter";
 import { Locale } from "../../database/models/appObjects/Locale";
 import { EnumDictionary } from "../../database/models/EnumDictionary";
 import { Language } from "../../constants";
+import { defaultTranslations } from "../../constants/language";
 
 interface ChaptersEditorProps {
   value?: Chapter[];
@@ -11,17 +12,7 @@ interface ChaptersEditorProps {
 }
 
 const emptyTranslations = (): EnumDictionary<Language, string> => ({
-  enUS: "",
-  deDE: "",
-  esES: "",
-  esMX: "",
-  frFR: "",
-  itIT: "",
-  ptBR: "",
-  ruRU: "",
-  koKR: "",
-  zhCN: "",
-  zhTW: "",
+  ...defaultTranslations,
 });
 
 const emptyLocale = (): Locale => ({
