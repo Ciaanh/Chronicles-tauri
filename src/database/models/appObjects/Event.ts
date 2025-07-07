@@ -6,17 +6,17 @@ import { Faction } from "./Faction";
 import { Locale } from "./Locale";
 
 export interface Event extends Dto {
-    name: string;
-    author: string;
-    eventType: number;
-    timeline: number;
-    link: string;
-    factions: Faction[];
-    characters: Character[];
-    label: Locale;
-    chapters: Chapter[];
-    collection: Collection;
-    order: number;
+  name: string;
+  author: string;
+  eventType: number;
+  timeline: number;
+  link: string;
+  factions: Faction[];
+  characters: Character[];
+  label: Locale;
+  chapters: Chapter[];
+  collection: Collection;
+  order: number;
 
-    period: { yearStart: number | null; yearEnd: number | null };
+  period: { yearStart: number | null; yearEnd: number | null };
 }

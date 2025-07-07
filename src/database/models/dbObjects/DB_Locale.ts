@@ -3,9 +3,9 @@ import { DbObject } from "../../jsondb/types";
 import { EnumDictionary } from "../EnumDictionary";
 
 export interface DB_Locale extends DbObject {
-    ishtml: boolean;
+  ishtml: boolean;
 
-    enUS: string;
+  enUS: string;
 
-    translations: EnumDictionary<Language, string>;
+  translations: EnumDictionary<Language, string>;
 }

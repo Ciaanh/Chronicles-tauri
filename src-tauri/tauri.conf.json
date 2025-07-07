@@ -10,7 +10,8 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "windows": [      {
+    "windows": [
+      {
         "title": "Chronicles",
         "width": 1600,
         "height": 880,
