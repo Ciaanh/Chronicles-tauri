@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
-import { Button, Card, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
 import EventModal from "./EventModal";
@@ -13,7 +13,7 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface EventListProps {
   filters: Filters;

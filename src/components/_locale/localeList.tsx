@@ -22,7 +22,6 @@ import { Filters } from "../filters";
 import {
   DeleteOutlined,
   EditOutlined,
-  PlusCircleOutlined,
 } from "@ant-design/icons";
 import LocaleEditor from "../_shared/LocaleEditor";
 

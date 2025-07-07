@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Collection, Collection } from "../../database/models";
-import { Button, Card, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 
 import {

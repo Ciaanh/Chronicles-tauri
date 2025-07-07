@@ -5,8 +5,6 @@ import { Language } from "../../constants";
 import { EnumDictionary } from "../../database/models/EnumDictionary";
 import ReactCountryFlag from "react-country-flag";
 
-const { Panel } = Collapse;
-
 interface LocaleEditorProps {
   value?: Locale;
   onChange?: (value: Locale) => void;

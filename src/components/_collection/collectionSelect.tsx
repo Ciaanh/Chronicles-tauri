@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { Collection, DB_Collection } from "../../database/models";
-import { Select, SelectProps } from "antd";
+import { Select } from "antd";
 
 type Option = { value: number; label: string };
 

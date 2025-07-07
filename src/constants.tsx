@@ -1,5 +1,5 @@
 import { MenuProps } from "antd";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export enum Path {
   Home = "/",

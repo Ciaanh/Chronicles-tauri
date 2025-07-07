@@ -1,17 +1,17 @@
 import "./_style/appcontent.scss";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Divider, Flex, Layout, Menu, MenuProps, Space, theme } from "antd";
+import { Divider, Layout, Menu, MenuProps, theme } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
 import { MenuItems, Path } from "./constants";
 
-import HomeView from "./components/home/HomeView";
+import HomeView from "./components/home/homeView";
 import SettingsView from "./components/settings/settingsView";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Filters } from "./components/filters";
-import CollectionSelect from "./components/_collection/CollectionSelect";
+import CollectionSelect from "./components/_collection/collectionSelect";
 
 import { Collection } from "./database/models";
 

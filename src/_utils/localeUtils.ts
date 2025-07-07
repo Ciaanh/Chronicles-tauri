@@ -1,5 +1,5 @@
 import { Locale } from "../database/models";
-import { dbRepository, tableNames } from "../database/dbcontext";
+import { tableNames } from "../database/dbcontext";
 
 /**
  * Utility for handling locale operations across the application
@@ -15,7 +15,7 @@ export class LocaleUtils {
    */
   static async createOrUpdateLocale(
     locale: Locale,
-    dbContext: React.Context<any>["_currentValue"],
+    dbContext: any,
   ): Promise<Locale> {
     // Case 1: Locale is completely new or has no ID
     if (!locale.id || locale.id === -1) {
@@ -46,7 +46,7 @@ export class LocaleUtils {
    */
   static async processChapterLocales(
     chapter: any,
-    dbContext: React.Context<any>["_currentValue"],
+    dbContext: any,
   ): Promise<any> {
     // Clone the chapter to avoid modifying the original
     const updatedChapter = { ...chapter };
