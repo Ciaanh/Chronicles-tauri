@@ -3,38 +3,38 @@ import { EnumDictionary } from "../EnumDictionary";
 import { Dto } from "./_dto";
 
 export interface Locale extends Dto {
-    ishtml: boolean;
+  ishtml: boolean;
 
-    enUS: string;
+  enUS: string;
 
-    translations: EnumDictionary<Language, string>;
+  translations: EnumDictionary<Language, string>;
 }
 
 function cleanString(value: string): string {
-    const cleaned = value
-        .replace(/(?:\r\n|\r|\n)/g, " ")
-        .replace(/\s\s+/g, " ")
-        .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, " ")
-        .trim()
-        .replace(/\s/g, "_")
-        .substring(0, 50)
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
+  const cleaned = value
+    .replace(/(?:\r\n|\r|\n)/g, " ")
+    .replace(/\s\s+/g, " ")
+    .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, " ")
+    .trim()
+    .replace(/\s/g, "_")
+    .substring(0, 50)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
 
-    return cleaned;
+  return cleaned;
 }
 
 export function getLocaleKey(locale: Locale): string {
-    if (!locale || locale.enUS === null) {
-        return "<not set>";
-    }
-    return `${locale.id}_${cleanString(locale.enUS)}`;
+  if (!locale || locale.enUS === null) {
+    return "<not set>";
+  }
+  return `${locale.id}_${cleanString(locale.enUS)}`;
 }
 
 // export function getEmptyLocale(): Locale {
 //     return {
-//         _id: null,
+//         id: null,
 //         ishtml: false,
 
 //         enUS: null,

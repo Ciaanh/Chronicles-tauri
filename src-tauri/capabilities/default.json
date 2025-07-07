@@ -2,9 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
     "opener:default",
@@ -12,27 +10,19 @@
     "fs:default",
     {
       "identifier": "fs:allow-exists",
-      "allow": [
-        "**"
-      ]
+      "allow": ["**"]
     },
     {
       "identifier": "fs:read-all",
-      "allow": [
-        "**"
-      ]
+      "allow": ["**"]
     },
     {
       "identifier": "fs:write-all",
-      "allow": [
-        "**"
-      ]
+      "allow": ["**"]
     },
     {
       "identifier": "fs:allow-lstat",
-      "allow": [
-        "**"
-      ]
+      "allow": ["**"]
     }
   ]
 }

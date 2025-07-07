@@ -6,9 +6,9 @@ import AppContent from "./appcontent";
 import { App } from "antd";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <Providers>
-        <App>
-            <AppContent />
-        </App>
-    </Providers>
+  <Providers>
+    <App>
+      <AppContent />
+    </App>
+  </Providers>,
 );

@@ -1,22 +1,22 @@
 @use "./variables" as var;
 
 .view {
-    height: var.$viewport-height;
+  height: var.$viewport-height;
 }
 
 .header {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .container {
-    height: 666px;
+  height: 666px;
 }
 
 .footer {
-    text-align: center;
+  text-align: center;
 }
 
 .collection-select {
-    width: 155px;
+  width: 155px;
 }

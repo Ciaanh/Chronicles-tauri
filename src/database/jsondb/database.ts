@@ -124,8 +124,7 @@ export class Database {
 
             if (row.id === -1) {
                 const maxId = this.getMaxId(table);
-                const nextId =
-                    maxId === null
+                const nextId = maxId === null
                         ? this.schema.oneIndexed
                             ? 1
                             : 0

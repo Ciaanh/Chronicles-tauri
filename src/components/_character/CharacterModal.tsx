@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Modal,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Divider,
-  Row,
-  Col,
-} from "antd";
-import { EventTypes, Timelines } from "../../constants";
+import { Modal, Form, Input, Select, Divider, Row, Col } from "antd";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import {
   Collection,
@@ -19,39 +9,35 @@ import {
   Locale,
   Chapter,
 } from "../../database/models";
+import { Timelines } from "../../constants";
 import TagSelect from "../_shared/TagSelect";
-import ChaptersEditor from "../_shared/ChaptersEditor";
-import { Event } from "../../database/models";
 import LocaleEditor from "../_shared/LocaleEditor";
+import ChaptersEditor from "../_shared/ChaptersEditor";
 
-export interface EventModalProps {
+export interface CharacterModalProps {
   visible: boolean;
-  eventToEdit?: Event;
+  characterToEdit?: Character;
   onOk: (values: any) => void;
   onCancel: () => void;
   confirmLoading?: boolean;
 }
 
-export interface EditableEvent {
+export interface EditableCharacter {
   id: number;
   name: string;
   author: string;
-  eventType: number;
-  timeline: number;
-  link: string;
-  factions: number[];
-  characters: number[];
-  label: Locale;
   chapters: Chapter[];
+  label: Locale;
+  timeline: number;
+  factions: number[];
   collection?: number;
-  order: number;
-  yearStart?: number;
-  yearEnd?: number;
+  description?: Locale; // Cover page description as locale object
+  image?: string; // Character portrait/image path
 }
 
-const EventModal: React.FC<EventModalProps> = ({
+const CharacterModal: React.FC<CharacterModalProps> = ({
   visible,
-  eventToEdit: eventToEdit,
+  characterToEdit,
   onOk,
   onCancel,
   confirmLoading = false,
@@ -59,15 +45,11 @@ const EventModal: React.FC<EventModalProps> = ({
   const [form] = Form.useForm();
   const dbContext = React.useContext(dbRepository);
   const [collections, setCollections] = React.useState<Collection[]>([]);
-  const [characters, setCharacters] = React.useState<Character[]>([]);
   const [factions, setFactions] = React.useState<Faction[]>([]);
-  const [characterOptions, setCharacterOptions] = React.useState<
-    { value: number; label: string }[]
-  >([]);
   const [factionOptions, setFactionOptions] = React.useState<
     { value: number; label: string }[]
   >([]);
-  const [editableEventState, setEditableEventState] =
+  const [editableCharacterState, setEditableCharacterState] =
     React.useState<any>(undefined);
 
   React.useEffect(() => {
@@ -79,14 +61,6 @@ const EventModal: React.FC<EventModalProps> = ({
         );
       setCollections(mappedCollections);
     }
-    async function fetchCharacters() {
-      const characterList = await dbContext.getAll(tableNames.characters);
-      const mappedCharacters =
-        await dbContext.mappers.characters.mapFromDbArray(
-          characterList as any[],
-        );
-      setCharacters(mappedCharacters);
-    }
     async function fetchFactions() {
       const factionList = await dbContext.getAll(tableNames.factions);
       const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
@@ -95,82 +69,47 @@ const EventModal: React.FC<EventModalProps> = ({
       setFactions(mappedFactions);
     }
     fetchCollections();
-    fetchCharacters();
     fetchFactions();
   }, [dbContext]);
-
   React.useEffect(() => {
-    let editableEvent: EditableEvent | undefined = eventToEdit
+    let editableCharacter: EditableCharacter | undefined = characterToEdit
       ? {
-          id: eventToEdit.id,
-          name: eventToEdit.name ?? "",
-          author: eventToEdit.author ?? "",
-          yearStart: eventToEdit.period?.yearStart ?? undefined,
-          yearEnd: eventToEdit.period?.yearEnd ?? undefined,
-          order: eventToEdit.order ?? undefined,
-          eventType: eventToEdit.eventType ?? undefined,
-          timeline: eventToEdit.timeline ?? undefined,
-          link: eventToEdit.link ?? "",
-          label: eventToEdit.label ?? {},
+          id: characterToEdit.id,
+          name: characterToEdit.name ?? "",
+          author: characterToEdit.author ?? "",
+          chapters: characterToEdit.chapters ?? [],
+          label: characterToEdit.label ?? {},
+          timeline: characterToEdit.timeline ?? undefined,
           collection:
-            eventToEdit.collection && eventToEdit.collection.id
-              ? eventToEdit.collection.id
+            characterToEdit.collection && characterToEdit.collection.id
+              ? characterToEdit.collection.id
               : undefined,
-          factions: Array.isArray(eventToEdit.factions)
-            ? eventToEdit.factions.map((f: any) =>
+          factions: Array.isArray(characterToEdit.factions)
+            ? characterToEdit.factions.map((f: any) =>
                 typeof f === "object" && f !== null ? f.id : f,
               )
             : [],
-          characters: Array.isArray(eventToEdit.characters)
-            ? eventToEdit.characters.map((c: any) =>
-                typeof c === "object" && c !== null ? c.id : c,
-              )
-            : [],
-          chapters: Array.isArray(eventToEdit.chapters)
-            ? eventToEdit.chapters
-            : [],
+          description: characterToEdit.description,
+          image: characterToEdit.image,
         }
       : undefined;
 
-    setEditableEventState(editableEvent);
-  }, [eventToEdit]);
+    setEditableCharacterState(editableCharacter);
+  }, [characterToEdit]);
 
   React.useEffect(() => {
     if (visible) {
-      form.setFieldsValue(editableEventState || {});
+      form.setFieldsValue(editableCharacterState || {});
 
-      if (editableEventState?.characters && characters.length > 0) {
-        setCharacterOptions(
-          characters
-            .filter((c) => editableEventState.characters.includes(c.id))
-            .map((c) => ({ value: c.id, label: c.name })),
-        );
-      }
-      if (editableEventState?.factions && factions.length > 0) {
+      if (editableCharacterState?.factions && factions.length > 0) {
         setFactionOptions(
           factions
-            .filter((f) => editableEventState.factions.includes(f.id))
+            .filter((f) => editableCharacterState.factions.includes(f.id))
             .map((f) => ({ value: f.id, label: f.name })),
         );
       }
     }
-  }, [editableEventState, visible, characters, factions]);
-
-  const handleCharacterSearch = async (search: string) => {
-    if (!search) {
-      setCharacterOptions([]);
-      return;
-    }
-    const characterList = await dbContext.getAll(tableNames.characters);
-    const mappedCharacters = await dbContext.mappers.characters.mapFromDbArray(
-      characterList as any[],
-    );
-    setCharacterOptions(
-      mappedCharacters
-        .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
-        .map((c) => ({ value: c.id, label: c.name })),
-    );
-  };
+  }, [editableCharacterState, visible, factions]);
 
   const handleFactionSearch = async (search: string) => {
     if (!search) {
@@ -202,18 +141,16 @@ const EventModal: React.FC<EventModalProps> = ({
           (c) => c.id === selectedCollection.id,
         );
       }
-      // Map selected ids to full objects for characters and factions
+
+      // Map selected ids to full objects for factions
       const selectedFactions = (values.factions || [])
         .map((id: number) => factions.find((f) => f.id === id))
         .filter(Boolean);
-      const selectedCharacters = (values.characters || [])
-        .map((id: number) => characters.find((c) => c.id === id))
-        .filter(Boolean);
+
       onOk({
         ...values,
         collection: selectedCollection,
         factions: selectedFactions,
-        characters: selectedCharacters,
       });
     } catch (err) {
       // Validation failed
@@ -222,113 +159,47 @@ const EventModal: React.FC<EventModalProps> = ({
 
   return (
     <Modal
-      title={eventToEdit ? "Edit Event" : "Add New Event"}
+      title={characterToEdit ? "Edit Character" : "Add New Character"}
       open={visible}
       onOk={handleOk}
       onCancel={onCancel}
-      okText={eventToEdit ? "Save" : "Create"}
+      okText={characterToEdit ? "Save" : "Create"}
       cancelText="Cancel"
       confirmLoading={confirmLoading}
-      width={800}
+      width={700}
       styles={{ body: { padding: 32 } }}
     >
-      <Form form={form} layout="vertical" initialValues={editableEventState}>
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={editableCharacterState}
+      >
         <Divider orientation="left" style={{ fontSize: 18, marginBottom: 24 }}>
           Basic Info
-        </Divider>
+        </Divider>{" "}
         <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={16}>
+          <Col span={12}>
             <Form.Item
               label="Name"
               name="name"
               rules={[
                 {
                   required: true,
-                  message: "Please input the event name!",
+                  message: "Please input the character name!",
                 },
               ]}
             >
-              <Input placeholder="Event name" allowClear size="large" />
+              <Input placeholder="Character name" allowClear size="large" />
             </Form.Item>
           </Col>
-          <Col span={8}>
-            <Form.Item
-              label="Order"
-              name="order"
-              tooltip="Order for sorting events in the same year"
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                min={0}
-                placeholder="Order"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={24}>
+          <Col span={12}>
             <Form.Item label="Author" name="author">
               <Input placeholder="Author name" allowClear size="large" />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
-            <Form.Item
-              label="Year Start"
-              name="yearStart"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the start year!",
-                },
-              ]}
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="Start year"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Year End" name="yearEnd">
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="End year (optional)"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Divider
-          orientation="left"
-          style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-        >
-          Classification
-        </Divider>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
-            <Form.Item
-              label="Event Type"
-              name="eventType"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the event type!",
-                },
-              ]}
-            >
-              <Select
-                options={EventTypes.map((type) => ({
-                  value: type.id,
-                  label: type.name,
-                }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
+          <Col span={24}>
             <Form.Item
               label="Timeline"
               name="timeline"
@@ -374,7 +245,7 @@ const EventModal: React.FC<EventModalProps> = ({
           Associations
         </Divider>
         <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
+          <Col span={24}>
             <Form.Item name="factions" valuePropName="value" trigger="onChange">
               <TagSelect
                 label="Factions"
@@ -384,36 +255,47 @@ const EventModal: React.FC<EventModalProps> = ({
                 onSearch={handleFactionSearch}
               />
             </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="characters"
-              valuePropName="value"
-              trigger="onChange"
-            >
-              <TagSelect
-                label="Characters"
-                options={characterOptions}
-                color="purple"
-                placeholder="Select characters"
-                onSearch={handleCharacterSearch}
-              />
-            </Form.Item>
-          </Col>
+          </Col>{" "}
         </Row>
-        <Form.Item label="Link" name="link" style={{ marginBottom: 24 }}>
-          <Input
-            placeholder="External link (optional)"
-            allowClear
-            size="large"
-          />
-        </Form.Item>
         <Divider
           orientation="left"
           style={{ fontSize: 18, margin: "32px 0 24px 0" }}
         >
-          Label & Chapters
+          Cover Page
         </Divider>
+        <Row gutter={24} style={{ marginBottom: 24 }}>
+          <Col span={24}>
+            <Form.Item
+              label="Description"
+              name="description"
+              tooltip="Short description displayed on the character's cover page"
+              valuePropName="value"
+              trigger="onChange"
+            >
+              <LocaleEditor />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={24} style={{ marginBottom: 24 }}>
+          <Col span={24}>
+            <Form.Item
+              label="Portrait Image Path"
+              name="image"
+              tooltip="Path to the character's portrait image (e.g., Interface\\AddOns\\Chronicles\\Art\\Portrait\\CharacterName)"
+            >
+              <Input
+                placeholder="Interface\\AddOns\\Chronicles\\Art\\Portrait\\CharacterName"
+                style={{ fontFamily: "monospace" }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Divider
+          orientation="left"
+          style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+        >
+          Label
+        </Divider>{" "}
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
@@ -430,11 +312,10 @@ const EventModal: React.FC<EventModalProps> = ({
             >
               <LocaleEditor />
             </Form.Item>
-          </Col>
+          </Col>{" "}
           <Col span={12}>
             <Form.Item
-              label="Chapters"
-              required
+              label="Biography"
               name="chapters"
               valuePropName="value"
               trigger="onChange"
@@ -448,4 +329,4 @@ const EventModal: React.FC<EventModalProps> = ({
   );
 };
 
-export default EventModal;
+export default CharacterModal;

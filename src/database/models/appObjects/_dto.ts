@@ -1,3 +1,3 @@
 export type Dto = {
-    id: number;
+  id: number;
 };
