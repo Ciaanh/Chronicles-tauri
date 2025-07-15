@@ -1,5 +1,6 @@
 import { Locale } from "../database/models";
 import { tableNames } from "../database/dbcontext";
+import { MarkdownConverter } from "./markdownConverter";
 
 /**
  * Utility for handling locale operations across the application
@@ -17,24 +18,27 @@ export class LocaleUtils {
     locale: Locale,
     dbContext: any,
   ): Promise<Locale> {
+    // Process markdown content before saving
+    const processedLocale = MarkdownConverter.processLocale(locale);
+
     // Case 1: Locale is completely new or has no ID
-    if (!locale.id || locale.id === -1) {
+    if (!processedLocale.id || processedLocale.id === -1) {
       const newLocale = {
         id: -1,
-        ishtml: locale.ishtml !== undefined ? locale.ishtml : false,
-        enUS: locale.enUS,
-        translations: locale.translations || {},
+        ishtml: processedLocale.ishtml !== undefined ? processedLocale.ishtml : false,
+        enUS: processedLocale.enUS,
+        translations: processedLocale.translations || {},
       };
       return await dbContext.add(newLocale, tableNames.locales);
     }
     // Case 2: Locale exists and has a valid ID
-    else if (locale.id > 0) {
-      await dbContext.update(locale, tableNames.locales);
-      return locale;
+    else if (processedLocale.id > 0) {
+      await dbContext.update(processedLocale, tableNames.locales);
+      return processedLocale;
     }
 
     // Fallback - should not happen
-    throw new Error(`Invalid locale ID: ${locale.id}`);
+    throw new Error(`Invalid locale ID: ${processedLocale.id}`);
   }
 
   /**

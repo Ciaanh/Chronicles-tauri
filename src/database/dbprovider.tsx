@@ -26,6 +26,7 @@ import {
   Locale,
 } from "./models";
 import Loader from "./loader";
+import { MarkdownConverter } from "../_utils/markdownConverter";
 
 export interface dbSchema {
   tables: string[];
@@ -402,24 +403,29 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
   const LocaleMapper: Mapper<DB_Locale, Locale> = {
     map: (dto: Locale): DB_Locale => {
+      // Process markdown before saving to database
+      const processedLocale = MarkdownConverter.processLocale(dto);
       return {
-        id: dto.id,
-        ishtml: dto.ishtml,
-
-        enUS: dto.enUS,
-
-        translations: dto.translations,
+        id: processedLocale.id,
+        ishtml: processedLocale.ishtml,
+        enUS: processedLocale.enUS,
+        translations: processedLocale.translations,
       };
     },
     mapFromDb: async (dbo: DB_Locale): Promise<Locale> => {
-      return {
+      const locale: Locale = {
         id: dbo.id,
         ishtml: dbo.ishtml,
-
         enUS: dbo.enUS,
-
         translations: dbo.translations,
       };
+      
+      // If content is marked as markdown or contains markdown patterns, ensure it's properly converted
+      if (MarkdownConverter.isMarkdown(locale) && !locale.ishtml) {
+        return MarkdownConverter.processLocale(locale);
+      }
+      
+      return locale;
     },
     mapFromDbArray: async (dbo: DB_Locale[]): Promise<Locale[]> => {
       return await Promise.all(

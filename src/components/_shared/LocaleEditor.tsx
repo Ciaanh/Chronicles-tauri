@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { Input, Form, Collapse } from "antd";
+import { Input, Form, Collapse, Tabs, Typography, Checkbox, Space } from "antd";
 import { Locale } from "../../database/models";
 import { Language } from "../../constants";
 import { EnumDictionary } from "../../database/models/EnumDictionary";
 import ReactCountryFlag from "react-country-flag";
 import { defaultTranslations, languageNames, languageCountryCodes } from "../../constants/language";
+import { MarkdownConverter } from "../../_utils/markdownConverter";
+import { EyeOutlined, EditOutlined } from "@ant-design/icons";
+
+const { TextArea } = Input;
+const { Text } = Typography;
 
 interface LocaleEditorProps {
   value?: Locale;
@@ -23,13 +28,18 @@ const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
     },
   };
 
-  // Track which field is focused for expansion
+  // Track which field is focused for expansion and markdown mode
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isMarkdownMode, setIsMarkdownMode] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("edit");
 
   const handleChange = (lang: Language, val: string) => {
+    const updatedLocale = { ...safeValue };
+    
     if (lang === Language.enUS) {
-      const newValue: Locale = { ...safeValue, enUS: val };
-      if (onChange) onChange(newValue);
+      updatedLocale.enUS = val;
+      // Auto-detect markdown and set ishtml flag
+      updatedLocale.ishtml = isMarkdownMode || MarkdownConverter.isMarkdown({ ...updatedLocale, enUS: val });
     } else {
       const newTranslations = { ...safeValue.translations, [lang]: val };
       // Remove empty/null translations except enUS
@@ -40,12 +50,138 @@ const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
             (value !== null && value !== undefined && value !== ""),
         ),
       ) as EnumDictionary<Language, string>;
-      const newValue: Locale = {
-        ...safeValue,
-        translations: cleanedTranslations,
-      };
-      if (onChange) onChange(newValue);
+      updatedLocale.translations = cleanedTranslations;
     }
+    
+    if (onChange) onChange(updatedLocale);
+  };
+
+  const getPreviewContent = () => {
+    if (!safeValue.enUS) return "No content to preview";
+    
+    if (isMarkdownMode || MarkdownConverter.isMarkdown(safeValue)) {
+      return MarkdownConverter.toHtml(safeValue.enUS);
+    }
+    
+    return safeValue.enUS;
+  };
+
+  const isMarkdownContent = isMarkdownMode || MarkdownConverter.isMarkdown(safeValue);
+
+  const renderMainEditor = () => {
+    const tabItems = [
+      {
+        key: "edit",
+        label: (
+          <Space>
+            <EditOutlined />
+            Edit
+          </Space>
+        ),
+        children: (
+          <div>
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Space>
+                <Checkbox
+                  checked={isMarkdownMode}
+                  onChange={(e) => setIsMarkdownMode(e.target.checked)}
+                >
+                  Markdown Mode
+                </Checkbox>
+                {isMarkdownContent && (
+                  <Text type="secondary" style={{ fontSize: "12px" }}>
+                    Markdown detected - content will be converted to WoW HTML
+                  </Text>
+                )}
+              </Space>
+              <TextArea
+                value={safeValue.enUS}
+                onChange={(e) => handleChange(Language.enUS, e.target.value)}
+                placeholder={
+                  isMarkdownMode
+                    ? "Enter content in Markdown (supports **bold**, *italic*, # headers, - lists, `code`, [links](url), ![images](path), {star} raid icons, etc.)"
+                    : "Enter label in English"
+                }
+                autoSize={
+                  focusedField === "enUS"
+                    ? { minRows: 6, maxRows: 12 }
+                    : { minRows: 3, maxRows: 3 }
+                }
+                onFocus={() => setFocusedField("enUS")}
+                onBlur={() => setFocusedField(null)}
+                style={{
+                  resize: "vertical",
+                  whiteSpace: "pre-line",
+                  overflowX: "hidden",
+                  overflowY: "hidden",
+                  fontFamily: isMarkdownMode ? "monospace" : "inherit",
+                }}
+              />
+              {isMarkdownMode && (
+                <div style={{ fontSize: "12px", color: "#666" }}>
+                  <Text type="secondary">
+                    Markdown features: <strong>**bold**</strong>, <em>*italic*</em>, 
+                    <code># headers</code>, <code>- lists</code>, <code>`code`</code>, 
+                    <code>[links](url)</code>, <code>![images](path)</code>, 
+                    <code>{"{star}"}</code> raid icons
+                  </Text>
+                </div>
+              )}
+            </Space>
+          </div>
+        ),
+      },
+      {
+        key: "preview",
+        label: (
+          <Space>
+            <EyeOutlined />
+            Preview
+          </Space>
+        ),
+        disabled: !safeValue.enUS,
+        children: (
+          <div style={{ padding: "16px", backgroundColor: "#f9f9f9", borderRadius: "6px" }}>
+            <div style={{ marginBottom: "8px" }}>
+              <Text strong>WoW HTML Output:</Text>
+            </div>
+            <div
+              style={{
+                padding: "12px",
+                backgroundColor: "#fff",
+                border: "1px solid #d9d9d9",
+                borderRadius: "4px",
+                fontFamily: "monospace",
+                fontSize: "12px",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-all",
+                maxHeight: "300px",
+                overflowY: "auto",
+              }}
+            >
+              {getPreviewContent()}
+            </div>
+            {isMarkdownContent && (
+              <div style={{ marginTop: "8px", fontSize: "12px" }}>
+                <Text type="secondary">
+                  This HTML will be used in WoW's SimpleHTML frames. WoW color codes (|cff...|r) 
+                  and textures (|T...|t) will render properly in-game.
+                </Text>
+              </div>
+            )}
+          </div>
+        ),
+      },
+    ];
+
+    return (
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        size="small"
+        items={tabItems}
+      />
+    );
   };
 
   return (
@@ -67,24 +203,7 @@ const LocaleEditor: React.FC<LocaleEditorProps> = ({ value, onChange }) => {
         }
         required
       >
-        <Input.TextArea
-          value={safeValue.enUS}
-          onChange={(e) => handleChange(Language.enUS, e.target.value)}
-          placeholder="Enter label in English"
-          autoSize={
-            focusedField === "enUS"
-              ? { minRows: 6, maxRows: 12 }
-              : { minRows: 1, maxRows: 1 }
-          }
-          onFocus={() => setFocusedField("enUS")}
-          onBlur={() => setFocusedField(null)}
-          style={{
-            resize: "vertical",
-            whiteSpace: "pre-line",
-            overflowX: "hidden",
-            overflowY: "hidden",
-          }}
-        />
+        {renderMainEditor()}
       </Form.Item>
       <Collapse
         style={{ marginTop: 16 }}

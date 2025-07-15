@@ -10,6 +10,7 @@ import CharacterList from "../_character/characterList";
 import CollectionList from "../_collection/collectionList";
 import LocaleList from "../_locale/localeList";
 import ExportTab from "../ExportTab";
+import MarkdownDemo from "../_shared/MarkdownDemo";
 
 interface HomeViewProps {
   filters: Filters;
@@ -46,6 +47,11 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
       label: "Export",
       key: "export",
       children: <ExportTab />,
+    },
+    {
+      label: "Markdown Demo",
+      key: "markdown",
+      children: <MarkdownDemo />,
     },
   ];
 
