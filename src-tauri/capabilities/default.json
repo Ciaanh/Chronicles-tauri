@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "opener:default",
@@ -10,19 +12,67 @@
     "fs:default",
     {
       "identifier": "fs:allow-exists",
-      "allow": ["**"]
+      "allow": [
+        { "path": "$APPDATA/**" },
+        { "path": "$APPLOCALDATA/**" },
+        { "path": "$APPCACHE/**" },
+        { "path": "$APPLOG/**" },
+        { "path": "$APPCONFIG/**" },
+        { "path": "$HOME/**" },
+        { "path": "$DOCUMENT/**" },
+        { "path": "$DOWNLOAD/**" },
+        { "path": "$DESKTOP/**" },
+        { "path": "$PICTURE/**" },
+        { "path": "$PUBLIC/**" }
+      ]
     },
     {
-      "identifier": "fs:read-all",
-      "allow": ["**"]
+      "identifier": "fs:read-text-file",
+      "allow": [
+        { "path": "$APPDATA/**" },
+        { "path": "$APPLOCALDATA/**" },
+        { "path": "$APPCACHE/**" },
+        { "path": "$APPLOG/**" },
+        { "path": "$APPCONFIG/**" },
+        { "path": "$HOME/**" },
+        { "path": "$DOCUMENT/**" },
+        { "path": "$DOWNLOAD/**" },
+        { "path": "$DESKTOP/**" },
+        { "path": "$PICTURE/**" },
+        { "path": "$PUBLIC/**" }
+      ]
     },
     {
-      "identifier": "fs:write-all",
-      "allow": ["**"]
+      "identifier": "fs:write-files",
+      "allow": [
+        { "path": "$APPDATA/**" },
+        { "path": "$APPLOCALDATA/**" },
+        { "path": "$APPCACHE/**" },
+        { "path": "$APPLOG/**" },
+        { "path": "$APPCONFIG/**" },
+        { "path": "$HOME/**" },
+        { "path": "$DOCUMENT/**" },
+        { "path": "$DOWNLOAD/**" },
+        { "path": "$DESKTOP/**" },
+        { "path": "$PICTURE/**" },
+        { "path": "$PUBLIC/**" }
+      ]
     },
     {
       "identifier": "fs:allow-lstat",
-      "allow": ["**"]
+      "allow": [
+        { "path": "$APPDATA/**" },
+        { "path": "$APPLOCALDATA/**" },
+        { "path": "$APPCACHE/**" },
+        { "path": "$APPLOG/**" },
+        { "path": "$APPCONFIG/**" },
+        { "path": "$HOME/**" },
+        { "path": "$DOCUMENT/**" },
+        { "path": "$DOWNLOAD/**" },
+        { "path": "$DESKTOP/**" },
+        { "path": "$PICTURE/**" },
+        { "path": "$PUBLIC/**" }
+      ]
     }
   ]
 }

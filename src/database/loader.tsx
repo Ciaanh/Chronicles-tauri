@@ -5,20 +5,26 @@ import { dbRepository } from "./dbcontext";
 import { Button, Card, Flex, Typography } from "antd";
 
 function Loader() {
-  const dbContext = useContext(dbRepository);
+    const dbContext = useContext(dbRepository);
 
-  return (
-    <Card className="centeredCard">
-      <Flex className="flexContainer" justify="center" align="center" vertical>
-        <Typography.Title>Chronicles</Typography.Title>
-        <Typography.Paragraph>
-          Welcome to the Chronicles database manager
-        </Typography.Paragraph>
-        <Button onClick={() => dbContext.load()}>Load a json db</Button>
-        {/* <Button onClick={() => dbContext.validate()}>Validate json db</Button> */}
-      </Flex>
-    </Card>
-  );
+    return (
+        <Card className="centeredCard">
+            <Flex className="flexContainer" justify="center" align="center" vertical >
+                <Typography.Title>Chronicles</Typography.Title>
+                <Typography.Paragraph>
+                    Welcome to the Chronicles database manager
+                </Typography.Paragraph>
+                <Button
+                    type="primary"
+                    loading={dbContext.loading}
+                    onClick={() => dbContext.load()}
+                >
+                    {dbContext.loading ? "Loading database..." : "Load a JSON DB"}
+                </Button>
+                {/* <Button onClick={() => dbContext.validate()}>Validate json db</Button> */}
+            </Flex>
+        </Card>
+    );
 }
 
 export default Loader;

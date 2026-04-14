@@ -1,15 +1,17 @@
 export interface DbObject {
-  id: number;
+    id: number;
 }
 
 export interface Tables {
-  [key: string]: DbObject[];
+    [key: string]: DbObject[];
 }
 
 export interface Schema {
-  tables: string[];
-  dbname: string;
-  oneIndexed?: boolean;
-  compressedJson?: boolean;
-  location: string;
+    tables: string[];
+    dbname: string;
+    oneIndexed?: boolean;
+    compressedJson?: boolean;
+    writeDebounceMs?: number;
+    autoSaveIntervalMs?: number;
+    location: string;
 }

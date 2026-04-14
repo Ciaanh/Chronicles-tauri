@@ -1,497 +1,516 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 
 import {
-  ContextValue,
-  Mapper,
-  tableNames,
-  dbRepository,
-  LocalMapper,
+    ContextValue,
+    Mapper,
+    tableNames,
+    dbRepository,
+    LocalMapper,
 } from "./dbcontext";
 
 import { Database } from "./jsondb/database";
 import { DbObject, Schema } from "./jsondb/types";
 import {
-  Chapter,
-  Character,
-  Collection,
-  DB_Chapter,
-  DB_Character,
-  DB_Collection,
-  DB_Event,
-  DB_Faction,
-  DB_Locale,
-  Event,
-  Faction,
-  Locale,
+    Chapter,
+    Character,
+    Collection,
+    DB_Chapter,
+    DB_Character,
+    DB_Collection,
+    DB_Event,
+    DB_Faction,
+    DB_Locale,
+    Event,
+    Faction,
+    Locale,
 } from "./models";
 import Loader from "./loader";
-import { MarkdownConverter } from "../_utils/markdownConverter";
 
 export interface dbSchema {
-  tables: string[];
-  dbname: string;
-  location: string | undefined;
+    tables: string[];
+    dbname: string;
+    location: string | undefined;
+    writeDebounceMs?: number;
+    autoSaveIntervalMs?: number;
 }
 
 export interface dbProviderProps {
-  children: React.ReactNode;
-  dbschema: dbSchema;
+    children: React.ReactNode;
+    dbschema: dbSchema;
 }
 
 export function DbProvider({ children, dbschema }: dbProviderProps) {
-  if (
-    typeof dbschema !== "object" ||
-    dbschema === null ||
-    dbschema === undefined
-  ) {
-    console.error("No Schema provided to dbContextProvider");
-    return <Fragment>{children}</Fragment>;
-  }
-
-  const [database, setDatabase] = useState<Database | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loaded, setLoaded] = useState<boolean>(false);
-
-  const load = async () => {
-    if (loading) return;
-    setLoading(true);
-
-    const currentSchema: dbSchema = {
-      dbname: dbschema.dbname,
-      tables: dbschema.tables,
-      location: dbschema.location,
-    };
-
-    if (currentSchema.location === undefined) {
-      const chosenLocation = await open({
-        multiple: false,
-        directory: false,
-      });
-      if (chosenLocation !== null) {
-        currentSchema.location = chosenLocation;
-      } else {
-        console.error("No location provided to dbContextProvider");
-        return;
-      }
+    if (
+        typeof dbschema !== "object" ||
+        dbschema === null ||
+        dbschema === undefined
+    ) {
+        console.error("No Schema provided to dbContextProvider");
+        return <Fragment>{children}</Fragment>;
     }
 
-    const schema: Schema = {
-      dbname: currentSchema.dbname,
-      tables: currentSchema.tables,
-      oneIndexed: true,
-      compressedJson: true,
-      location: currentSchema.location,
+    const [database, setDatabase] = useState<Database | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
+    const mapperCacheRef = useRef<{
+        localesById: Map<number, DB_Locale>;
+        factionsById: Map<number, DB_Faction>;
+        charactersById: Map<number, DB_Character>;
+        collectionsById: Map<number, DB_Collection>;
+    } | null>(null);
+
+    const invalidateMapperCache = () => {
+        mapperCacheRef.current = null;
     };
 
-    const database = await Database.create(schema);
+    const ensureMapperCache = async () => {
+        if (database === null) throw new Error("Database not loaded");
+        if (mapperCacheRef.current) return mapperCacheRef.current;
 
-    setDatabase(database);
-    setLoaded(true);
-    setLoading(false);
-  };
+        const [locales, factions, characters, collections] = await Promise.all([
+            database.getAll<DB_Locale>(tableNames.locales),
+            database.getAll<DB_Faction>(tableNames.factions),
+            database.getAll<DB_Character>(tableNames.characters),
+            database.getAll<DB_Collection>(tableNames.collections),
+        ]);
 
-  const getAll = async <T extends DbObject>(dbName: string): Promise<T[]> => {
-    if (database === null) return [];
-    return await database.getAll<T>(dbName);
-  };
+        mapperCacheRef.current = {
+            localesById: new Map(locales.map((item) => [item.id, item])),
+            factionsById: new Map(factions.map((item) => [item.id, item])),
+            charactersById: new Map(characters.map((item) => [item.id, item])),
+            collectionsById: new Map(collections.map((item) => [item.id, item])),
+        };
 
-  const get = async <T extends DbObject>(
-    id: number,
-    dbName: string,
-  ): Promise<T | null> => {
-    if (database === null) return null;
-    return await database.get<T>(id, dbName);
-  };
+        return mapperCacheRef.current;
+    };
 
-  const add = async <T extends DbObject>(
-    row: T,
-    dbName: string,
-  ): Promise<T | null> => {
-    if (database === null) return null;
-    return await database.insert<T>(row, dbName);
-  };
+    const load = async () => {
+        if (loading) return;
+        setLoading(true);
 
-  const update = async <T extends DbObject>(
-    row: T,
-    dbName: string,
-  ): Promise<T | null> => {
-    if (database === null) return null;
-    return await database.update<T>(row, dbName);
-  };
+        try {
+            const currentSchema: dbSchema = {
+                dbname: dbschema.dbname,
+                tables: dbschema.tables,
+                location: dbschema.location,
+            };
 
-  const remove = async (id: number, dbName: string): Promise<void> => {
-    if (database === null) return;
-    await database.delete(id, dbName);
-  };
+            if (currentSchema.location === undefined) {
+                const chosenLocation = await open({
+                    multiple: false,
+                    directory: false,
+                });
+                if (chosenLocation !== null) {
+                    currentSchema.location = chosenLocation;
+                } else {
+                    console.warn("DB load cancelled by user.");
+                    return;
+                }
+            }
 
-  const EventMapper: Mapper<DB_Event, Event> = {
-    map: (dto: Event): DB_Event => {
-      const mappedEvent = {
-        id: dto.id,
-        name: dto.name,
-        author: dto.author,
-        yearStart: dto.period?.yearStart ?? 0,
-        yearEnd: dto.period?.yearEnd ?? 0,
-        eventType: dto.eventType,
-        timeline: dto.timeline,
-        link: dto.link,
-        factionIds: dto.factions.map((faction) => faction.id),
-        characterIds: dto.characters.map((character) => character.id),
-        labelId: dto.label.id,
-        chapters: dto.chapters.map(
-          (chapter) =>
-            ({
-              headerId: chapter.header?.id,
-              pageIds: chapter.pages.map((page) => page.id),
-            }) as DB_Chapter,
-        ),
-        collectionId: dto.collection.id,
-        order: dto.order,
-      };
+            const schema: Schema = {
+                dbname: currentSchema.dbname,
+                tables: currentSchema.tables,
+                oneIndexed: true,
+                compressedJson: true,
+                writeDebounceMs: currentSchema.writeDebounceMs,
+                autoSaveIntervalMs: currentSchema.autoSaveIntervalMs,
+                location: currentSchema.location,
+            };
 
-      return mappedEvent;
-    },
-    mapFromDb: async (dbo: DB_Event): Promise<Event> => {
-      if (dbo === null) {
-        console.log(dbo);
-      }
-      if (database === null) throw new Error("Database not loaded");
+            const database = await Database.create(schema);
+            setDatabase(database);
+            invalidateMapperCache();
+            setLoaded(true);
+        } catch (err) {
+            console.error("Failed to load DB:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      const factions = await database.getAll(tableNames.factions, (faction) =>
-        dbo.factionIds.includes(faction.id),
-      );
-      const characters = await database.getAll(
-        tableNames.characters,
-        (character) => dbo.characterIds.includes(character.id),
-      );
-      const label = await database.get(dbo.labelId, tableNames.locales);
+    const getAll = async <T extends DbObject>(dbName: string): Promise<T[]> => {
+        if (database === null) return [];
+        return await database.getAll<T>(dbName);
+    };
 
-      const collection = await database.get(
-        dbo.collectionId,
-        tableNames.collections,
-      );
+    const get = async <T extends DbObject>(
+        id: number,
+        dbName: string
+    ): Promise<T | null> => {
+        if (database === null) return null;
+        return await database.get<T>(id, dbName);
+    };
 
-      return {
-        id: dbo.id,
-        name: dbo.name,
-        author: dbo.author,
-        period: {
-          yearStart: dbo.yearStart,
-          yearEnd: dbo.yearEnd,
+    const add = async <T extends DbObject>(
+        row: T,
+        dbName: string
+    ): Promise<T | null> => {
+        if (database === null) return null;
+        const inserted = await database.insert<T>(row, dbName);
+        invalidateMapperCache();
+        return inserted;
+    };
+
+    const update = async <T extends DbObject>(
+        row: T,
+        dbName: string
+    ): Promise<T | null> => {
+        if (database === null) return null;
+        const updated = await database.update<T>(row, dbName);
+        invalidateMapperCache();
+        return updated;
+    };
+
+    const remove = async (id: number, dbName: string): Promise<void> => {
+        if (database === null) return;
+        await database.delete(id, dbName);
+        invalidateMapperCache();
+    };
+
+    const EventMapper: Mapper<DB_Event, Event> = {
+        map: (dto: Event): DB_Event => {
+            const mappedEvent = {
+                id: dto.id,
+                name: dto.name,
+                yearStart: dto.period?.yearStart ?? 0,
+                yearEnd: dto.period?.yearEnd ?? 0,
+                eventType: dto.eventType,
+                timeline: dto.timeline,
+                link: dto.link,
+                factionIds: dto.factions.map((faction) => faction.id),
+                characterIds: dto.characters.map((character) => character.id),
+                labelId: dto.label.id,
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
+                ),
+                collectionId: dto.collection.id,
+                order: dto.order,
+            };
+
+            return mappedEvent;
         },
-        eventType: dbo.eventType,
-        timeline: dbo.timeline,
-        link: dbo.link,
-        factions: await Promise.all(
-          factions.map(
-            async (faction) =>
-              await FactionMapper.mapFromDb(faction as DB_Faction),
-          ),
-        ),
-        characters: await Promise.all(
-          characters.map(
-            async (character) =>
-              await CharacterMapper.mapFromDb(character as DB_Character),
-          ),
-        ),
-        label: await LocaleMapper.mapFromDb(label as DB_Locale),
-        chapters: await Promise.all(
-          dbo.chapters.map(
-            async (chapter) =>
-              await ChapterMapper.mapFromDb(chapter as DB_Chapter),
-          ),
-        ),
-        collection: await CollectionMapper.mapFromDb(
-          collection as DB_Collection,
-        ),
-        order: dbo.order,
-      };
-    },
-    mapFromDbArray: async (dbo: DB_Event[]): Promise<Event[]> => {
-      return await Promise.all(
-        dbo.map(async (event) => await EventMapper.mapFromDb(event)),
-      );
-    },
-  };
-  const CharacterMapper: Mapper<DB_Character, Character> = {
-    map: (dto: Character): DB_Character => {
-      return {
-        id: dto.id,
-        name: dto.name,
-        author: dto.author,
-        labelId: dto.label.id,
-        chapters: dto.chapters.map(
-          (chapter) =>
-            ({
-              headerId: chapter.header?.id,
-              pageIds: chapter.pages.map((page) => page.id),
-            }) as DB_Chapter,
-        ),
-        timeline: dto.timeline,
-        factionIds: dto.factions.map((faction) => faction.id),
-        collectionId: dto.collection.id,
-        descriptionId: dto.description?.id,
-        image: dto.image,
-      };
-    },
-    mapFromDb: async (dbo: DB_Character): Promise<Character> => {
-      if (database === null) throw new Error("Database not loaded");
-      const label = await database.get(dbo.labelId, tableNames.locales);
-      if (!label) {
-        throw new Error(`Label not found for character ${dbo.name}`);
-      }
+        mapFromDb: async (dbo: DB_Event): Promise<Event> => {
+            if (dbo === null) {
+                console.log(dbo);
+            }
+            if (database === null) throw new Error("Database not loaded");
+            const cache = await ensureMapperCache();
 
-      const factions = await database.getAll(tableNames.factions, (faction) =>
-        dbo.factionIds.includes(faction.id),
-      );
-      const collection = await database.get(
-        dbo.collectionId,
-        tableNames.collections,
-      );
+            const factions = dbo.factionIds
+                .map((id) => cache.factionsById.get(id))
+                .filter((faction): faction is DB_Faction => faction !== undefined);
+            const characters = dbo.characterIds
+                .map((id) => cache.charactersById.get(id))
+                .filter(
+                    (character): character is DB_Character => character !== undefined
+                );
+            const label = cache.localesById.get(dbo.labelId);
+            const collection = cache.collectionsById.get(dbo.collectionId);
 
-      // Load description locale if it exists
-      let description = undefined;
-      if (dbo.descriptionId) {
-        const descriptionLocale = await database.get(
-          dbo.descriptionId,
-          tableNames.locales,
-        );
-        if (descriptionLocale) {
-          description = await LocaleMapper.mapFromDb(
-            descriptionLocale as DB_Locale,
-          );
-        }
-      }
+            if (!label) {
+                throw new Error(`Label not found for event ${dbo.name}`);
+            }
 
-      return {
-        id: dbo.id,
-        name: dbo.name,
-        author: dbo.author,
-        label: await LocaleMapper.mapFromDb(label as DB_Locale),
-        chapters: dbo.chapters
-          ? await Promise.all(
-              dbo.chapters.map(
-                async (chapter) =>
-                  await ChapterMapper.mapFromDb(chapter as DB_Chapter),
-              ),
-            )
-          : [],
-        timeline: dbo.timeline,
-        factions: await Promise.all(
-          factions.map(
-            async (faction) =>
-              await FactionMapper.mapFromDb(faction as DB_Faction),
-          ),
-        ),
-        collection: await CollectionMapper.mapFromDb(
-          collection as DB_Collection,
-        ),
-        description: description,
-        image: dbo.image,
-      };
-    },
-    mapFromDbArray: async (dbo: DB_Character[]): Promise<Character[]> => {
-      return await Promise.all(
-        dbo.map(
-          async (character) => await CharacterMapper.mapFromDb(character),
-        ),
-      );
-    },
-  };
+            if (!collection) {
+                throw new Error(`Collection not found for event ${dbo.name}`);
+            }
 
-  const FactionMapper: Mapper<DB_Faction, Faction> = {
-    map: (dto: Faction): DB_Faction => {
-      return {
-        id: dto.id,
-        name: dto.name,
-        author: dto.author,
-        labelId: dto.label.id,
-        chapters: dto.chapters.map(
-          (chapter) =>
-            ({
-              headerId: chapter.header?.id,
-              pageIds: chapter.pages.map((page) => page.id),
-            }) as DB_Chapter,
-        ),
-        timeline: dto.timeline,
-        collectionId: dto.collection.id,
-        descriptionId: dto.description?.id,
-        image: dto.image,
-      };
-    },
-    mapFromDb: async (dbo: DB_Faction): Promise<Faction> => {
-      if (database === null) throw new Error("Database not loaded");
+            return {
+                id: dbo.id,
+                name: dbo.name,
+                period: {
+                    yearStart: dbo.yearStart,
+                    yearEnd: dbo.yearEnd,
+                },
+                eventType: dbo.eventType,
+                timeline: dbo.timeline,
+                link: dbo.link,
+                factions: await Promise.all(
+                    factions.map(
+                        async (faction) =>
+                            await FactionMapper.mapFromDb(faction as DB_Faction)
+                    )
+                ),
+                characters: await Promise.all(
+                    characters.map(
+                        async (character) =>
+                            await CharacterMapper.mapFromDb(
+                                character as DB_Character
+                            )
+                    )
+                ),
+                label: await LocaleMapper.mapFromDb(label as DB_Locale),
+                chapters: await Promise.all(
+                    dbo.chapters.map(
+                        async (chapter) =>
+                            await ChapterMapper.mapFromDb(chapter as DB_Chapter)
+                    )
+                ),
+                collection: await CollectionMapper.mapFromDb(
+                    collection as DB_Collection
+                ),
+                order: dbo.order,
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Event[]): Promise<Event[]> => {
+            await ensureMapperCache();
+            return await Promise.all(
+                dbo.map(async (event) => await EventMapper.mapFromDb(event))
+            );
+        },
+    };
+    const CharacterMapper: Mapper<DB_Character, Character> = {
+        map: (dto: Character): DB_Character => {
+            return {
+                id: dto.id,
+                name: dto.name,
+                author: dto.author,
+                labelId: dto.label.id,
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
+                ),
+                timeline: dto.timeline,
+                factionIds: dto.factions.map((faction) => faction.id),
+                collectionId: dto.collection.id,
+            };
+        },
+        mapFromDb: async (dbo: DB_Character): Promise<Character> => {
+            if (database === null) throw new Error("Database not loaded");
+            const cache = await ensureMapperCache();
+            const label = cache.localesById.get(dbo.labelId);
+            if (!label) {
+                throw new Error(`Label not found for character ${dbo.name}`);
+            }
 
-      const label = await database.get(dbo.labelId, tableNames.locales);
-      if (!label) {
-        throw new Error(`Label not found for faction ${dbo.name}`);
-      }
+            const factions = dbo.factionIds
+                .map((id) => cache.factionsById.get(id))
+                .filter((faction): faction is DB_Faction => faction !== undefined);
+            const collection = cache.collectionsById.get(dbo.collectionId);
+            if (!collection) {
+                throw new Error(`Collection not found for character ${dbo.name}`);
+            }
+            return {
+                id: dbo.id,
+                name: dbo.name,
+                author: dbo.author,
+                label: await LocaleMapper.mapFromDb(label as DB_Locale),
+                chapters: dbo.chapters
+                    ? await Promise.all(
+                          dbo.chapters.map(
+                              async (chapter) =>
+                                  await ChapterMapper.mapFromDb(
+                                      chapter as DB_Chapter
+                                  )
+                          )
+                      )
+                    : [],
+                timeline: dbo.timeline,
+                factions: await Promise.all(
+                    factions.map(
+                        async (faction) =>
+                            await FactionMapper.mapFromDb(faction as DB_Faction)
+                    )
+                ),
+                collection: await CollectionMapper.mapFromDb(
+                    collection as DB_Collection
+                ),
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Character[]): Promise<Character[]> => {
+            await ensureMapperCache();
+            return await Promise.all(
+                dbo.map(
+                    async (character) =>
+                        await CharacterMapper.mapFromDb(character)
+                )
+            );
+        },
+    };
+    const FactionMapper: Mapper<DB_Faction, Faction> = {
+        map: (dto: Faction): DB_Faction => {
+            return {
+                id: dto.id,
+                name: dto.name,
+                author: dto.author,
+                labelId: dto.label.id,
+                chapters: dto.chapters.map(
+                    (chapter) =>
+                        ({
+                            headerId: chapter.header?.id,
+                            pageIds: chapter.pages.map((page) => page.id),
+                        } as DB_Chapter)
+                ),
+                timeline: dto.timeline,
+                collectionId: dto.collection.id,
+            };
+        },
+        mapFromDb: async (dbo: DB_Faction): Promise<Faction> => {
+            if (database === null) throw new Error("Database not loaded");
+            const cache = await ensureMapperCache();
+            const label = cache.localesById.get(dbo.labelId);
+            if (!label) {
+                throw new Error(`Label not found for faction ${dbo.name}`);
+            }
 
-      const collection = await database.get(
-        dbo.collectionId,
-        tableNames.collections,
-      );
-      if (!collection) {
-        throw new Error(`Collection not found for faction ${dbo.name}`);
-      }
+            const collection = cache.collectionsById.get(dbo.collectionId);
+            if (!collection) {
+                throw new Error(`Collection not found for faction ${dbo.name}`);
+            }
+            return {
+                id: dbo.id,
+                name: dbo.name,
+                author: dbo.author,
+                label: await LocaleMapper.mapFromDb(label as DB_Locale),
 
-      // Load description locale if it exists
-      let description = undefined;
-      if (dbo.descriptionId) {
-        const descriptionLocale = await database.get(
-          dbo.descriptionId,
-          tableNames.locales,
-        );
-        if (descriptionLocale) {
-          description = await LocaleMapper.mapFromDb(
-            descriptionLocale as DB_Locale,
-          );
-        }
-      }
+                chapters: dbo.chapters
+                    ? await Promise.all(
+                          dbo.chapters.map(
+                              async (chapter) =>
+                                  await ChapterMapper.mapFromDb(
+                                      chapter as DB_Chapter
+                                  )
+                          )
+                      )
+                    : [],
+                timeline: dbo.timeline,
+                collection: await CollectionMapper.mapFromDb(
+                    collection as DB_Collection
+                ),
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Faction[]): Promise<Faction[]> => {
+            await ensureMapperCache();
+            return await Promise.all(
+                dbo.map(
+                    async (faction) => await FactionMapper.mapFromDb(faction)
+                )
+            );
+        },
+    };
 
-      return {
-        id: dbo.id,
-        name: dbo.name,
-        author: dbo.author,
-        label: await LocaleMapper.mapFromDb(label as DB_Locale),
+    const CollectionMapper: Mapper<DB_Collection, Collection> = {
+        map: (dto: Collection): DB_Collection => {
+            return {
+                id: dto.id,
+                name: dto.name,
+            };
+        },
+        mapFromDb: async (dbo: DB_Collection): Promise<Collection> => {
+            if (database === null) throw new Error("Database not loaded");
 
-        chapters: dbo.chapters
-          ? await Promise.all(
-              dbo.chapters.map(
-                async (chapter) =>
-                  await ChapterMapper.mapFromDb(chapter as DB_Chapter),
-              ),
-            )
-          : [],
-        timeline: dbo.timeline,
-        collection: await CollectionMapper.mapFromDb(
-          collection as DB_Collection,
-        ),
-        description: description,
-        image: dbo.image,
-      };
-    },
-    mapFromDbArray: async (dbo: DB_Faction[]): Promise<Faction[]> => {
-      return await Promise.all(
-        dbo.map(async (faction) => await FactionMapper.mapFromDb(faction)),
-      );
-    },
-  };
+            return {
+                id: dbo.id,
+                name: dbo.name,
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Collection[]): Promise<Collection[]> => {
+            return await Promise.all(
+                dbo.map((collection) => CollectionMapper.mapFromDb(collection))
+            );
+        },
+    };
 
-  const CollectionMapper: Mapper<DB_Collection, Collection> = {
-    map: (dto: Collection): DB_Collection => {
-      return {
-        id: dto.id,
-        name: dto.name,
-      };
-    },
-    mapFromDb: async (dbo: DB_Collection): Promise<Collection> => {
-      if (database === null) throw new Error("Database not loaded");
+    const LocaleMapper: Mapper<DB_Locale, Locale> = {
+        map: (dto: Locale): DB_Locale => {
+            return {
+                id: dto.id,
+                ishtml: dto.ishtml,
 
-      return {
-        id: dbo.id,
-        name: dbo.name,
-      };
-    },
-    mapFromDbArray: async (dbo: DB_Collection[]): Promise<Collection[]> => {
-      return await Promise.all(
-        dbo.map((collection) => CollectionMapper.mapFromDb(collection)),
-      );
-    },
-  };
+                enUS: dto.enUS,
 
-  const LocaleMapper: Mapper<DB_Locale, Locale> = {
-    map: (dto: Locale): DB_Locale => {
-      // Process markdown before saving to database
-      const processedLocale = MarkdownConverter.processLocale(dto);
-      return {
-        id: processedLocale.id,
-        ishtml: processedLocale.ishtml,
-        enUS: processedLocale.enUS,
-        translations: processedLocale.translations,
-      };
-    },
-    mapFromDb: async (dbo: DB_Locale): Promise<Locale> => {
-      const locale: Locale = {
-        id: dbo.id,
-        ishtml: dbo.ishtml,
-        enUS: dbo.enUS,
-        translations: dbo.translations,
-      };
-      
-      // If content is marked as markdown or contains markdown patterns, ensure it's properly converted
-      if (MarkdownConverter.isMarkdown(locale) && !locale.ishtml) {
-        return MarkdownConverter.processLocale(locale);
-      }
-      
-      return locale;
-    },
-    mapFromDbArray: async (dbo: DB_Locale[]): Promise<Locale[]> => {
-      return await Promise.all(
-        dbo.map(async (locale) => await LocaleMapper.mapFromDb(locale)),
-      );
-    },
-  };
+                translations: dto.translations,
+            };
+        },
+        mapFromDb: async (dbo: DB_Locale): Promise<Locale> => {
+            return {
+                id: dbo.id,
+                ishtml: dbo.ishtml,
 
-  const ChapterMapper: LocalMapper<DB_Chapter, Chapter> = {
-    map: (dto: Chapter): DB_Chapter => {
-      return {
-        headerId: dto.header?.id,
-        pageIds: dto.pages.map((locale) => locale.id),
-      };
-    },
-    mapFromDb: async (dbo: DB_Chapter): Promise<Chapter> => {
-      if (database === null) throw new Error("Database not loaded");
+                enUS: dbo.enUS,
 
-      const pages = await database.getAll(tableNames.locales, (locale) =>
-        dbo.pageIds.includes(locale.id),
-      );
+                translations: dbo.translations,
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Locale[]): Promise<Locale[]> => {
+            return await Promise.all(
+                dbo.map(async (locale) => await LocaleMapper.mapFromDb(locale))
+            );
+        },
+    };
 
-      return {
-        header: dbo.headerId
-          ? await LocaleMapper.mapFromDb(
-              (await database.get(
-                dbo.headerId,
-                tableNames.locales,
-              )) as DB_Locale,
-            )
-          : null,
-        pages: await Promise.all(
-          pages.map(
-            async (locale) => await LocaleMapper.mapFromDb(locale as DB_Locale),
-          ),
-        ),
-      };
-    },
-    mapFromDbArray: async (dbo: DB_Chapter[]): Promise<Chapter[]> => {
-      return await Promise.all(
-        dbo.map(async (chapter) => await ChapterMapper.mapFromDb(chapter)),
-      );
-    },
-  };
+    const ChapterMapper: LocalMapper<DB_Chapter, Chapter> = {
+        map: (dto: Chapter): DB_Chapter => {
+            return {
+                headerId: dto.header?.id,
+                pageIds: dto.pages.map((locale) => locale.id),
+            };
+        },
+        mapFromDb: async (dbo: DB_Chapter): Promise<Chapter> => {
+            if (database === null) throw new Error("Database not loaded");
+            const cache = await ensureMapperCache();
+            const pages = dbo.pageIds
+                .map((id) => cache.localesById.get(id))
+                .filter((locale): locale is DB_Locale => locale !== undefined);
+            const header = dbo.headerId
+                ? cache.localesById.get(dbo.headerId)
+                : undefined;
 
-  const context: ContextValue = {
-    getAll,
-    get,
-    add,
-    update,
-    remove,
-    mappers: {
-      events: EventMapper,
-      characters: CharacterMapper,
-      factions: FactionMapper,
-      collections: CollectionMapper,
-      locales: LocaleMapper,
-      chapters: ChapterMapper,
-    },
-    load,
-    //validate,
-  };
+            return {
+                header: dbo.headerId
+                    ? header
+                        ? await LocaleMapper.mapFromDb(header)
+                        : null
+                    : null,
+                pages: await Promise.all(
+                    pages.map(
+                        async (locale) =>
+                            await LocaleMapper.mapFromDb(locale as DB_Locale)
+                    )
+                ),
+            };
+        },
+        mapFromDbArray: async (dbo: DB_Chapter[]): Promise<Chapter[]> => {
+            await ensureMapperCache();
+            return await Promise.all(
+                dbo.map(
+                    async (chapter) => await ChapterMapper.mapFromDb(chapter)
+                )
+            );
+        },
+    };
 
-  return (
-    <dbRepository.Provider value={context}>
-      {loaded ? children : <Loader />}
-    </dbRepository.Provider>
-  );
+    const context: ContextValue = {
+        getAll,
+        get,
+        add,
+        update,
+        remove,
+        mappers: {
+            events: EventMapper,
+            characters: CharacterMapper,
+            factions: FactionMapper,
+            collections: CollectionMapper,
+            locales: LocaleMapper,
+            chapters: ChapterMapper,
+        },
+        load,
+        loading,
+        //validate,
+    };
+
+    return (
+        <dbRepository.Provider value={context}>
+            {loaded ? children : <Loader />}
+        </dbRepository.Provider>
+    );
 }

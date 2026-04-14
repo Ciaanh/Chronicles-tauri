@@ -1,23 +1,25 @@
 import React from "react";
 import {
-  Modal,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Divider,
-  Row,
-  Col,
+    Modal,
+    Form,
+    Input,
+    InputNumber,
+    Select,
+    Divider,
+    Row,
+    Col,
 } from "antd";
 import { EventTypes, Timelines } from "../../constants";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import {
-  Collection,
-  DB_Collection,
-  Character,
-  Faction,
-  Locale,
-  Chapter,
+    Collection,
+    DB_Character,
+    DB_Collection,
+    DB_Faction,
+    Character,
+    Faction,
+    Locale,
+    Chapter,
 } from "../../database/models";
 import TagSelect from "../_shared/TagSelect";
 import ChaptersEditor from "../_shared/ChaptersEditor";
@@ -25,427 +27,493 @@ import { Event } from "../../database/models";
 import LocaleEditor from "../_shared/LocaleEditor";
 
 export interface EventModalProps {
-  visible: boolean;
-  eventToEdit?: Event;
-  onOk: (values: any) => void;
-  onCancel: () => void;
-  confirmLoading?: boolean;
+    visible: boolean;
+    eventToEdit?: Event;
+    onOk: (values: EventModalFormValues) => void;
+    onCancel: () => void;
+    confirmLoading?: boolean;
+}
+
+export interface EventModalFormValues {
+    name: string;
+    yearStart: number;
+    yearEnd?: number;
+    order: number;
+    eventType: number;
+    timeline: number;
+    link?: string;
+    label: Locale;
+    collection: Collection;
+    factions: Faction[];
+    characters: Character[];
+    chapters: Chapter[];
+}
+
+interface EventFormFields {
+    name: string;
+    yearStart: number;
+    yearEnd?: number;
+    order: number;
+    eventType: number;
+    timeline: number;
+    link?: string;
+    label: Locale;
+    collection: number | Collection;
+    factions?: number[];
+    characters?: number[];
+    chapters?: Chapter[];
 }
 
 export interface EditableEvent {
-  id: number;
-  name: string;
-  author: string;
-  eventType: number;
-  timeline: number;
-  link: string;
-  factions: number[];
-  characters: number[];
-  label: Locale;
-  chapters: Chapter[];
-  collection?: number;
-  order: number;
-  yearStart?: number;
-  yearEnd?: number;
+    id: number;
+    name: string;
+    eventType: number;
+    timeline: number;
+    link: string;
+    factions: number[];
+    characters: number[];
+    label: Locale;
+    chapters: Chapter[];
+    collection?: number;
+    order: number;
+    yearStart?: number;
+    yearEnd?: number;
 }
 
 const EventModal: React.FC<EventModalProps> = ({
-  visible,
-  eventToEdit: eventToEdit,
-  onOk,
-  onCancel,
-  confirmLoading = false,
+    visible,
+    eventToEdit: eventToEdit,
+    onOk,
+    onCancel,
+    confirmLoading = false,
 }) => {
-  const [form] = Form.useForm();
-  const dbContext = React.useContext(dbRepository);
-  const [collections, setCollections] = React.useState<Collection[]>([]);
-  const [characters, setCharacters] = React.useState<Character[]>([]);
-  const [factions, setFactions] = React.useState<Faction[]>([]);
-  const [characterOptions, setCharacterOptions] = React.useState<
-    { value: number; label: string }[]
-  >([]);
-  const [factionOptions, setFactionOptions] = React.useState<
-    { value: number; label: string }[]
-  >([]);
-  const [editableEventState, setEditableEventState] =
-    React.useState<any>(undefined);
+    const [form] = Form.useForm();
+    const dbContext = React.useContext(dbRepository);
+    const [collections, setCollections] = React.useState<Collection[]>([]);
+    const [characters, setCharacters] = React.useState<Character[]>([]);
+    const [factions, setFactions] = React.useState<Faction[]>([]);
+    const [characterOptions, setCharacterOptions] = React.useState<
+        { value: number; label: string }[]
+    >([]);
+    const [factionOptions, setFactionOptions] = React.useState<
+        { value: number; label: string }[]
+    >([]);
+    const [editableEventState, setEditableEventState] =
+        React.useState<EditableEvent | undefined>(undefined);
 
-  React.useEffect(() => {
-    async function fetchCollections() {
-      const collectionList = await dbContext.getAll(tableNames.collections);
-      const mappedCollections =
-        await dbContext.mappers.collections.mapFromDbArray(
-          collectionList as DB_Collection[],
-        );
-      setCollections(mappedCollections);
-    }
-    async function fetchCharacters() {
-      const characterList = await dbContext.getAll(tableNames.characters);
-      const mappedCharacters =
-        await dbContext.mappers.characters.mapFromDbArray(
-          characterList as any[],
-        );
-      setCharacters(mappedCharacters);
-    }
-    async function fetchFactions() {
-      const factionList = await dbContext.getAll(tableNames.factions);
-      const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
-        factionList as any[],
-      );
-      setFactions(mappedFactions);
-    }
-    fetchCollections();
-    fetchCharacters();
-    fetchFactions();
-  }, [dbContext]);
-
-  React.useEffect(() => {
-    let editableEvent: EditableEvent | undefined = eventToEdit
-      ? {
-          id: eventToEdit.id,
-          name: eventToEdit.name ?? "",
-          author: eventToEdit.author ?? "",
-          yearStart: eventToEdit.period?.yearStart ?? undefined,
-          yearEnd: eventToEdit.period?.yearEnd ?? undefined,
-          order: eventToEdit.order ?? undefined,
-          eventType: eventToEdit.eventType ?? undefined,
-          timeline: eventToEdit.timeline ?? undefined,
-          link: eventToEdit.link ?? "",
-          label: eventToEdit.label ?? {},
-          collection:
-            eventToEdit.collection && eventToEdit.collection.id
-              ? eventToEdit.collection.id
-              : undefined,
-          factions: Array.isArray(eventToEdit.factions)
-            ? eventToEdit.factions.map((f: any) =>
-                typeof f === "object" && f !== null ? f.id : f,
-              )
-            : [],
-          characters: Array.isArray(eventToEdit.characters)
-            ? eventToEdit.characters.map((c: any) =>
-                typeof c === "object" && c !== null ? c.id : c,
-              )
-            : [],
-          chapters: Array.isArray(eventToEdit.chapters)
-            ? eventToEdit.chapters
-            : [],
+    React.useEffect(() => {
+        async function fetchCollections() {
+            const collectionList = await dbContext.getAll(
+                tableNames.collections
+            );
+            const mappedCollections =
+                await dbContext.mappers.collections.mapFromDbArray(
+                    collectionList as DB_Collection[]
+                );
+            setCollections(mappedCollections);
         }
-      : undefined;
+        async function fetchCharacters() {
+            const characterList = await dbContext.getAll(tableNames.characters);
+            const mappedCharacters =
+                await dbContext.mappers.characters.mapFromDbArray(
+                    characterList as DB_Character[]
+                );
+            setCharacters(mappedCharacters);
+        }
+        async function fetchFactions() {
+            const factionList = await dbContext.getAll(tableNames.factions);
+            const mappedFactions =
+                await dbContext.mappers.factions.mapFromDbArray(
+                    factionList as DB_Faction[]
+                );
+            setFactions(mappedFactions);
+        }
+        fetchCollections();
+        fetchCharacters();
+        fetchFactions();
+    }, [dbContext]);
 
-    setEditableEventState(editableEvent);
-  }, [eventToEdit]);
+    React.useEffect(() => {
+        let editableEvent: EditableEvent | undefined = eventToEdit
+            ? {
+                  id: eventToEdit.id,
+                  name: eventToEdit.name ?? "",
+                  yearStart: eventToEdit.period?.yearStart ?? undefined,
+                  yearEnd: eventToEdit.period?.yearEnd ?? undefined,
+                  order: eventToEdit.order ?? undefined,
+                  eventType: eventToEdit.eventType ?? undefined,
+                  timeline: eventToEdit.timeline ?? undefined,
+                  link: eventToEdit.link ?? "",
+                  label: eventToEdit.label ?? {},
+                  collection:
+                      eventToEdit.collection && eventToEdit.collection.id
+                          ? eventToEdit.collection.id
+                          : undefined,
+                  factions: Array.isArray(eventToEdit.factions)
+                      ? eventToEdit.factions.map((f) => f.id)
+                      : [],
+                  characters: Array.isArray(eventToEdit.characters)
+                      ? eventToEdit.characters.map((c) => c.id)
+                      : [],
+                  chapters: Array.isArray(eventToEdit.chapters)
+                      ? eventToEdit.chapters
+                      : [],
+              }
+            : undefined;
 
-  React.useEffect(() => {
-    if (visible) {
-      form.setFieldsValue(editableEventState || {});
+        setEditableEventState(editableEvent);
+    }, [eventToEdit]);
 
-      if (editableEventState?.characters && characters.length > 0) {
-        setCharacterOptions(
-          characters
-            .filter((c) => editableEventState.characters.includes(c.id))
-            .map((c) => ({ value: c.id, label: c.name })),
-        );
-      }
-      if (editableEventState?.factions && factions.length > 0) {
-        setFactionOptions(
-          factions
-            .filter((f) => editableEventState.factions.includes(f.id))
-            .map((f) => ({ value: f.id, label: f.name })),
-        );
-      }
-    }
-  }, [editableEventState, visible, characters, factions]);
+    React.useEffect(() => {
+        if (visible) {
+            form.setFieldsValue(editableEventState || {});
 
-  const handleCharacterSearch = async (search: string) => {
-    if (!search) {
-      setCharacterOptions([]);
-      return;
-    }
-    const characterList = await dbContext.getAll(tableNames.characters);
-    const mappedCharacters = await dbContext.mappers.characters.mapFromDbArray(
-      characterList as any[],
-    );
-    setCharacterOptions(
-      mappedCharacters
-        .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
-        .map((c) => ({ value: c.id, label: c.name })),
-    );
-  };
-
-  const handleFactionSearch = async (search: string) => {
-    if (!search) {
-      setFactionOptions([]);
-      return;
-    }
-    const factionList = await dbContext.getAll(tableNames.factions);
-    const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
-      factionList as any[],
-    );
-    setFactionOptions(
-      mappedFactions
-        .filter((f) => f.name.toLowerCase().includes(search.toLowerCase()))
-        .map((f) => ({ value: f.id, label: f.name })),
-    );
-  };
-
-  const handleOk = async () => {
-    try {
-      const values = await form.validateFields();
-      // Set the full collection object for parent
-      let selectedCollection = values.collection;
-      if (typeof selectedCollection === "number") {
-        selectedCollection = collections.find(
-          (c) => c.id === selectedCollection,
-        );
-      } else if (selectedCollection && selectedCollection.id) {
-        selectedCollection = collections.find(
-          (c) => c.id === selectedCollection.id,
-        );
-      }
-      // Map selected ids to full objects for characters and factions
-      const selectedFactions = (values.factions || [])
-        .map((id: number) => factions.find((f) => f.id === id))
-        .filter(Boolean);
-      const selectedCharacters = (values.characters || [])
-        .map((id: number) => characters.find((c) => c.id === id))
-        .filter(Boolean);
-      onOk({
-        ...values,
-        collection: selectedCollection,
-        factions: selectedFactions,
-        characters: selectedCharacters,
-      });
-    } catch (err) {
-      // Validation failed
-    }
-  };
-
-  return (
-    <Modal
-      title={eventToEdit ? "Edit Event" : "Add New Event"}
-      open={visible}
-      onOk={handleOk}
-      onCancel={onCancel}
-      okText={eventToEdit ? "Save" : "Create"}
-      cancelText="Cancel"
-      confirmLoading={confirmLoading}
-      width={800}
-      styles={{ body: { padding: 32 } }}
-    >
-      <Form form={form} layout="vertical" initialValues={editableEventState}>
-        <Divider orientation="left" style={{ fontSize: 18, marginBottom: 24 }}>
-          Basic Info
-        </Divider>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={16}>
-            <Form.Item
-              label="Name"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the event name!",
-                },
-              ]}
-            >
-              <Input placeholder="Event name" allowClear size="large" />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label="Order"
-              name="order"
-              tooltip="Order for sorting events in the same year"
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                min={0}
-                placeholder="Order"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={24}>
-            <Form.Item label="Author" name="author">
-              <Input placeholder="Author name" allowClear size="large" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
-            <Form.Item
-              label="Year Start"
-              name="yearStart"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the start year!",
-                },
-              ]}
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="Start year"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Year End" name="yearEnd">
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="End year (optional)"
-                size="large"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Divider
-          orientation="left"
-          style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-        >
-          Classification
-        </Divider>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
-            <Form.Item
-              label="Event Type"
-              name="eventType"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the event type!",
-                },
-              ]}
-            >
-              <Select
-                options={EventTypes.map((type) => ({
-                  value: type.id,
-                  label: type.name,
-                }))}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Timeline"
-              name="timeline"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the timeline!",
-                },
-              ]}
-            >
-              <Select
-                options={Timelines.map((tl) => ({
-                  value: tl.id,
-                  label: tl.name,
-                }))}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item
-          label="Collection"
-          name="collection"
-          style={{ marginBottom: 24 }}
-        >
-          <Select
-            showSearch
-            placeholder="Select collection"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            if (editableEventState?.characters && characters.length > 0) {
+                setCharacterOptions(
+                    characters
+                        .filter((c) =>
+                            editableEventState.characters.includes(c.id)
+                        )
+                        .map((c) => ({ value: c.id, label: c.name }))
+                );
             }
-            options={collections.map((c) => ({
-              value: c.id,
-              label: c.name,
-            }))}
-            size="large"
-          />
-        </Form.Item>
-        <Divider
-          orientation="left"
-          style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+            if (editableEventState?.factions && factions.length > 0) {
+                setFactionOptions(
+                    factions
+                        .filter((f) =>
+                            editableEventState.factions.includes(f.id)
+                        )
+                        .map((f) => ({ value: f.id, label: f.name }))
+                );
+            }
+        }
+    }, [editableEventState, visible, characters, factions]);
+
+    const handleCharacterSearch = async (search: string) => {
+        if (!search) {
+            setCharacterOptions([]);
+            return;
+        }
+        const characterList = await dbContext.getAll(tableNames.characters);
+        const mappedCharacters =
+            await dbContext.mappers.characters.mapFromDbArray(
+                characterList as DB_Character[]
+            );
+        setCharacterOptions(
+            mappedCharacters
+                .filter((c) =>
+                    c.name.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((c) => ({ value: c.id, label: c.name }))
+        );
+    };
+
+    const handleFactionSearch = async (search: string) => {
+        if (!search) {
+            setFactionOptions([]);
+            return;
+        }
+        const factionList = await dbContext.getAll(tableNames.factions);
+        const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
+            factionList as DB_Faction[]
+        );
+        setFactionOptions(
+            mappedFactions
+                .filter((f) =>
+                    f.name.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((f) => ({ value: f.id, label: f.name }))
+        );
+    };
+
+    const handleOk = async () => {
+        try {
+            const values = (await form.validateFields()) as EventFormFields;
+            // Set the full collection object for parent
+            let selectedCollection: number | Collection | undefined =
+                values.collection;
+            if (typeof selectedCollection === "number") {
+                selectedCollection = collections.find(
+                    (c) => c.id === selectedCollection
+                );
+            } else if (
+                selectedCollection &&
+                typeof selectedCollection === "object"
+            ) {
+                const selectedCollectionObject = selectedCollection;
+                selectedCollection = collections.find(
+                    (c) => c.id === selectedCollectionObject.id
+                );
+            }
+
+            if (!selectedCollection || typeof selectedCollection === "number") {
+                throw new Error("Collection is required");
+            }
+            // Map selected ids to full objects for characters and factions
+            const selectedFactions = (values.factions || [])
+                .map((id: number) => factions.find((f) => f.id === id))
+                .filter((f): f is Faction => Boolean(f));
+            const selectedCharacters = (values.characters || [])
+                .map((id: number) => characters.find((c) => c.id === id))
+                .filter((c): c is Character => Boolean(c));
+            onOk({
+                ...values,
+                chapters: values.chapters ?? [],
+                collection: selectedCollection,
+                factions: selectedFactions,
+                characters: selectedCharacters,
+            });
+        } catch (err) {
+            // Validation failed
+        }
+    };
+
+    return (
+        <Modal
+            title={eventToEdit ? "Edit Event" : "Add New Event"}
+            open={visible}
+            onOk={handleOk}
+            onCancel={onCancel}
+            okText={eventToEdit ? "Save" : "Create"}
+            cancelText="Cancel"
+            confirmLoading={confirmLoading}
+            width={800}
+            styles={{ body: { padding: 32 } }}
         >
-          Associations
-        </Divider>
-        <Row gutter={24} style={{ marginBottom: 12 }}>
-          <Col span={12}>
-            <Form.Item name="factions" valuePropName="value" trigger="onChange">
-              <TagSelect
-                label="Factions"
-                options={factionOptions}
-                color="blue"
-                placeholder="Select factions"
-                onSearch={handleFactionSearch}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="characters"
-              valuePropName="value"
-              trigger="onChange"
+            <Form
+                form={form}
+                layout="vertical"
+                initialValues={editableEventState}
             >
-              <TagSelect
-                label="Characters"
-                options={characterOptions}
-                color="purple"
-                placeholder="Select characters"
-                onSearch={handleCharacterSearch}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item label="Link" name="link" style={{ marginBottom: 24 }}>
-          <Input
-            placeholder="External link (optional)"
-            allowClear
-            size="large"
-          />
-        </Form.Item>
-        <Divider
-          orientation="left"
-          style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-        >
-          Label & Chapters
-        </Divider>
-        <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item
-              label="Label"
-              name="label"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the label!",
-                },
-              ]}
-              valuePropName="value"
-              trigger="onChange"
-            >
-              <LocaleEditor />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Chapters"
-              required
-              name="chapters"
-              valuePropName="value"
-              trigger="onChange"
-            >
-              <ChaptersEditor />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-    </Modal>
-  );
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, marginBottom: 24 }}
+                >
+                    Basic Info
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={16}>
+                        <Form.Item
+                            label="Name"
+                            name="name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the event name!",
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder="Event name"
+                                allowClear
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            label="Order"
+                            name="order"
+                            tooltip="Order for sorting events in the same year"
+                        >
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                min={0}
+                                placeholder="Order"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Year Start"
+                            name="yearStart"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the start year!",
+                                },
+                            ]}
+                        >
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                placeholder="Start year"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label="Year End" name="yearEnd">
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                placeholder="End year (optional)"
+                                size="large"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+                >
+                    Classification
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Event Type"
+                            name="eventType"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the event type!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                options={EventTypes.map((type) => ({
+                                    value: type.id,
+                                    label: type.name,
+                                }))}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Timeline"
+                            name="timeline"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the timeline!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                options={Timelines.map((tl) => ({
+                                    value: tl.id,
+                                    label: tl.name,
+                                }))}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Form.Item
+                    label="Collection"
+                    name="collection"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please select a collection!",
+                        },
+                    ]}
+                    style={{ marginBottom: 24 }}
+                >
+                    <Select
+                        showSearch
+                        placeholder="Select collection"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
+                        options={collections.map((c) => ({
+                            value: c.id,
+                            label: c.name,
+                        }))}
+                        size="large"
+                    />
+                </Form.Item>
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+                >
+                    Associations
+                </Divider>
+                <Row gutter={24} style={{ marginBottom: 12 }}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="factions"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <TagSelect
+                                label="Factions"
+                                options={factionOptions}
+                                color="blue"
+                                placeholder="Select factions"
+                                onSearch={handleFactionSearch}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="characters"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <TagSelect
+                                label="Characters"
+                                options={characterOptions}
+                                color="purple"
+                                placeholder="Select characters"
+                                onSearch={handleCharacterSearch}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Form.Item
+                    label="Link"
+                    name="link"
+                    style={{ marginBottom: 24 }}
+                >
+                    <Input
+                        placeholder="External link (optional)"
+                        allowClear
+                        size="large"
+                    />
+                </Form.Item>
+                <Divider
+                    orientation="left"
+                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
+                >
+                    Label & Chapters
+                </Divider>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Label"
+                            name="label"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the label!",
+                                },
+                            ]}
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <LocaleEditor />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Chapters"
+                            required
+                            name="chapters"
+                            valuePropName="value"
+                            trigger="onChange"
+                        >
+                            <ChaptersEditor />
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        </Modal>
+    );
 };
 
 export default EventModal;

@@ -10,6 +10,9 @@ import {
 } from "@tauri-apps/plugin-fs";
 
 export class Database {
+    private static readonly DEFAULT_WRITE_DEBOUNCE_MS = 150;
+    private static readonly DEFAULT_AUTO_SAVE_INTERVAL_MS = 5000;
+
     public static async create(schema: Schema): Promise<Database> {
         if (!schema.location || schema.location === "") {
             throw new Error("Database location not provided!");
@@ -30,19 +33,37 @@ export class Database {
                 throw new Error("Database location not found!");
             }
         } else {
-            if (!exists(dbdirectory)) {
+            const normalizedLocation = await normalize(schema.location);
+            if (normalizedLocation.toLowerCase().endsWith(".json")) {
+                dbpath = normalizedLocation;
+                dbdirectory = await dirname(dbpath);
+            } else {
+                dbdirectory = normalizedLocation;
+                dbpath = await join(dbdirectory, schema.dbname + ".json");
+            }
+
+            if (!(await exists(dbdirectory))) {
                 await mkdir(dbdirectory, { recursive: true });
             }
         }
 
         const db = new Database(schema, dbpath);
         await db.initdb();
+        db.startAutoSaveTimer();
 
         return db;
     }
 
     private readonly schema: Schema;
     private readonly dbpath: string;
+    private memoryDb: Tables | null = null;
+    private tableIndexes = new Map<string, Map<number, DbObject>>();
+    private dirty = false;
+    private pendingWriteTimer: ReturnType<typeof setTimeout> | null = null;
+    private pendingWritePromise: Promise<void> | null = null;
+    private pendingWriteResolvers: Array<() => void> = [];
+    private pendingWriteRejecters: Array<(reason?: unknown) => void> = [];
+    private autoSaveTimer: ReturnType<typeof setInterval> | null = null;
 
     private constructor(schema: Schema, dbpath: string) {
         this.schema = schema;
@@ -60,36 +81,70 @@ export class Database {
         return this.schema.tables.includes(table) && db.hasOwnProperty(table);
     }
 
+    private async ensureLoaded(): Promise<Tables> {
+        if (this.memoryDb !== null) {
+            return this.memoryDb;
+        }
+
+        this.memoryDb = await this.loadDatabaseFromDisk();
+        this.rebuildIndexes();
+
+        return this.memoryDb;
+    }
+
+    private rebuildIndexes(): void {
+        if (!this.memoryDb) return;
+
+        this.tableIndexes.clear();
+        this.schema.tables.forEach((tableName) => {
+            const rows = this.memoryDb?.[tableName] ?? [];
+            const index = new Map<number, DbObject>();
+            rows.forEach((row) => index.set(row.id, row));
+            this.tableIndexes.set(tableName, index);
+        });
+    }
+
+    private rebuildIndexForTable(tablename: string): void {
+        if (!this.memoryDb || !this.memoryDb[tablename]) return;
+
+        const index = new Map<number, DbObject>();
+        this.memoryDb[tablename].forEach((row) => index.set(row.id, row));
+        this.tableIndexes.set(tablename, index);
+    }
+
     private async initdb(): Promise<void> {
         if (await this.dbExists()) {
-            return Promise.resolve();
-        } else {
-            try {
-                const database: Tables = {};
+            return;
+        }
 
-                this.schema.tables.forEach((table) => {
-                    database[table] = [];
-                });
+        try {
+            const database: Tables = {};
 
-                const jsondb = JSON.stringify(database, null, 2);
-                writeTextFile(this.dbpath, jsondb);
-                return Promise.resolve();
-            } catch (err: any) {
-                Promise.reject(`Error creating database. ${err.toString()}`);
-            }
+            this.schema.tables.forEach((table) => {
+                database[table] = [];
+            });
+
+            const jsondb = JSON.stringify(database, null, 2);
+            await writeTextFile(this.dbpath, jsondb);
+            this.memoryDb = database;
+            this.rebuildIndexes();
+        } catch (err: unknown) {
+            throw new Error(
+                `Error creating database. ${this.errorToString(err)}`
+            );
         }
     }
 
-    private async loadDatabase(): Promise<Tables> {
+    private async loadDatabaseFromDisk(): Promise<Tables> {
         try {
             const json = await readTextFile(this.dbpath);
             return JSON.parse(json) as Tables;
-        } catch (err: any) {
-            throw new Error(`Error reading database. ${err.toString()}`);
+        } catch (err: unknown) {
+            throw new Error(`Error reading database. ${this.errorToString(err)}`);
         }
     }
 
-    private async saveDatabase(database: Tables): Promise<void> {
+    private async saveDatabaseToDisk(database: Tables): Promise<void> {
         try {
             let jsondb = "";
             if (this.schema.compressedJson) {
@@ -99,8 +154,8 @@ export class Database {
             }
 
             await writeTextFile(this.dbpath, jsondb);
-        } catch (err: any) {
-            throw new Error(`Error writing object. ${err.toString()}`);
+        } catch (err: unknown) {
+            throw new Error(`Error writing object. ${this.errorToString(err)}`);
         }
     }
 
@@ -110,6 +165,77 @@ export class Database {
         return maxId;
     }
 
+    private getWriteDebounceMs(): number {
+        return this.schema.writeDebounceMs ?? Database.DEFAULT_WRITE_DEBOUNCE_MS;
+    }
+
+    private getAutoSaveIntervalMs(): number {
+        return (
+            this.schema.autoSaveIntervalMs ??
+            Database.DEFAULT_AUTO_SAVE_INTERVAL_MS
+        );
+    }
+
+    private errorToString(err: unknown): string {
+        return err instanceof Error ? err.message : String(err);
+    }
+
+    private startAutoSaveTimer(): void {
+        const intervalMs = this.getAutoSaveIntervalMs();
+        if (intervalMs <= 0 || this.autoSaveTimer) {
+            return;
+        }
+
+        this.autoSaveTimer = setInterval(() => {
+            void this.flushDirtyToDisk();
+        }, intervalMs);
+    }
+
+    private scheduleSave(): Promise<void> {
+        this.dirty = true;
+        const debounceMs = this.getWriteDebounceMs();
+
+        if (debounceMs <= 0) {
+            return Promise.resolve();
+        }
+
+        if (!this.pendingWritePromise) {
+            this.pendingWritePromise = new Promise<void>((resolve, reject) => {
+                this.pendingWriteResolvers.push(resolve);
+                this.pendingWriteRejecters.push(reject);
+            });
+        }
+
+        if (this.pendingWriteTimer) {
+            clearTimeout(this.pendingWriteTimer);
+        }
+
+        this.pendingWriteTimer = setTimeout(async () => {
+            try {
+                await this.flushDirtyToDisk();
+                this.pendingWriteResolvers.forEach((resolve) => resolve());
+            } catch (err) {
+                this.pendingWriteRejecters.forEach((reject) => reject(err));
+            } finally {
+                this.pendingWriteTimer = null;
+                this.pendingWritePromise = null;
+                this.pendingWriteResolvers = [];
+                this.pendingWriteRejecters = [];
+            }
+        }, debounceMs);
+
+        return this.pendingWritePromise;
+    }
+
+    private async flushDirtyToDisk(): Promise<void> {
+        if (!this.dirty || !this.memoryDb) {
+            return;
+        }
+
+        await this.saveDatabaseToDisk(this.memoryDb);
+        this.dirty = false;
+    }
+
     //////////////////////////////////////////
     //////////////////////////////////////////
 
@@ -117,7 +243,7 @@ export class Database {
         row: T,
         tablename: string
     ): Promise<T> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             const table = database[tablename];
@@ -135,7 +261,8 @@ export class Database {
             table.push(row);
 
             database[tablename] = table;
-            await this.saveDatabase(database);
+            this.tableIndexes.get(tablename)?.set(row.id, row);
+            await this.scheduleSave();
             return row;
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
@@ -148,7 +275,7 @@ export class Database {
             | ((value: T, index?: number, Array?: T[]) => boolean)
             | null = null
     ): Promise<T[]> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             try {
@@ -157,8 +284,8 @@ export class Database {
                     return (table as T[]).filter(filter);
                 }
                 return table as T[];
-            } catch (err: any) {
-                throw new Error(`Error reading table. ${err.toString()}`);
+            } catch (err: unknown) {
+                throw new Error(`Error reading table. ${this.errorToString(err)}`);
             }
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
@@ -169,26 +296,18 @@ export class Database {
         id: number,
         tablename: string
     ): Promise<T | null> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
-            const table = database[tablename];
-
-            const rows = table.filter((row) => row.id === id);
-            if (rows.length > 1) {
-                throw new Error(`More than one row with id ${id} found!`);
-            } else if (rows.length === 1) {
-                return rows[0] as T;
-            } else {
-                return null;
-            }
+            const row = this.tableIndexes.get(tablename)?.get(id);
+            return (row as T) ?? null;
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
         }
     }
 
     public async delete(id: number, tablename: string): Promise<void> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             const table = database[tablename];
@@ -201,7 +320,8 @@ export class Database {
                 table.splice(index, 1);
                 database[tablename] = table;
 
-                await this.saveDatabase(database);
+                this.rebuildIndexForTable(tablename);
+                await this.scheduleSave();
             }
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
@@ -212,7 +332,7 @@ export class Database {
         row: T,
         tablename: string
     ): Promise<T | null> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             const table = database[tablename];
@@ -227,7 +347,8 @@ export class Database {
                 table[index] = row;
                 database[tablename] = table;
 
-                await this.saveDatabase(database);
+                this.tableIndexes.get(tablename)?.set(row.id, row);
+                await this.scheduleSave();
 
                 const getRows = table.filter(
                     (existingrow) => existingrow.id === row.id
@@ -250,18 +371,19 @@ export class Database {
     }
 
     public async clear(tablename: string): Promise<void> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             database[tablename] = [];
-            await this.saveDatabase(database);
+            this.tableIndexes.set(tablename, new Map<number, DbObject>());
+            await this.scheduleSave();
         } else {
             throw new Error(`Table "${tablename}" doesn't exist!`);
         }
     }
 
     public async count(tablename: string): Promise<number> {
-        const database = await this.loadDatabase();
+        const database = await this.ensureLoaded();
 
         if (this.tableExists(tablename, database)) {
             return database[tablename].length;
