@@ -1,294 +1,317 @@
-# Chronicles-Tauri - Plan d'Amelioration Detaille
+# Chronicles-Tauri — Plan d'Amelioration v2
+
+> Remplace le plan v1 du 2026-04-14. Base sur les resultats d'une revue complete
+> (architecture, UX/UI, audit de packages) confrontee a l'avancement reel du projet.
 
 ## Sommaire du Projet
 
-**Chronicles** est une application desktop Tauri v2 (React 19 + TypeScript + Ant Design) servant d'outil companion pour l'addon World of Warcraft "Chronicles". Elle permet de gerer une base de donnees JSON locale d'evenements, personnages, factions et collections de l'univers Warcraft, puis d'exporter ces donnees sous forme de fichiers Lua/XML pour l'addon WoW.
+**Chronicles** est une application desktop Tauri v2 (React 19 + TypeScript + Ant Design 5) servant d'outil companion pour l'addon World of Warcraft "Chronicles". Elle permet de gerer une base de donnees JSON locale d'evenements, personnages, factions et collections de l'univers Warcraft, puis d'exporter ces donnees sous forme de fichiers Lua/XML pour l'addon WoW.
 
 ---
 
-## 1. Architecture & Performance de la Base de Donnees
+## 0. Bilan du Plan v1
 
-### 1.1 Probleme N+1 : Lecture/Ecriture complete a chaque operation
+Le plan v1 couvrait 9 sections. Apres implementation sur la branche `feat/edition`, le resultat est :
 
-**Constat :** `database.ts` charge et parse le fichier JSON complet pour chaque operation CRUD, puis re-ecrit le fichier entier lors des mutations. La logique utilise un cache memoire et un flag dirty, mais le code a encore des points de fragilite sur les cycles de vie, le flush et les conditions de course.
+| Section | Progression | Note |
+|---------|-------------|------|
+| 1. Architecture, stockage & validation | **100 %** | Mappers, validation, escaping, .bak, CSP |
+| 2. Qualite du code | **100 %** | Deps cleanup, typing, nommage, linting |
+| 3. Experience utilisateur | **100 %** | Fenetre, confirmations, erreurs, recherche |
+| 4. Backend Rust | **Non demarre** | Reporte volontairement (reecriture majeure) |
+| 5. Tests & CI | **85 %** | Vitest, CI, release workflow — tests Rust non faits |
+| 6. Fonctionnalites | **85 %** | Import/merge non fait |
+| 7. Documentation | **100 %** | README, schema, changelog |
+| 8. Securite | **100 %** | CSP, permissions, sanitation |
 
-**Ameliorations proposees :**
-- [x] Charger la base une seule fois en memoire dans des structures `Tables` et `Map<number, DbObject>`
-- [x] Ecrire sur disque seulement apres mutation avec un `dirty` flag et un debouncing clair
-- [x] Conserver un index par ID pour des lookups O(1) et eviter les `filter()` redondants
-- [ ] Prevoir un flush explicite et/ou un mode de sauvegarde synchrone pour les cas critiques
-- [ ] Ajouter une validation de schema / format JSON avant `JSON.parse` pour détecter les fichiers corrompus
+**Items restes ouverts et repris dans ce plan :**
+- Import / merge de bases de donnees
+- Migration partielle vers Rust
+- Tests Rust
 
-### 1.2 Validation runtime du `dbName` dynamique
-
-**Constat :** `dbName` sert d'identifiant dynamique de regroupement et ne correspond pas à une liste de tables fixe connue à la compilation. C'est acceptable, mais le traitement doit valider les noms au runtime et ne pas laisser passer des identifiants invalides sans erreur.
-
-**Ameliorations proposees :**
-- [ ] Garder l'API générique `getAll<T>(dbName: string)` / `get<T>(id, dbName)` tout en ajoutant une validation centralisée du `dbName`
-- [ ] Maintenir une source de vérité runtime pour les tables connues dans le schema (`Set<string>` ou `validTableNames`)
-- [ ] Lever des erreurs explicites si `dbName` n'appartient pas au schema ou si la table n'existe pas
-- [ ] Documenter que `dbName` est un identifiant dynamique de regroupement, pas une union TypeScript fixe
-
-### 1.3 Probleme N+1 dans les Mappers
-
-**Constat :** Dans `dbprovider.tsx`, les mappers (`EventMapper.mapFromDb`, `CharacterMapper.mapFromDb`, etc.) appellent `database.getAll()` et `database.get()` de manière répétée. Cela crée des recompositions d'objets et des recherches de table multiples pour une même opération, malgré le cache de session.
-
-**Ameliorations proposees :**
-- [ ] Charger toutes les tables nécessaires une seule fois avant le mapping et résoudre les references en mémoire
-- [ ] Faire évoluer le cache de session pour éviter les lectures redondantes dans un même cycle de rendu
-- [ ] Séparer la logique de mapping de la couche React / Context et envisager une couche dédiée `Repository` ou `DataLoader`
-- [ ] Si le budget le permet, déplacer une partie de la transformation vers Rust via des commandes Tauri pour réduire la charge JS
-
-### 1.4 Correctifs critiques dans `initdb()`
-
-**Constat :** la création de la base a deux problèmes dans `database.ts` : `exists(dbdirectory)` est utilisé sans `await` et `writeTextFile()` est invoqué sans `await`, ce qui peut provoquer des promesses non résolues et des conditions de course.
-
-**Ameliorations proposees :**
-- [x] Corriger l'appel `await exists(dbdirectory)` et garantir que le chemin est bien normalisé avant de l'utiliser
-- [x] Ajouter `await writeTextFile(this.dbpath, jsondb)` dans `initdb()`
-- [ ] Ajouter des tests unitaires pour la création de la base, la gestion du chemin et le comportement de reprise en cas de fichier manquant
+La revue approfondie (architecture + UX/UI du 2026-04-15) a revele de **nouveaux problemes** non couverts par le plan v1. Ce plan v2 les adresse.
 
 ---
 
-## 2. Qualite du Code & Maintenabilite
+## 1. Securite — Permissions FS trop larges *(P0)*
 
-### 2.1 Nettoyage des dependances inutilisees
+**Constat :** `capabilities/default.json` accorde `$HOME/**` en lecture, ecriture et existence sur les quatre identifiants FS. Cela expose l'ensemble du profil utilisateur alors que l'application n'a besoin d'acceder qu'aux fichiers selectionnes par l'utilisateur via le dialogue natif.
 
-**Constat :**
-- `archiver` (npm) est installe mais jamais importe (seul `jszip` est utilise)
-- `ant-design` ^1.0.0 semble etre un doublon inutile de `antd`
-- `@types/archiver` est present en devDependencies pour un package inutilise
-- La commande Rust `greet` est un vestige du template Tauri initial
-
-**Ameliorations :**
-- [x] Supprimer `archiver`, `@types/archiver`, et `ant-design` du `package.json`
-- [x] Supprimer la commande `greet` dans `src-tauri/src/lib.rs`
-- [ ] Supprimer `@tauri-apps/plugin-opener` si elle n'est pas effectivement utilisee dans le code
-
-### 2.2 Typage TypeScript a renforcer
-
-**Constat :**
-- Utilisation de `any` dans plusieurs endroits critiques : `generator.ts` (lignes 46-49), `handleModalOk` (`values: any`), `FileGenerationRequest` casting
-- Classes CSS `bp5-minimal` (BlueprintJS) presentes dans les composants alors que le projet utilise Ant Design
-
-**Ameliorations :**
-- [ ] Remplacer tous les `any` par des types stricts, notamment dans `AddonGenerator.Create()` et les handlers de modals
-- [ ] Definir une interface typee pour les valeurs de formulaire de chaque modal
-- [ ] Supprimer les classes CSS `bp5-minimal` qui sont des vestiges d'un ancien framework UI
-
-### 2.3 Cohérence de nommage
-
-**Constat :**
-- Mix camelCase/PascalCase pour les noms de fichiers : `eventList.tsx` vs `EventList.tsx`, `characterList.tsx` vs `CharacterModal.tsx`
-- `FormatedCollection` contient une faute de frappe ("Formated" -> "Formatted")
-- `dbcontext.ts` vs `dbprovider.tsx` vs `Loader.tsx` : pas de convention uniforme
-
-**Ameliorations :**
-- [ ] Adopter une convention PascalCase pour tous les composants React (fichiers et exports)
-- [ ] Corriger les fautes de frappe dans les noms d'interfaces
-- [ ] Homogeneiser les noms de fichiers dans tout le projet
-
-### 2.4 Configuration outillage manquante
-
-**Constat :** Aucun linter (ESLint) ni formatter (Prettier) n'est configure.
-
-**Ameliorations :**
-- [ ] Ajouter une configuration **ESLint** avec le plugin React + TypeScript
-- [ ] Ajouter une configuration **Prettier** pour le formatage automatique
-- [ ] Ajouter des scripts `lint` et `format` dans `package.json`
-- [ ] Envisager un hook pre-commit via **Husky** + **lint-staged**
+**Actions requises :**
+- [ ] Retirer `{ "path": "$HOME/**" }` de chaque permission dans `capabilities/default.json`.
+- [ ] Conserver uniquement `$DOCUMENT/**`, `$DOWNLOAD/**`, `$DESKTOP/**` comme scopes statiques.
+- [ ] Verifier que le dialogue natif (`plugin-dialog`) fournit deja un scope dynamique pour les fichiers choisis.
+- [ ] Tester que l'ouverture, la sauvegarde et l'export fonctionnent toujours correctement apres restriction.
 
 ---
 
-## 3. Experience Utilisateur (UX)
+## 2. Architecture — Duplication des composants List *(P1)*
 
-### 3.1 Fenetre non-redimensionnable
+**Constat :** `EventList.tsx` (345 lignes), `CharacterList.tsx` (329 lignes) et `FactionList.tsx` (343 lignes) partagent ~80 % de logique identique : fetch, filtrage collection, recherche, undo-delete, modal open/close, colonnes d'actions, pagination. Seuls les colonnes de donnees et les types different. Cela triple le cout de chaque amelioration (tri, debounce, bulk ops, etc.).
 
-**Constat :** La fenetre est fixee a 1600x880px et n'est pas redimensionnable (`resizable: false` dans `tauri.conf.json`). Les variables SCSS sont codees en dur pour cette taille.
-
-**Ameliorations :**
-- [ ] Activer le redimensionnement de la fenetre
-- [ ] Migrer les tailles fixes SCSS vers des unites relatives (`%`, `vh`, `vw`, `rem`)
-- [ ] Implementer un layout responsive avec des breakpoints
-- [ ] Tester sur differentes resolutions d'ecran
-
-### 3.2 Pas de confirmation avant suppression
-
-**Constat :** Les boutons de suppression (evenements, personnages, factions) executent la suppression immediatement sans demander confirmation, sauf pour les locales qui verifient les references.
-
-**Ameliorations :**
-- [ ] Ajouter un **modal de confirmation** (`Modal.confirm`) avant toute suppression
-- [ ] Verifier les dependances (ex: supprimer un personnage reference par des evenements) et **avertir l'utilisateur** des impacts en cascade
-- [ ] Implementer une option **d'annulation** (undo) pour les operations destructives
-
-### 3.3 Gestion des erreurs insuffisante
-
-**Constat :** Les erreurs sont loguees dans la console mais non affichees a l'utilisateur. Les echecs d'E/S fichier, de parsing JSON, ou de mapping sont silencieux.
-
-**Ameliorations :**
-- [ ] Implementer un systeme de **notifications** (Ant Design `message` ou `notification`) pour afficher les succes et les erreurs
-- [ ] Ajouter un **ErrorBoundary** global avec un rendu fallback informatif (un `ErrorBoundary` existe mais n'est pas utilise partout)
-- [ ] Afficher un message clair quand le chargement de la base echoue
-
-### 3.4 Page Settings non implementee
-
-**Constat :** `settingsView.tsx` est un placeholder vide.
-
-**Ameliorations :**
-- [ ] Implementer les reglages : chemin de la base par defaut, theme clair/sombre, langue de l'interface, prefixes d'export
-- [ ] Ou supprimer la page et l'entree de menu si elle n'est pas prevue a court terme
-
-### 3.5 Pas de recherche/filtrage avance
-
-**Constat :** Le seul filtre disponible est par Collection. Il n'y a pas de barre de recherche, de tri par colonnes, ni de filtres par timeline/type d'evenement.
-
-**Ameliorations :**
-- [ ] Ajouter une **barre de recherche** globale (par nom)
-- [ ] Ajouter des **filtres par colonnes** natifs aux `Table` Ant Design (timeline, eventType, factions)
-- [ ] Implementer un **tri cliquable** sur les en-tetes de colonnes
-- [ ] Ajouter la **pagination** pour les grandes bases de donnees
+**Actions requises :**
+- [ ] Creer un composant generique `GenericEntityList<T>` dans `src/components/_shared/` encapsulant : fetch + filtre collection, recherche, undo-delete, pagination, boutons d'actions.
+- [ ] Definir une interface `EntityListConfig<T>` (colonne definition, fetch fn, mapper fn, modal component, entity label).
+- [ ] Refactoriser `EventList`, `CharacterList` et `FactionList` pour n'etre que des configurations du composant generique.
+- [ ] Deplacer la logique metier (fetch, delete with undo, cascade check) dans un hook partage `useEntityCrud<T>`.
 
 ---
 
-## 4. Backend Rust (Tauri)
+## 3. Architecture — Robustesse du data layer *(P1)*
 
-### 4.1 Le backend Rust est sous-utilise
+### 3.1 Ecritures non atomiques
 
-**Constat :** Tout le traitement de donnees est fait cote JavaScript. Le backend Rust ne contient qu'une commande `greet` inutilisee. Cela represente une opportunite manquee en termes de performance et de securite.
+**Constat :** Les operations liees (ex: creation d'un Event + creation de ses Locales) sont deux appels `dbContext.add()` sequentiels. Si le second echoue, la base reste en etat inconsistant.
 
-**Ameliorations :**
-- [ ] Migrer la couche base de donnees cote **Rust** : lecture/ecriture JSON, indexation, requetes
-- [ ] Exposer des **commandes Tauri typees** pour le CRUD (`get_events`, `add_event`, `update_event`, etc.)
-- [ ] Implementer la **validation des donnees** cote Rust (schemas, contraintes d'integrite referentielle)
-- [ ] Generer les fichiers **Lua/XML** cote Rust pour de meilleures performances lors de l'export
+**Actions requises :**
+- [ ] Ajouter une methode `dbContext.transaction(async (tx) => { ... })` qui bufferise les ecritures et les applique en une seule passe, ou rollback sur erreur.
+- [ ] Utiliser cette transaction dans les operations multi-entites (`addEvent`, `updateEvent`, `deleteEvent` avec cascade).
 
-### 4.2 Permissions FS trop larges
+### 3.2 Cache mapper — risque de race condition
 
-**Constat :** `capabilities/default.json` accorde `fs:read-all` et `fs:write-all` sur `**` (tous les chemins).
+**Constat :** `ensureMapperCache()` est async. Si deux operations CRUD sont declenchees en parallele, elles peuvent invalider et repeupler le cache de maniere concurrente, produisant des donnees perimees.
 
-**Ameliorations :**
-- [ ] Restreindre les permissions FS au **scope minimal** : repertoire de la base de donnees et repertoire d'export uniquement
-- [ ] Utiliser les **scopes dynamiques** de Tauri v2 pour ajouter les chemins choisis par l'utilisateur
+**Actions requises :**
+- [ ] Ajouter un mecanisme de lock ou de deduplication sur `ensureMapperCache()` (ex: un `Promise` unique reutilise si un refresh est deja en cours).
+- [ ] Invalider le cache de maniere granulaire (par table affectee) plutot que globalement a chaque CRUD.
 
----
+### 3.3 Stabilite de `neutron-db`
 
-## 5. Tests & Qualite
+**Constat :** `neutron-db ^0.1.0` est une dependance 0.x avec un risque de breaking change. Pas de fallback en cas d'abandon du projet.
 
-### 5.1 Aucune suite de tests
-
-**Constat :** Le projet ne contient aucun test unitaire, d'integration, ou end-to-end.
-
-**Ameliorations :**
-- [ ] Ajouter **Vitest** comme framework de tests unitaires (natif Vite)
-- [ ] Ecrire des tests pour :
-  - La classe `Database` (CRUD, IDs auto-increment, gestion des erreurs)
-  - Les **mappers** (conversion DB <-> App objects)
-  - Le `LocaleUtils` (creation/mise a jour de locales)
-  - Le `DBService` et `LocaleService` (generation des fichiers Lua/XML)
-  - Le `AddonGenerator` (orchestration de l'export)
-- [ ] Ajouter des tests **composants** avec React Testing Library pour les formulaires et les listes
-- [ ] Envisager des tests **Rust** pour les futures commandes backend
-- [ ] Viser une **couverture de code** minimale de 70%
-
-### 5.2 Pas de CI/CD
-
-**Constat :** Aucun pipeline d'integration continue.
-
-**Ameliorations :**
-- [ ] Creer un workflow **GitHub Actions** avec :
-  - Verification TypeScript (`tsc --noEmit`)
-  - Lint ESLint
-  - Execution des tests Vitest
-  - Build Tauri (multi-plateforme si necessaire)
-- [ ] Ajouter des **badges** de statut dans le README
-- [ ] Configurer des releases automatiques avec versionning semantique
+**Actions requises :**
+- [ ] Evaluer si `neutron-db` apporte un avantage par rapport a un read/write JSON direct avec `@tauri-apps/plugin-fs`.
+- [ ] Si non, remplacer par un wrapper interne minimal et retirer la dependance.
+- [ ] Si oui, epingler une version exacte et documenter le risque.
 
 ---
 
-## 6. Fonctionnalites Manquantes
+## 4. Architecture — Validation Lua post-generation *(P2)*
 
-### 6.1 Import/Export de la base
+**Constat :** Les fichiers Lua generes par `dbService.ts` et `localeService.ts` ne sont jamais valides syntaxiquement avant mise en ZIP. Un bug d'escaping ou de concatenation peut produire un addon non fonctionnel sans que l'utilisateur le sache.
 
-**Ameliorations :**
-- [ ] Ajouter un bouton **"Sauvegarder sous"** pour dupliquer la base JSON
-- [ ] Implementer un **import/merge** de bases de donnees (fusionner deux fichiers JSON)
-- [ ] Ajouter un export au format **CSV** ou **Excel** pour la consultation externe
-- [ ] Implementer un **historique de modifications** (versioning simple de la base)
-
-### 6.2 Gestion des relations et integrite referentielle
-
-**Constat :** Il n'y a pas de verification d'integrite lors des suppressions. Supprimer une faction referencee par des evenements laisse des IDs orphelins.
-
-**Ameliorations :**
-- [ ] Implementer un **controle d'integrite referentielle** avant suppression
-- [ ] Proposer une **suppression en cascade** ou un **nettoyage des references** quand une entite est supprimee
-- [ ] Ajouter un outil de **diagnostic** qui detecte et repare les references cassees dans la base
-
-### 6.3 Statistiques et Dashboard
-
-**Ameliorations :**
-- [ ] Ajouter un **tableau de bord** affichant des statistiques : nombre d'evenements par collection, completude des traductions, chronologie visuelle
-- [ ] Implementer une **vue timeline** interactive des evenements
-- [ ] Afficher la **couverture des traductions** (pourcentage de locales remplies par langue)
-
-### 6.4 Support multi-fichiers et recents
-
-**Ameliorations :**
-- [ ] Stockzer la liste des **bases recemment ouvertes** (via `localStorage` ou un fichier de config Tauri)
-- [ ] Afficher un ecran d'accueil avec les fichiers recents et un bouton "Nouveau"
+**Actions requises :**
+- [ ] Ajouter une verification de coherence basique post-generation : accolades equilibrees, guillemets fermes, pas de `nil` inattendu.
+- [ ] Afficher un avertissement utilisateur si la verification echoue, avant le telechargement du ZIP.
 
 ---
 
-## 7. Documentation
+## 5. Qualite du Code *(P1)*
 
-### 7.1 Documentation insuffisante
+### 5.1 ESLint — `no-explicit-any` en erreur
 
-**Constat :** Le README.md est minimal (genere par le template Tauri).
+**Constat :** La regle `@typescript-eslint/no-explicit-any` est en `warn`. Du `any` peut donc passer en CI sans bloquer.
 
-**Ameliorations :**
-- [ ] Reecrire le **README** avec : description du projet, captures d'ecran, guide d'installation, guide de contribution
-- [ ] Ajouter une documentation **architecture** (diagramme de composants, flux de donnees)
-- [ ] Documenter le **format de la base de donnees JSON** (schema, relations entre tables)
-- [ ] Documenter le **format des fichiers Lua/XML** generes pour l'addon WoW
-- [ ] Ajouter un **CHANGELOG** pour suivre les versions
+**Actions requises :**
+- [ ] Passer la regle a `error` dans `eslint.config.js`.
+- [ ] Corriger les eventuels nouveaux echecs de lint.
 
----
+### 5.2 Couverture de tests insuffisante
 
-## 8. Securite
+**Constat :** 3 fichiers de test (29 tests). Les mappers (400+ LOC), les services d'addon generation, et tous les composants List/Modal sont non testes.
 
-### 8.1 Scopes et CSP
+**Actions requises :**
+- [ ] Ajouter des tests unitaires pour `src/database/mappers/index.ts` : mapping Event, Character, Faction avec references croisees, cas d'erreur (entite manquante).
+- [ ] Ajouter des tests unitaires pour `src/app/addon/services/dbService.ts` et `localeService.ts` : generation correcte, escaping, cas limites.
+- [ ] Ajouter des tests de composants pour au moins un List et un Modal (EventList + EventModal) : render, search, delete+undo.
+- [ ] Objectif : couverture > 60 % des lignes.
 
-**Constat :** CSP (`Content-Security-Policy`) n'est pas configure dans `tauri.conf.json` au-dela du defaut.
+### 5.3 `test-setup.ts` vide
 
-**Ameliorations :**
-- [ ] Configurer une **CSP stricte** adaptee au projet
-- [ ] Auditer les permissions Tauri et les reduire au **principe du moindre privilege**
-- [ ] Valider/sanitizer les entrees utilisateur avant insertion en base (protection contre l'injection dans les fichiers Lua generes)
+**Constat :** Le fichier de setup Vitest existe mais ne contient rien d'utile.
 
----
-
-## 9. Priorites Recommandees
-
-| Priorite | Amelioration | Impact | Effort |
-|----------|-------------|--------|--------|
-| **P0** | Corriger les bugs (`await` manquants dans `database.ts`) | Critique | Faible |
-| **P0** | Supprimer les dependances inutilisees | Hygiene | Faible |
-| **P1** | Cache memoire pour la base de donnees | Performance | Moyen |
-| **P1** | Confirmation avant suppression | UX/Securite | Faible |
-| **P1** | Notifications d'erreurs utilisateur | UX | Faible |
-| **P1** | ESLint + Prettier | Qualite | Faible |
-| **P2** | Tests unitaires (Vitest) | Fiabilite | Moyen |
-| **P2** | CI/CD GitHub Actions | Automatisation | Moyen |
-| **P2** | Typage strict (elimination des `any`) | Maintenabilite | Moyen |
-| **P2** | Controle d'integrite referentielle | Fiabilite | Moyen |
-| **P3** | Migration DB vers Rust | Performance | Eleve |
-| **P3** | Fenetre responsive | UX | Moyen |
-| **P3** | Recherche et filtrage avance | UX | Moyen |
-| **P3** | Dashboard statistiques | Fonctionnalite | Moyen |
-| **P4** | Import/merge de bases | Fonctionnalite | Eleve |
-| **P4** | Documentation complete | Documentation | Moyen |
-| **P4** | Vue timeline interactive | Fonctionnalite | Eleve |
+**Actions requises :**
+- [ ] Configurer le nettoyage des mocks entre tests (`vi.clearAllMocks()` dans `beforeEach`).
+- [ ] Ajouter les matchers `@testing-library/jest-dom` dans le setup.
 
 ---
 
-*Document genere le 2026-04-13 - Basee sur l'analyse de la branche `feat/edition`*
+## 6. UX — Navigation et Settings *(P1)*
+
+### 6.1 Page Settings vide
+
+**Constat :** Le menu header affiche "Settings" mais la page ne contient qu'un titre et un placeholder. C'est une impasse de navigation.
+
+**Actions requises :**
+- [ ] Option A : Peupler la page Settings avec des preferences reelles (theme clair/sombre, langue de l'interface, chemin d'export par defaut, taille de page des tableaux).
+- [ ] Option B : Retirer "Settings" du menu header jusqu'a ce que du contenu existe.
+- [ ] Documenter le choix retenu.
+
+### 6.2 Filtres de collection non appliques globalement
+
+**Constat :** Le selecteur de collection dans le header filtre les onglets Events, Characters, Factions et Collections. Mais les onglets Stats, Timeline, History et Export l'ignorent.
+
+**Actions requises :**
+- [ ] Appliquer le filtre de collection actif aux onglets Timeline et Stats.
+- [ ] Adapter Export pour qu'il exporte uniquement la collection selectionnee si un filtre est actif (avec option "tout exporter").
+
+---
+
+## 7. UX — Tables et Interactions *(P2)*
+
+### 7.1 Tri sur colonnes
+
+**Constat :** Aucune table ne permet le tri par clic sur l'en-tete de colonne. Les donnees apparaissent dans l'ordre de chargement.
+
+**Actions requises :**
+- [ ] Ajouter `sorter` sur les colonnes Name/Period de chaque table Ant Design.
+- [ ] Definir un tri par defaut par nom alphabetique.
+
+### 7.2 Debounce de recherche
+
+**Constat :** Le champ de recherche filtre a chaque frappe. Sur de gros jeux de donnees, cela cause des re-renders inutiles.
+
+**Actions requises :**
+- [ ] Ajouter un debounce de 300 ms sur le `onChange` du champ de recherche dans chaque List.
+- [ ] Si le composant generique (section 2) est en place, l'implementer une seule fois.
+
+### 7.3 Pre-selection de la collection dans les modals
+
+**Constat :** Quand un filtre de collection est actif dans le header, le modal de creation d'un nouvel evenement ne pre-renseigne pas la collection. L'utilisateur doit la re-selectionner manuellement.
+
+**Actions requises :**
+- [ ] Passer `filters.collection` comme valeur initiale du champ collection dans EventModal.
+
+### 7.4 Skeleton de chargement
+
+**Constat :** Le passage d'un onglet a l'autre n'affiche aucun indicateur pendant le fetch. L'utilisateur voit un tableau vide temporairement.
+
+**Actions requises :**
+- [ ] Ajouter un `<Skeleton active paragraph={{ rows: 5 }} />` pendant le chargement des donnees dans chaque List.
+
+### 7.5 Timeline cliquable
+
+**Constat :** L'onglet Timeline affiche les evenements en chronologie mais ils ne sont pas cliquables. L'utilisateur ne peut pas naviguer vers l'edition d'un evenement depuis la timeline.
+
+**Actions requises :**
+- [ ] Rendre les items de la Timeline cliquables pour ouvrir l'EventModal en mode edition.
+
+---
+
+## 8. UX — Theming et Design System *(P3)*
+
+### 8.1 Mode sombre
+
+**Constat :** `Providers.tsx` contient `theme.darkAlgorithm` en commentaire. Aucune implementation n'est en place.
+
+**Actions requises :**
+- [ ] Ajouter un toggle Dark/Light dans les Settings (ou dans le header).
+- [ ] Activer `darkAlgorithm` conditionellement dans le `ConfigProvider` Ant Design.
+- [ ] Persister la preference utilisateur dans `localStorage`.
+- [ ] Verifier le contraste des composants custom (SCSS) en mode sombre.
+
+### 8.2 Design tokens
+
+**Constat :** `variables.scss` ne contient que des dimensions viewport. Pas de palette de couleurs, d'echelle de spacing ou de hierarchie typographique. Les marges/paddings sont des valeurs magiques (12, 16, 24, 32 px) sans coherence.
+
+**Actions requises :**
+- [ ] Definir un fichier `tokens.scss` avec : palette couleur (primaire, succes, warning, danger), echelle de spacing (`$space-xs` a `$space-xl`), echelle typographique.
+- [ ] Remplacer les valeurs magiques par les tokens dans tous les fichiers SCSS.
+- [ ] Remplacer `calc(100vh - 250px)` par des CSS custom properties ou un calcul dynamique.
+
+### 8.3 Accessibilite
+
+**Constat :** Pas de labels ARIA, pas de gestion du focus dans les modals, pas de raccourcis clavier, boutons icon-only sans texte alternatif.
+
+**Actions requises :**
+- [ ] Ajouter `aria-label` sur les boutons icon-only (Edit, Delete, Add).
+- [ ] Ajouter `title` tooltip sur les boutons d'action.
+- [ ] Gerer le focus automatique sur le premier champ a l'ouverture d'un modal.
+- [ ] Ajouter un raccourci Ctrl+Enter pour soumettre les formulaires modaux.
+
+---
+
+## 9. Mises a jour des dependances *(P1/P3)*
+
+### 9.1 Mises a jour mineures — Sans risque *(P1)*
+
+Toutes les mises a jour mineures ci-dessous sont retro-compatibles. A appliquer en une seule passe.
+
+| Package | Actuel | Cible |
+|---------|--------|-------|
+| `prettier` | ^3.8.2 | ^3.8.3 |
+| `@tauri-apps/api` | ^2.5.0 | ^2.10.1 |
+| `@tauri-apps/cli` | ^2.5.0 | ^2.10.1 |
+| `@tauri-apps/plugin-dialog` | ^2.2.0 | ^2.7.0 |
+| `@tauri-apps/plugin-fs` | ^2.2.0 | ^2.5.0 |
+| `@types/react` | ^19.1.4 | ^19.2.14 |
+| `@types/react-dom` | ^19.1.5 | ^19.2.3 |
+| `react` | ^19.0.0 | ^19.2.5 |
+| `react-dom` | ^19.0.0 | ^19.2.5 |
+| `react-router-dom` | ^7.3.0 | ^7.14.1 |
+| `sass-embedded` | ^1.89.0 | ^1.99.0 |
+
+**Actions requises :**
+- [ ] Executer `npx npm-check-updates --target minor -u && npm install`.
+- [ ] Verifier que `npm run build` et `npm run test` passent sans erreur.
+- [ ] Tester manuellement un cycle complet (ouvrir base, editer, exporter).
+
+### 9.2 Mises a jour majeures — Investigation requise *(P3)*
+
+Ces packages ont des nouvelles versions majeures. Chacune necessite une branche d'investigation separee.
+
+| Package | Actuel | Cible | Risque |
+|---------|--------|-------|--------|
+| `antd` | ^5.25.2 | ^6.3.5 | **Eleve** — nouveau moteur CSS-in-JS, changements d'API de composants, props deprecees retirees |
+| `vite` | ^6.3.5 | ^8.0.8 | **Moyen** — deux sauts majeurs (6→7→8), changements de config, compatibilite plugins |
+| `@vitejs/plugin-react` | ^4.4.1 | ^6.0.1 | **Moyen** — doit correspondre a la version majeure de Vite |
+| `typescript` | ~5.8.3 | ~6.0.2 | **Moyen** — changements semantiques decorateurs, `isolatedDeclarations` |
+
+**Actions requises :**
+- [ ] **antd 6** : Creer une branche `spike/antd-6`, installer antd 6, evaluer les breaking changes (lire le guide de migration), lister les composants impactes, estimer l'effort.
+- [ ] **Vite 8 + plugin-react 6** : Creer une branche `spike/vite-8`, mettre a jour vite + plugin, verifier la config `vite.config.ts`, tester build + dev server.
+- [ ] **TypeScript 6** : Creer une branche `spike/ts-6`, mettre a jour, executer `tsc --noEmit`, corriger les erreurs.
+- [ ] Ne merger qu'apres validation CI complete sur chaque branche d'investigation.
+
+---
+
+## 10. Fonctionnalites — Import / Merge *(P2)*
+
+**Constat :** L'export (JSON, CSV, Lua/XML) est en place. L'import/merge de bases de donnees n'est pas implemente.
+
+**Actions requises :**
+- [ ] Concevoir la strategie de merge : resolution des conflits d'IDs, deduplication par nom, gestion des locales.
+- [ ] Ajouter un bouton "Importer" dans l'onglet Export (ou un onglet dedie).
+- [ ] Permettre l'import d'un fichier JSON au format Chronicles, avec affichage d'un recapitulatif avant application.
+- [ ] Gerer les collisions d'IDs via re-numerotion automatique.
+
+---
+
+## 11. Backend Rust *(P4 — direction future)*
+
+**Constat :** Aucune commande Rust personnalisee dans `lib.rs`. Tout le CRUD et la generation restent en TypeScript. Migrer vers Rust serait une reecriture majeure.
+
+**Actions requises (phase future uniquement) :**
+- [ ] Evaluer une migration partielle de la persistance JSON vers Rust.
+- [ ] Exposer des commandes Tauri typees pour le CRUD.
+- [ ] Valider les donnees cote Rust lors de l'import/lecture.
+- [ ] Envisager la generation Lua/XML cote Rust pour de meilleures performances.
+- [ ] Ajouter des tests Rust si des commandes sont creees.
+
+---
+
+## 12. Priorites recommandees
+
+| Priorite | Section | Amelioration | Impact | Effort |
+|----------|---------|-------------|--------|--------|
+| **P0** | 1 | Restreindre permissions FS (`$HOME/**` → scopes cibles) | Securite | Faible |
+| **P1** | 2 | Extraire GenericEntityList + useEntityCrud | Architecture | Moyen |
+| **P1** | 3.1-3.2 | Ecritures atomiques + cache mapper sans race | Fiabilite | Moyen |
+| **P1** | 5.1 | `no-explicit-any` en `error` | Qualite | Faible |
+| **P1** | 5.2 | Tests mappers, addon gen, composants (> 60 %) | Qualite | Moyen |
+| **P1** | 6.1 | Peupler ou retirer Settings | UX | Faible |
+| **P1** | 6.2 | Filtres collection globaux (Timeline, Stats, Export) | UX | Faible |
+| **P1** | 9.1 | Mises a jour mineures des packages | Maintenance | Faible |
+| **P2** | 4 | Validation Lua post-generation | Fiabilite | Faible |
+| **P2** | 7.1-7.5 | Tri colonnes, debounce, skeletons, timeline cliquable | UX | Moyen |
+| **P2** | 10 | Import / merge de bases | Fonctionnalite | Eleve |
+| **P3** | 3.3 | Evaluer remplacement de `neutron-db` | Architecture | Moyen |
+| **P3** | 8.1 | Mode sombre | UX | Moyen |
+| **P3** | 8.2 | Design tokens SCSS | UX | Moyen |
+| **P3** | 8.3 | Accessibilite (ARIA, focus, raccourcis) | UX | Moyen |
+| **P3** | 9.2 | Investigation antd 6 / Vite 8 / TS 6 | Maintenance | Eleve |
+| **P4** | 11 | Backend Rust (CRUD, Lua gen, tests) | Performance | Eleve |
+
+---
+
+*Document genere le 2026-04-15 — Basee sur la revue complete (architecture + UX/UI + audit packages) de la branche `feat/edition`*
