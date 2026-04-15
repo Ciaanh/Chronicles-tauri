@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
-import { DB_Character, Character } from "../../database/models";
-import { Button, Space, Table, TableProps, Typography } from "antd";
+import { DB_Character, DB_Event, Character } from "../../database/models";
+import { App, Button, Input, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import CharacterModal from "./CharacterModal";
 import { CharacterModalFormValues } from "./CharacterModal";
@@ -27,7 +27,11 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
     const [editingCharacter, setEditingCharacter] = useState<Character | null>(
         null
     );
+    const [search, setSearch] = useState("");
     const dbContext = useContext(dbRepository);
+    const { message, modal } = App.useApp();
+    const pendingDeletes = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
+
     async function fetchCharacters() {
         setLoading(true);
         try {
@@ -72,6 +76,13 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
         fetchCharacters();
     }, [filters.collection]);
 
+    useEffect(() => {
+        const pending = pendingDeletes.current;
+        return () => {
+            pending.forEach((timeout) => clearTimeout(timeout));
+        };
+    }, []);
+
     const reloadCharacters = async () => {
         fetchCharacters();
     };
@@ -110,8 +121,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
                     <Button
                         type="dashed"
                         shape="circle"
+                        danger
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteCharacter(record.id)}
+                        onClick={() => handleDeleteCharacter(record)}
                     />
                 </Space>
             ),
@@ -131,14 +143,89 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
         });
     }
 
-    async function deleteCharacter(characterId: number) {
-        setLoading(true);
-        try {
-            await dbContext.remove(characterId, tableNames.characters);
-            fetchCharacters();
-        } finally {
-            setLoading(false);
+    async function deleteCharacter(characterId: number, name: string, snapshot: Character) {
+        setCharacters((prev) => prev.filter((c) => c.id !== characterId));
+        const timeout = setTimeout(async () => {
+            pendingDeletes.current.delete(characterId);
+            setLoading(true);
+            try {
+                await dbContext.remove(characterId, tableNames.characters);
+            } finally {
+                setLoading(false);
+            }
+        }, 5000);
+        pendingDeletes.current.set(characterId, timeout);
+        message.open({
+            key: `delete-char-${characterId}`,
+            type: "success",
+            duration: 5,
+            content: (
+                <span>
+                    Character &ldquo;{name}&rdquo; deleted.{" "}
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => undoDeleteCharacter(characterId, snapshot)}
+                    >
+                        Undo
+                    </Button>
+                </span>
+            ),
+        });
+    }
+
+    function undoDeleteCharacter(characterId: number, character: Character) {
+        const timeout = pendingDeletes.current.get(characterId);
+        if (timeout) {
+            clearTimeout(timeout);
+            pendingDeletes.current.delete(characterId);
         }
+        setCharacters((prev) => sortedCharacters([...prev, character]));
+        message.destroy(`delete-char-${characterId}`);
+    }
+
+    async function handleDeleteCharacter(character: Character) {
+        const allEvents = await dbContext.getAll(tableNames.events);
+        const referencingEvents = (allEvents as DB_Event[]).filter(
+            (e) =>
+                Array.isArray(e.characterIds) &&
+                e.characterIds.includes(character.id)
+        );
+
+        const doDelete = () =>
+            deleteCharacter(character.id, character.name, character);
+
+        if (referencingEvents.length > 0) {
+            modal.confirm({
+                title: "Delete character and clean references?",
+                content: `"${character.name}" is referenced by ${referencingEvents.length} event(s). Remove all references and delete?`,
+                okText: "Delete and clean",
+                okButtonProps: { danger: true },
+                onOk: async () => {
+                    for (const ev of referencingEvents) {
+                        await dbContext.update(
+                            {
+                                ...ev,
+                                characterIds: ev.characterIds.filter(
+                                    (id) => id !== character.id
+                                ),
+                            },
+                            tableNames.events
+                        );
+                    }
+                    doDelete();
+                },
+            });
+            return;
+        }
+
+        modal.confirm({
+            title: "Delete character",
+            content: `Are you sure you want to delete "${character.name}"?`,
+            okText: "Delete",
+            okButtonProps: { danger: true },
+            onOk: doDelete,
+        });
     }
 
     async function addCharacter() {
@@ -207,6 +294,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
             setIsModalVisible(false);
             setEditingCharacter(null);
             fetchCharacters();
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            message.error(`Failed to save character: ${msg}`);
         } finally {
             setModalLoading(false);
         }
@@ -224,17 +314,23 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
             </Space>
 
             <Space>
-                <Button className="bp5-minimal" onClick={cleanCharacters}>
+                <Button onClick={cleanCharacters}>
                     Clean characters
                 </Button>
 
                 <Button
-                    className="bp5-minimal"
                     onClick={reloadCharacters}
                     loading={loading}
                 >
                     Load characters from DB
                 </Button>
+
+                <Input.Search
+                    placeholder="Search characters…"
+                    allowClear
+                    style={{ width: 240 }}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 <Button icon={<PlusCircleOutlined />} onClick={addCharacter} />
             </Space>
@@ -242,11 +338,12 @@ const CharacterList: React.FC<CharacterListProps> = ({ filters }) => {
             <Table<Character>
                 rowKey="id"
                 columns={columns}
-                dataSource={characters}
-                pagination={false}
+                dataSource={characters.filter((c) =>
+                    c.name.toLowerCase().includes(search.toLowerCase())
+                )}
+                pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (total) => `${total} characters` }}
                 scroll={{
                     scrollToFirstRowOnChange: false,
-                    y: 440,
                 }}
             />
             <CharacterModal

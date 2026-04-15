@@ -14,20 +14,20 @@ export interface GenerationRequest {
     characters: Character[];
 }
 
-export interface FormatedCollection {
+export interface FormattedCollection {
     id: number;
     name: string;
     index: string;
 }
 export interface FileGenerationRequest {
-    collections: FormatedCollection[];
+    collections: FormattedCollection[];
     events: Event[];
     factions: Faction[];
     characters: Character[];
 }
 
 export class AddonGenerator {
-    Create = function (request: GenerationRequest, fileApi: FileApi) {
+    Create = async function (request: GenerationRequest, fileApi: FileApi): Promise<void> {
         if (request.collections.length > 0) {
             // Prepare collections for file generation (add index)
             const preparedCollections = request.collections.map(
@@ -55,7 +55,7 @@ export class AddonGenerator {
             // merge arrays locale and db
             const merged: FileContent[] = [...locale, ...db];
 
-            fileApi.pack(merged);
+            await fileApi.pack(merged);
         }
     };
 }

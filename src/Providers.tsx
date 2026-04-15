@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { tableNames } from "./database/dbcontext";
 import { dbSchema, DbProvider } from "./database/dbprovider";
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider, theme, App } from "antd";
 import { StyleProvider } from "@ant-design/cssinjs";
 
 const schema: dbSchema = {
@@ -42,9 +42,11 @@ export default function Providers({ children }: PropsWithChildren) {
             }}
         >
             <StyleProvider hashPriority="high">
-                <DbProvider dbschema={schema}>
-                    <BrowserRouter>{children}</BrowserRouter>
-                </DbProvider>
+                <App>
+                    <DbProvider dbschema={schema}>
+                        <BrowserRouter>{children}</BrowserRouter>
+                    </DbProvider>
+                </App>
             </StyleProvider>
         </ConfigProvider>
     );

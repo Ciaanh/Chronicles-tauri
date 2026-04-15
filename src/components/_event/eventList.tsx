@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import { DB_Event, Event } from "../../database/models";
-import { Button, Space, Table, TableProps, Typography } from "antd";
+import { App, Button, Input, Popconfirm, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import { Constants } from "../../constants";
 import EventModal from "./EventModal";
@@ -26,7 +26,10 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalLoading, setModalLoading] = useState(false);
     const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+    const [search, setSearch] = useState("");
     const dbContext = useContext(dbRepository);
+    const { message } = App.useApp();
+    const pendingDeletes = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
     async function fetchEvents() {
         setLoading(true);
@@ -50,6 +53,13 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
     useEffect(() => {
         fetchEvents();
     }, [filters.collection]);
+
+    useEffect(() => {
+        const pending = pendingDeletes.current;
+        return () => {
+            pending.forEach((timeout) => clearTimeout(timeout));
+        };
+    }, []);
 
     const reloadEvents = async () => {
         fetchEvents();
@@ -142,12 +152,21 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
                         icon={<EditOutlined />}
                         onClick={() => handleEditEvent(record)}
                     />
-                    <Button
-                        type="dashed"
-                        shape="circle"
-                        icon={<DeleteOutlined />}
-                        onClick={() => deleteEvent(record.id)}
-                    />
+                    <Popconfirm
+                        title="Delete event"
+                        description={`Are you sure you want to delete "${record.name}"?`}
+                        onConfirm={() => deleteEvent(record.id)}
+                        okText="Delete"
+                        okButtonProps={{ danger: true }}
+                        cancelText="Cancel"
+                    >
+                        <Button
+                            type="dashed"
+                            shape="circle"
+                            danger
+                            icon={<DeleteOutlined />}
+                        />
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -178,14 +197,47 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             .reverse();
     }
 
-    async function deleteEvent(eventid: number) {
-        setLoading(true);
-        try {
-            await dbContext.remove(eventid, tableNames.events);
-            fetchEvents();
-        } finally {
-            setLoading(false);
+    async function deleteEvent(eventId: number) {
+        const toDelete = events.find((e) => e.id === eventId);
+        if (!toDelete) return;
+        setEvents((prev) => prev.filter((e) => e.id !== eventId));
+        const timeout = setTimeout(async () => {
+            pendingDeletes.current.delete(eventId);
+            setLoading(true);
+            try {
+                await dbContext.remove(eventId, tableNames.events);
+            } finally {
+                setLoading(false);
+            }
+        }, 5000);
+        pendingDeletes.current.set(eventId, timeout);
+        message.open({
+            key: `delete-event-${eventId}`,
+            type: "success",
+            duration: 5,
+            content: (
+                <span>
+                    Event &ldquo;{toDelete.name}&rdquo; deleted.{" "}
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => undoDeleteEvent(eventId, toDelete)}
+                    >
+                        Undo
+                    </Button>
+                </span>
+            ),
+        });
+    }
+
+    function undoDeleteEvent(eventId: number, evt: Event) {
+        const timeout = pendingDeletes.current.get(eventId);
+        if (timeout) {
+            clearTimeout(timeout);
+            pendingDeletes.current.delete(eventId);
         }
+        setEvents((prev) => sortedEvents([...prev, evt]));
+        message.destroy(`delete-event-${eventId}`);
     }
 
     async function addEvent() {
@@ -270,6 +322,9 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             setIsModalVisible(false);
             setEditingEvent(null);
             fetchEvents();
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            message.error(`Failed to save event: ${msg}`);
         } finally {
             setModalLoading(false);
         }
@@ -287,17 +342,23 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             </Space>
 
             <Space>
-                <Button className="bp5-minimal" onClick={cleanEvents}>
+                <Button onClick={cleanEvents}>
                     Clean events
                 </Button>
 
                 <Button
-                    className="bp5-minimal"
                     onClick={reloadEvents}
                     loading={loading}
                 >
                     Load events from DB
                 </Button>
+
+                <Input.Search
+                    placeholder="Search events…"
+                    allowClear
+                    style={{ width: 240 }}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 <Button icon={<PlusCircleOutlined />} onClick={addEvent} />
             </Space>
@@ -305,11 +366,12 @@ const EventList: React.FC<EventListProps> = ({ filters }) => {
             <Table<Event>
                 rowKey="id"
                 columns={columns}
-                dataSource={events}
-                pagination={false}
+                dataSource={events.filter((e) =>
+                    e.name.toLowerCase().includes(search.toLowerCase())
+                )}
+                pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (total) => `${total} events` }}
                 scroll={{
                     scrollToFirstRowOnChange: false,
-                    y: 440,
                 }}
             />
             <EventModal

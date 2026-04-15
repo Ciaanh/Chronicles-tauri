@@ -16,6 +16,15 @@ import {
 } from "./models";
 import { DbObject } from "./jsondb/types";
 
+export type HistoryAction = "add" | "update" | "remove";
+
+export interface HistoryEntry {
+    action: HistoryAction;
+    table: string;
+    id: number;
+    timestamp: Date;
+}
+
 type TablesList = {
     events: string;
     characters: string;
@@ -59,7 +68,13 @@ export interface ContextValue {
         chapters: LocalMapper<DB_Chapter, Chapter>;
     };
     load: () => void;
+    loadFromPath: (path: string) => Promise<void>;
+    saveAs: () => Promise<void>;
+    createNew: () => Promise<void>;
+    lastLoadedPath: string | null;
+    history: HistoryEntry[];
     loading: boolean;
+    loadError: string | null;
     //validate: () => void;
 }
 

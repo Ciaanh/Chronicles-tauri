@@ -1,0 +1,167 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/Ciaanh/Chronicles-tauri/blob/main/docs/db-schema.json",
+    "title": "Chronicles Database",
+    "description": "JSON database schema for the Chronicles Tauri application. The file is a compressed single-line JSON object managed by neutron-db.",
+    "type": "object",
+    "required": ["events", "characters", "factions", "collections", "locales"],
+    "additionalProperties": false,
+    "properties": {
+        "events": {
+            "type": "array",
+            "description": "Timeline events",
+            "items": { "$ref": "#/$defs/Event" }
+        },
+        "characters": {
+            "type": "array",
+            "description": "Named characters associated with events",
+            "items": { "$ref": "#/$defs/Character" }
+        },
+        "factions": {
+            "type": "array",
+            "description": "Factions / organisations referenced by events and characters",
+            "items": { "$ref": "#/$defs/Faction" }
+        },
+        "collections": {
+            "type": "array",
+            "description": "Top-level groupings for events, characters and factions",
+            "items": { "$ref": "#/$defs/Collection" }
+        },
+        "locales": {
+            "type": "array",
+            "description": "Localised text entries referenced by id from other objects",
+            "items": { "$ref": "#/$defs/Locale" }
+        }
+    },
+    "$defs": {
+        "Chapter": {
+            "type": "object",
+            "description": "A chapter containing an optional header locale and one or more page locales",
+            "required": ["pageIds"],
+            "properties": {
+                "headerId": {
+                    "type": ["integer", "null"],
+                    "description": "Locale id of the chapter header, or null/undefined when absent"
+                },
+                "pageIds": {
+                    "type": "array",
+                    "description": "Ordered list of locale ids that form the chapter pages",
+                    "items": { "type": "integer" }
+                }
+            }
+        },
+        "Locale": {
+            "type": "object",
+            "description": "A localised string supporting English and optional translations",
+            "required": ["id", "enUS", "ishtml", "translations"],
+            "properties": {
+                "id": { "type": "integer", "description": "Unique auto-incremented identifier (1-indexed)" },
+                "enUS": { "type": "string", "description": "English (US) text — the canonical value" },
+                "ishtml": { "type": "boolean", "description": "Whether the text should be rendered as HTML" },
+                "translations": {
+                    "type": "object",
+                    "description": "Map of Language enum value (integer key as string) → translated string",
+                    "additionalProperties": { "type": "string" }
+                }
+            }
+        },
+        "Collection": {
+            "type": "object",
+            "description": "A top-level grouping of events, characters, and factions",
+            "required": ["id", "name"],
+            "properties": {
+                "id": { "type": "integer" },
+                "name": { "type": "string" }
+            }
+        },
+        "Faction": {
+            "type": "object",
+            "description": "An in-game faction or organisation",
+            "required": ["id", "name", "author", "labelId", "chapters", "timeline", "collectionId"],
+            "properties": {
+                "id": { "type": "integer" },
+                "name": { "type": "string" },
+                "author": { "type": "string", "description": "Original author credit" },
+                "labelId": { "type": "integer", "description": "Locale id for the faction description label" },
+                "chapters": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/Chapter" }
+                },
+                "timeline": {
+                    "type": "integer",
+                    "description": "WoW expansion identifier (matches the Timeline enum)"
+                },
+                "collectionId": { "type": "integer", "description": "Reference to the parent Collection id" }
+            }
+        },
+        "Character": {
+            "type": "object",
+            "description": "A named character referenced by one or more events",
+            "required": ["id", "name", "author", "labelId", "chapters", "timeline", "factionIds", "collectionId"],
+            "properties": {
+                "id": { "type": "integer" },
+                "name": { "type": "string" },
+                "author": { "type": "string" },
+                "labelId": { "type": "integer", "description": "Locale id for the character biography label" },
+                "chapters": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/Chapter" }
+                },
+                "timeline": { "type": "integer" },
+                "factionIds": {
+                    "type": "array",
+                    "description": "References to Faction ids this character belongs to",
+                    "items": { "type": "integer" }
+                },
+                "collectionId": { "type": "integer" }
+            }
+        },
+        "Event": {
+            "type": "object",
+            "description": "A timeline event with an optional period range",
+            "required": ["id", "name", "yearStart", "yearEnd", "eventType", "timeline", "collectionId", "labelId", "chapters", "factionIds", "characterIds", "link", "order"],
+            "properties": {
+                "id": { "type": "integer" },
+                "name": { "type": "string" },
+                "yearStart": {
+                    "type": "integer",
+                    "description": "Start year for the event period (use Constants.minYear / maxYear for special values)"
+                },
+                "yearEnd": {
+                    "type": ["integer", "null"],
+                    "description": "End year for the event period, or null when it is a point in time"
+                },
+                "eventType": {
+                    "type": "integer",
+                    "description": "Category identifier matching the EventType enum"
+                },
+                "timeline": {
+                    "type": "integer",
+                    "description": "Expansion identifier matching the Timeline enum"
+                },
+                "collectionId": { "type": "integer" },
+                "labelId": { "type": "integer" },
+                "chapters": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/Chapter" }
+                },
+                "factionIds": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                },
+                "characterIds": {
+                    "type": "array",
+                    "items": { "type": "integer" }
+                },
+                "link": {
+                    "type": "string",
+                    "description": "Optional external URL for further reading"
+                },
+                "order": {
+                    "type": "integer",
+                    "description": "Tie-break ordering within the same yearStart bucket"
+                }
+            }
+        }
+    }
+}

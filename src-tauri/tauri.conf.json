@@ -15,12 +15,14 @@
         "title": "Chronicles",
         "width": 1600,
         "height": 880,
-        "resizable": false,
+        "minWidth": 1200,
+        "minHeight": 700,
+        "resizable": true,
         "fullscreen": false
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src ipc: http://ipc.localhost; font-src 'self' data:"
     }
   },
   "bundle": {

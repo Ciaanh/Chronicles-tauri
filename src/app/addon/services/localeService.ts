@@ -7,7 +7,8 @@ import { Character } from "../../../database/models/appObjects/Character";
 import { Event } from "../../../database/models/appObjects/Event";
 import { Faction } from "../../../database/models/appObjects/Faction";
 import { FileContent } from "../../../_utils/files/fileContent";
-import { FileGenerationRequest, FormatedCollection } from "../generator";
+import { FileGenerationRequest, FormattedCollection } from "../generator";
+import { escapeLuaString } from "./luaUtils";
 
 interface localeLine {
     key: string;
@@ -65,7 +66,7 @@ export class LocaleService {
 
     private CreateLocaleFiles(request: FileGenerationRequest) {
         const dbLocaleGroups = request.collections.map(
-            (collection: FormatedCollection) => {
+            (collection: FormattedCollection) => {
                 const filteredEvents = request.events.filter(
                     (event: Event) =>
                         event.collection &&
@@ -308,15 +309,11 @@ export class LocaleService {
         if (!value) {
             return "";
         }
-        let localeContent = "";
+        let localeContent = escapeLuaString(value);
         if (ishtml) {
-            localeContent = value
-                .replace(/(?:\r\n|\r|\n)/g, " ")
-                .replace(/"/g, '\\"');
+            localeContent = localeContent.replace(/(?:\r\n|\r|\n)/g, " ");
         } else {
-            localeContent = value
-                .replace(/(?:\r\n|\r|\n)/g, "\\n")
-                .replace(/"/g, '\\"');
+            localeContent = localeContent.replace(/(?:\r\n|\r|\n)/g, "\\n");
         }
         return `        L[\"${key}\"] = \"${localeContent}\"\n`;
     }

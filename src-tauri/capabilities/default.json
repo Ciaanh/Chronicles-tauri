@@ -7,71 +7,42 @@
   ],
   "permissions": [
     "core:default",
-    "opener:default",
     "dialog:default",
     "fs:default",
     {
       "identifier": "fs:allow-exists",
       "allow": [
-        { "path": "$APPDATA/**" },
-        { "path": "$APPLOCALDATA/**" },
-        { "path": "$APPCACHE/**" },
-        { "path": "$APPLOG/**" },
-        { "path": "$APPCONFIG/**" },
         { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "$PICTURE/**" },
-        { "path": "$PUBLIC/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
       "identifier": "fs:read-text-file",
       "allow": [
-        { "path": "$APPDATA/**" },
-        { "path": "$APPLOCALDATA/**" },
-        { "path": "$APPCACHE/**" },
-        { "path": "$APPLOG/**" },
-        { "path": "$APPCONFIG/**" },
         { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "$PICTURE/**" },
-        { "path": "$PUBLIC/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
       "identifier": "fs:write-files",
       "allow": [
-        { "path": "$APPDATA/**" },
-        { "path": "$APPLOCALDATA/**" },
-        { "path": "$APPCACHE/**" },
-        { "path": "$APPLOG/**" },
-        { "path": "$APPCONFIG/**" },
         { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "$PICTURE/**" },
-        { "path": "$PUBLIC/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
       "identifier": "fs:allow-lstat",
       "allow": [
-        { "path": "$APPDATA/**" },
-        { "path": "$APPLOCALDATA/**" },
-        { "path": "$APPCACHE/**" },
-        { "path": "$APPLOG/**" },
-        { "path": "$APPCONFIG/**" },
         { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "$PICTURE/**" },
-        { "path": "$PUBLIC/**" }
+        { "path": "$DESKTOP/**" }
       ]
     }
   ]

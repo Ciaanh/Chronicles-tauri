@@ -4,12 +4,15 @@ import { useState } from "react";
 import { Breadcrumb, Tabs, TabsProps } from "antd";
 
 import { Filters } from "../filters";
-import EventList from "../_event/eventList";
-import FactionList from "../_faction/factionList";
-import CharacterList from "../_character/characterList";
+import EventList from "../_event/EventList";
+import FactionList from "../_faction/FactionList";
+import CharacterList from "../_character/CharacterList";
 import CollectionList from "../_collection/CollectionList";
-import LocaleList from "../_locale/localeList";
+import LocaleList from "../_locale/LocaleList";
 import ExportTab from "../ExportTab";
+import StatsTab from "../stats/StatsTab";
+import TimelineTab from "../timeline/TimelineTab";
+import HistoryTab from "../history/HistoryTab";
 
 interface HomeViewProps {
     filters: Filters;
@@ -46,6 +49,21 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
             label: "Export",
             key: "export",
             children: <ExportTab />,
+        },
+        {
+            label: "Stats",
+            key: "stats",
+            children: <StatsTab />,
+        },
+        {
+            label: "Timeline",
+            key: "timeline",
+            children: <TimelineTab />,
+        },
+        {
+            label: "History",
+            key: "history",
+            children: <HistoryTab />,
         },
     ];
 

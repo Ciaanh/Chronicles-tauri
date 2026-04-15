@@ -129,7 +129,10 @@ const FactionModal: React.FC<FactionModalProps> = ({
                 collection: selectedCollection,
             });
         } catch (err) {
-            // Validation failed
+            // Antd validateFields rejects with { errorFields } on validation failure — suppress that.
+            // Any other error (runtime) is re-thrown so the caller can handle it.
+            if (err && typeof err === "object" && "errorFields" in err) return;
+            throw err;
         }
     };
 

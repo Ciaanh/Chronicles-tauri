@@ -9,7 +9,9 @@ import {
     Locale,
 } from "../../database/models";
 import {
+    App,
     Button,
+    Input,
     Space,
     Table,
     TableProps,
@@ -32,11 +34,14 @@ interface LocaleListProps {
 const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     const [loading, setLoading] = useState(false);
     const [locales, setLocales] = useState<Locale[]>([]);
+    const [search, setSearch] = useState("");
     const [editingLocale, setEditingLocale] = useState<Locale | null>(null);
     const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(
         null
     );
     const [showOnlyUnreferenced, setShowOnlyUnreferenced] = useState(false);
+    const dbContext = useContext(dbRepository);
+    const { modal } = App.useApp();
     const [deleteModal, setDeleteModal] = useState<{
         visible: boolean;
         localeId: number | null;
@@ -52,7 +57,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         content: "",
         okText: "",
     });
-    const dbContext = useContext(dbRepository);
 
     async function fetchLocales() {
         setLoading(true);
@@ -138,6 +142,26 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         fetchLocales();
     }, [filters.collection, showOnlyUnreferenced]);
 
+    const handleDeleteAllUnreferenced = () => {
+        modal.confirm({
+            title: "Delete all unreferenced locales",
+            content: `This will permanently delete ${locales.length} unreferenced locale(s). This cannot be undone.`,
+            okText: "Delete all",
+            okButtonProps: { danger: true },
+            onOk: async () => {
+                setLoading(true);
+                try {
+                    for (const locale of locales) {
+                        await dbContext.remove(locale.id, tableNames.locales);
+                    }
+                } finally {
+                    setLoading(false);
+                    fetchLocales();
+                }
+            },
+        });
+    };
+
     const reloadLocales = async () => {
         fetchLocales();
     };
@@ -204,7 +228,6 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             render: (_, record) => (
                 <Space size="middle">
                     <Button
-                        className="bp5-minimal"
                         type="default"
                         shape="circle"
                         icon={<EditOutlined />}
@@ -337,17 +360,23 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
             <Space>
-                <Button className="bp5-minimal" onClick={cleanLocales}>
+                <Button onClick={cleanLocales}>
                     Clean locales
                 </Button>
 
                 <Button
-                    className="bp5-minimal"
                     onClick={reloadLocales}
                     loading={loading}
                 >
                     Load locales from DB
                 </Button>
+
+                <Input.Search
+                    placeholder="Search locales…"
+                    allowClear
+                    style={{ width: 240 }}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 <Space align="center">
                     <Switch
@@ -362,16 +391,29 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                             : "Show All"}
                     </span>
                 </Space>
+
+                {showOnlyUnreferenced && locales.length > 0 && (
+                    <Button
+                        danger
+                        onClick={handleDeleteAllUnreferenced}
+                        loading={loading}
+                    >
+                        Delete all unreferenced ({locales.length})
+                    </Button>
+                )}
             </Space>
 
             <Table<Locale>
                 rowKey="id"
                 columns={columns}
-                dataSource={locales}
-                pagination={false}
+                dataSource={locales.filter(
+                    (l) =>
+                        !search ||
+                        l.enUS.toLowerCase().includes(search.toLowerCase())
+                )}
+                pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (total) => `${total} locales` }}
                 scroll={{
                     scrollToFirstRowOnChange: false,
-                    y: 440,
                 }}
             />
             <Modal

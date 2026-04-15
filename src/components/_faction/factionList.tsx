@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { dbRepository, tableNames } from "../../database/dbcontext";
-import { DB_Faction, Faction } from "../../database/models";
-import { Button, Space, Table, TableProps, Typography } from "antd";
+import { DB_Character, DB_Event, DB_Faction, Faction } from "../../database/models";
+import { App, Button, Input, Space, Table, TableProps, Typography } from "antd";
 import { Filters } from "../filters";
 import FactionModal from "./FactionModal";
 import { FactionModalFormValues } from "./FactionModal";
@@ -25,7 +25,11 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalLoading, setModalLoading] = useState(false);
     const [editingFaction, setEditingFaction] = useState<Faction | null>(null);
+    const [search, setSearch] = useState("");
     const dbContext = useContext(dbRepository);
+    const { message, modal } = App.useApp();
+    const pendingDeletes = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
+
     async function fetchFactions() {
         setLoading(true);
         try {
@@ -68,6 +72,13 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         fetchFactions();
     }, [filters.collection]);
 
+    useEffect(() => {
+        const pending = pendingDeletes.current;
+        return () => {
+            pending.forEach((timeout) => clearTimeout(timeout));
+        };
+    }, []);
+
     const reloadFactions = async () => {
         fetchFactions();
     };
@@ -106,8 +117,9 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
                     <Button
                         type="dashed"
                         shape="circle"
+                        danger
                         icon={<DeleteOutlined />}
-                        onClick={() => deleteFaction(record.id)}
+                        onClick={() => handleDeleteFaction(record)}
                     />
                 </Space>
             ),
@@ -127,14 +139,112 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
         });
     }
 
-    async function deleteFaction(factionId: number) {
-        setLoading(true);
-        try {
-            await dbContext.remove(factionId, tableNames.factions);
-            fetchFactions();
-        } finally {
-            setLoading(false);
+    async function deleteFaction(factionId: number, name: string, snapshot: Faction) {
+        setFactions((prev) => prev.filter((f) => f.id !== factionId));
+        const timeout = setTimeout(async () => {
+            pendingDeletes.current.delete(factionId);
+            setLoading(true);
+            try {
+                await dbContext.remove(factionId, tableNames.factions);
+            } finally {
+                setLoading(false);
+            }
+        }, 5000);
+        pendingDeletes.current.set(factionId, timeout);
+        message.open({
+            key: `delete-faction-${factionId}`,
+            type: "success",
+            duration: 5,
+            content: (
+                <span>
+                    Faction &ldquo;{name}&rdquo; deleted.{" "}
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => undoDeleteFaction(factionId, snapshot)}
+                    >
+                        Undo
+                    </Button>
+                </span>
+            ),
+        });
+    }
+
+    function undoDeleteFaction(factionId: number, faction: Faction) {
+        const timeout = pendingDeletes.current.get(factionId);
+        if (timeout) {
+            clearTimeout(timeout);
+            pendingDeletes.current.delete(factionId);
         }
+        setFactions((prev) => sortedFactions([...prev, faction]));
+        message.destroy(`delete-faction-${factionId}`);
+    }
+
+    async function handleDeleteFaction(faction: Faction) {
+        const [allEvents, allCharacters] = await Promise.all([
+            dbContext.getAll(tableNames.events),
+            dbContext.getAll(tableNames.characters),
+        ]);
+
+        const referencingEvents = (allEvents as DB_Event[]).filter(
+            (e) =>
+                Array.isArray(e.factionIds) && e.factionIds.includes(faction.id)
+        );
+        const referencingChars = (allCharacters as DB_Character[]).filter(
+            (c) =>
+                Array.isArray(c.factionIds) && c.factionIds.includes(faction.id)
+        );
+        const totalRefs = referencingEvents.length + referencingChars.length;
+
+        const doDelete = () => deleteFaction(faction.id, faction.name, faction);
+
+        if (totalRefs > 0) {
+            const parts: string[] = [];
+            if (referencingEvents.length > 0)
+                parts.push(`${referencingEvents.length} event(s)`);
+            if (referencingChars.length > 0)
+                parts.push(`${referencingChars.length} character(s)`);
+            modal.confirm({
+                title: "Delete faction and clean references?",
+                content: `"${faction.name}" is referenced by ${parts.join(" and ")}. Remove all references and delete?`,
+                okText: "Delete and clean",
+                okButtonProps: { danger: true },
+                onOk: async () => {
+                    for (const ev of referencingEvents) {
+                        await dbContext.update(
+                            {
+                                ...ev,
+                                factionIds: ev.factionIds.filter(
+                                    (id) => id !== faction.id
+                                ),
+                            },
+                            tableNames.events
+                        );
+                    }
+                    for (const ch of referencingChars) {
+                        await dbContext.update(
+                            {
+                                ...ch,
+                                factionIds: ch.factionIds.filter(
+                                    (id) => id !== faction.id
+                                ),
+                            },
+                            tableNames.characters
+                        );
+                    }
+                    doDelete();
+                },
+            });
+            return;
+        }
+
+        modal.confirm({
+            title: "Delete faction",
+            content: `Are you sure you want to delete "${faction.name}"?`,
+            okText: "Delete",
+            okButtonProps: { danger: true },
+            onOk: doDelete,
+        });
     }
 
     async function addFaction() {
@@ -201,6 +311,9 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
             setIsModalVisible(false);
             setEditingFaction(null);
             fetchFactions();
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            message.error(`Failed to save faction: ${msg}`);
         } finally {
             setModalLoading(false);
         }
@@ -218,17 +331,23 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
             </Space>
 
             <Space>
-                <Button className="bp5-minimal" onClick={cleanFactions}>
+                <Button onClick={cleanFactions}>
                     Clean factions
                 </Button>
 
                 <Button
-                    className="bp5-minimal"
                     onClick={reloadFactions}
                     loading={loading}
                 >
                     Load factions from DB
                 </Button>
+
+                <Input.Search
+                    placeholder="Search factions…"
+                    allowClear
+                    style={{ width: 240 }}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 <Button icon={<PlusCircleOutlined />} onClick={addFaction} />
             </Space>
@@ -236,11 +355,12 @@ const FactionList: React.FC<FactionListProps> = ({ filters }) => {
             <Table<Faction>
                 rowKey="id"
                 columns={columns}
-                dataSource={factions}
-                pagination={false}
+                dataSource={factions.filter((f) =>
+                    f.name.toLowerCase().includes(search.toLowerCase())
+                )}
+                pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (total) => `${total} factions` }}
                 scroll={{
                     scrollToFirstRowOnChange: false,
-                    y: 440,
                 }}
             />
             <FactionModal

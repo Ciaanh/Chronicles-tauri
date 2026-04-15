@@ -1,22 +1,35 @@
-@use "./variables" as var;
-
 .view {
-  height: var.$viewport-height;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .container {
-  height: 666px;
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
 }
 
 .footer {
-  text-align: center;
+    text-align: center;
 }
 
 .collection-select {
-  width: 155px;
+    width: 155px;
+}
+
+@media (max-width: 1280px) {
+    .collection-select {
+        width: 120px;
+    }
+
+    .header {
+        gap: 4px;
+    }
 }
