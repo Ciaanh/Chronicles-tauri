@@ -41,7 +41,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub(\"AceLocale-3.0\"):GetLocale(private.addon_name)`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -58,7 +58,7 @@ export class DBService {
     private FormatIndex(index: string, collection: string, typeName: TypeName) {
         const dbFoldername = this.GetDbFolderName(index, collection);
         const dbFilename = this.GetCollection(collection, typeName);
-        return `\t<Script file=\"${dbFoldername}\\${dbFilename}.lua\" />`;
+        return `\t<Script file="${dbFoldername}\\${dbFilename}.lua" />`;
     }
 
     private GetDbFolderName(index: string, collection: string) {
@@ -83,9 +83,7 @@ export class DBService {
                     return "";
 
                 const lowerCollection = collection.name.toLowerCase();
-                return `\t${lowerCollection} = \"${this.FormatCollection(
-                    collection.name
-                )}\"`;
+                return `\t${lowerCollection} = "${this.FormatCollection(collection.name)}"`;
             })
             .filter((value: string) => value.length > 0)
             .join(",\n");
@@ -102,8 +100,7 @@ export class DBService {
 
                 const hasEvents = request.events.some(
                     (event) =>
-                        event.collection &&
-                        String(event.collection.id) === String(collection.id)
+                        event.collection && String(event.collection.id) === String(collection.id)
                 );
                 const hasFactions = request.factions.some(
                     (faction) =>
@@ -113,25 +110,17 @@ export class DBService {
                 const hasCharacters = request.characters.some(
                     (character) =>
                         character.collection &&
-                        String(character.collection.id) ===
-                            String(collection.id)
+                        String(character.collection.id) === String(collection.id)
                 );
 
                 const eventDeclaration = hasEvents
-                    ? this.FormatDeclaration(collection.name, TypeName.Event) +
-                      "\n"
+                    ? this.FormatDeclaration(collection.name, TypeName.Event) + "\n"
                     : "";
                 const factionDeclaration = hasFactions
-                    ? this.FormatDeclaration(
-                          collection.name,
-                          TypeName.Faction
-                      ) + "\n"
+                    ? this.FormatDeclaration(collection.name, TypeName.Faction) + "\n"
                     : "";
                 const characterDeclaration = hasCharacters
-                    ? this.FormatDeclaration(
-                          collection.name,
-                          TypeName.Character
-                      ) + "\n"
+                    ? this.FormatDeclaration(collection.name, TypeName.Character) + "\n"
                     : "";
 
                 return `${eventDeclaration}${factionDeclaration}${characterDeclaration}`;
@@ -161,8 +150,7 @@ export class DBService {
 
                 const hasEvents = request.events.some(
                     (event) =>
-                        event.collection &&
-                        String(event.collection.id) === String(collection.id)
+                        event.collection && String(event.collection.id) === String(collection.id)
                 );
                 const hasFactions = request.factions.some(
                     (faction) =>
@@ -172,32 +160,19 @@ export class DBService {
                 const hasCharacters = request.characters.some(
                     (character) =>
                         character.collection &&
-                        String(character.collection.id) ===
-                            String(collection.id)
+                        String(character.collection.id) === String(collection.id)
                 );
 
                 const eventIndex = hasEvents
-                    ? this.FormatIndex(
-                          collection.index,
-                          collection.name,
-                          TypeName.Event
-                      ) + "\n"
+                    ? this.FormatIndex(collection.index, collection.name, TypeName.Event) + "\n"
                     : "";
 
                 const factionIndex = hasFactions
-                    ? this.FormatIndex(
-                          collection.index,
-                          collection.name,
-                          TypeName.Faction
-                      ) + "\n"
+                    ? this.FormatIndex(collection.index, collection.name, TypeName.Faction) + "\n"
                     : "";
 
                 const characterIndex = hasCharacters
-                    ? this.FormatIndex(
-                          collection.index,
-                          collection.name,
-                          TypeName.Character
-                      ) + "\n"
+                    ? this.FormatIndex(collection.index, collection.name, TypeName.Character) + "\n"
                     : "";
 
                 return `${eventIndex}${factionIndex}${characterIndex}`;
@@ -205,7 +180,7 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Ui xmlns=\"http://www.blizzard.com/wow/ui/\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.blizzard.com/wow/ui/\">\n\t<Script file=\"ChroniclesDB.lua\" />\n${indexes}\n</Ui>`;
+        const content = `<?xml version="1.0" encoding="utf-8"?>\n<Ui xmlns="http://www.blizzard.com/wow/ui/"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">\n\t<Script file="ChroniclesDB.lua" />\n${indexes}\n</Ui>`;
 
         return {
             content: content,
@@ -220,8 +195,7 @@ export class DBService {
 
                 const filteredEvents = request.events.filter(
                     (event: Event) =>
-                        event.collection &&
-                        String(event.collection.id) === String(c.id)
+                        event.collection && String(event.collection.id) === String(c.id)
                 );
                 if (filteredEvents.length === 0) return null;
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
@@ -247,9 +221,9 @@ export class DBService {
 
         return `[${event.id}] = {\n            id=${
             event.id
-        },\n            label=Locale[\"${getLocaleKey(
+        },\n            label=Locale["${getLocaleKey(
             event.label
-        )}\"],\n            chapters={${this.MapChapterList(
+        )}"],\n            chapters={${this.MapChapterList(
             chapters
         )}},\n            yearStart=${yearStart},\n            yearEnd=${yearEnd},\n            eventType=${
             event.eventType
@@ -281,10 +255,8 @@ export class DBService {
         );
         const formatedDepsData = factionsByDB.filter(Boolean).map((deps) => {
             const lowerCollection = deps.collection.name.toLowerCase();
-            const factionIds = deps.list
-                .map((faction) => faction.id)
-                .join(", ");
-            return `[\"${lowerCollection}\"] = {${factionIds}}`;
+            const factionIds = deps.list.map((faction) => faction.id).join(", ");
+            return `["${lowerCollection}"] = {${factionIds}}`;
         });
         return formatedDepsData.join(", ");
     }
@@ -308,10 +280,8 @@ export class DBService {
         );
         const formatedDepsData = charactersByDB.filter(Boolean).map((deps) => {
             const lowerCollection = deps.collection.name.toLowerCase();
-            const characterIds = deps.list
-                .map((character) => character.id)
-                .join(", ");
-            return `[\"${lowerCollection}\"] = {${characterIds}}`;
+            const characterIds = deps.list.map((character) => character.id).join(", ");
+            return `["${lowerCollection}"] = {${characterIds}}`;
         });
         return formatedDepsData.join(", ");
     }
@@ -319,15 +289,13 @@ export class DBService {
     private MapChapterList(chapters: Chapter[]): string {
         return chapters
             .map((chapter) => {
-                const headerKey = chapter.header
-                    ? getLocaleKey(chapter.header)
-                    : "";
+                const headerKey = chapter.header ? getLocaleKey(chapter.header) : "";
 
                 const pageKeys = chapter.pages
                     .filter((page) => page)
-                    .map((page) => `Locale[\"${getLocaleKey(page)}\"]`)
+                    .map((page) => `Locale["${getLocaleKey(page)}"]`)
                     .join(", ");
-                return `{\n                header = Locale[\"${headerKey}\"],\n                pages = {${pageKeys}} }`;
+                return `{\n                header = Locale["${headerKey}"],\n                pages = {${pageKeys}} }`;
             })
             .join(", ");
     }
@@ -339,8 +307,7 @@ export class DBService {
 
                 const filteredFactions = request.factions.filter(
                     (faction: Faction) =>
-                        faction.collection &&
-                        String(faction.collection.id) === String(c.id)
+                        faction.collection && String(faction.collection.id) === String(c.id)
                 );
                 if (filteredFactions.length === 0) return null;
 
@@ -364,34 +331,28 @@ export class DBService {
 
         return `[${faction.id}] = {\n            id = ${
             faction.id
-        },\n            name = Locale[\"${getLocaleKey(
+        },\n            name = Locale["${getLocaleKey(
             faction.label
-        )}\"],\n            author = \"${
-            escapeLuaString(faction.author || "")
-        }\",\n            chapters = {${this.MapChapterList(
+        )}"],\n            author = "${escapeLuaString(
+            faction.author || ""
+        )}",\n            chapters = {${this.MapChapterList(
             chapters
         )}},\n            timeline = ${faction.timeline}\n        }`;
     }
 
-    private CreateCharacterDbFile(
-        request: FileGenerationRequest
-    ): FileContent[] {
+    private CreateCharacterDbFile(request: FileGenerationRequest): FileContent[] {
         const files = request.collections
             .map((c: FormattedCollection) => {
                 if (!c || typeof c.id === "undefined") return null;
 
                 const filteredCharacters = request.characters.filter(
                     (character: Character) =>
-                        character.collection &&
-                        String(character.collection.id) === String(c.id)
+                        character.collection && String(character.collection.id) === String(c.id)
                 );
                 if (filteredCharacters.length === 0) return null;
 
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
-                const collection = this.GetCollection(
-                    c.name,
-                    TypeName.Character
-                );
+                const collection = this.GetCollection(c.name, TypeName.Character);
                 const characterDbContent = `${
                     this.dbHeader
                 }\n\n    ${collection} = {\n        ${filteredCharacters
@@ -412,13 +373,11 @@ export class DBService {
 
         return `[${character.id}] = {\n            id = ${
             character.id
-        },\n            name = Locale[\"${getLocaleKey(
+        },\n            name = Locale["${getLocaleKey(
             character.label
-        )}\"],\n            author = \"${
-            escapeLuaString(character.author || "")
-        }\",\n            chapters = {${this.MapChapterList(
-            chapters
-        )}},\n            timeline = ${
+        )}"],\n            author = "${escapeLuaString(
+            character.author || ""
+        )}",\n            chapters = {${this.MapChapterList(chapters)}},\n            timeline = ${
             character.timeline
         },\n            factions = {${character.factions
             .map((fac) => fac.id)

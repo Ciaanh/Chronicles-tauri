@@ -2,22 +2,16 @@ import { useState, Fragment, useRef, useEffect } from "react";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import { normalize, join, dirname } from "@tauri-apps/api/path";
 import { exists, lstat, readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
+// neutron-db is pinned to 0.1.0 (no caret) because its API surface is narrow:
+// it exposes AsyncDatabase with get/getAll/add/update/remove, and the 0.x
+// version range offers no stability guarantees. Upgrade intentionally after
+// verifying the API contract has not changed.
 import { AsyncDatabase } from "neutron-db";
 
-import {
-    ContextValue,
-    HistoryEntry,
-    tableNames,
-    dbRepository,
-} from "./dbcontext";
+import { ContextValue, DbWriteContext, HistoryEntry, tableNames, dbRepository } from "./dbcontext";
 
 import { DbObject, Schema } from "./jsondb/types";
-import {
-    DB_Character,
-    DB_Collection,
-    DB_Faction,
-    DB_Locale,
-} from "./models";
+import { DB_Character, DB_Collection, DB_Faction, DB_Locale } from "./models";
 import Loader from "./loader";
 import { createMappers, MapperCache } from "./mappers";
 
@@ -55,15 +49,6 @@ export interface dbProviderProps {
 }
 
 export function DbProvider({ children, dbschema }: dbProviderProps) {
-    if (
-        typeof dbschema !== "object" ||
-        dbschema === null ||
-        dbschema === undefined
-    ) {
-        console.error("No Schema provided to dbContextProvider");
-        return <Fragment>{children}</Fragment>;
-    }
-
     const [database, setDatabase] = useState<AsyncDatabase | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [loaded, setLoaded] = useState<boolean>(false);
@@ -71,6 +56,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     const [lastLoadedPath, setLastLoadedPath] = useState<string | null>(null);
     const [history, setHistory] = useState<HistoryEntry[]>([]);
     const mapperCacheRef = useRef<MapperCache | null>(null);
+    const mapperCacheRefreshRef = useRef<Promise<MapperCache> | null>(null);
 
     // Dispose the database when a new one is loaded or the component unmounts.
     useEffect(() => {
@@ -79,29 +65,42 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         };
     }, [database]);
 
+    if (typeof dbschema !== "object" || dbschema === null || dbschema === undefined) {
+        console.error("No Schema provided to dbContextProvider");
+        return <Fragment>{children}</Fragment>;
+    }
+
     const invalidateMapperCache = () => {
         mapperCacheRef.current = null;
+        // Note: an in-flight mapperCacheRefreshRef will still resolve and write
+        // a fresh cache — that is acceptable (the old data is discarded on assign).
     };
 
     const ensureMapperCache = async (): Promise<MapperCache> => {
         if (database === null) throw new Error("Database not loaded");
+        // Return existing cache immediately if available
         if (mapperCacheRef.current) return mapperCacheRef.current;
+        // Deduplicate concurrent callers: reuse the in-flight Promise
+        if (mapperCacheRefreshRef.current) return mapperCacheRefreshRef.current;
 
-        const [locales, factions, characters, collections] = await Promise.all([
-            database.getAll<DB_Locale>(tableNames.locales),
-            database.getAll<DB_Faction>(tableNames.factions),
-            database.getAll<DB_Character>(tableNames.characters),
-            database.getAll<DB_Collection>(tableNames.collections),
-        ]);
+        mapperCacheRefreshRef.current = (async () => {
+            const [locales, factions, characters, collections] = await Promise.all([
+                database.getAll<DB_Locale>(tableNames.locales),
+                database.getAll<DB_Faction>(tableNames.factions),
+                database.getAll<DB_Character>(tableNames.characters),
+                database.getAll<DB_Collection>(tableNames.collections),
+            ]);
+            mapperCacheRef.current = {
+                localesById: new Map(locales.map((item) => [item.id, item])),
+                factionsById: new Map(factions.map((item) => [item.id, item])),
+                charactersById: new Map(characters.map((item) => [item.id, item])),
+                collectionsById: new Map(collections.map((item) => [item.id, item])),
+            };
+            mapperCacheRefreshRef.current = null;
+            return mapperCacheRef.current;
+        })();
 
-        mapperCacheRef.current = {
-            localesById: new Map(locales.map((item) => [item.id, item])),
-            factionsById: new Map(factions.map((item) => [item.id, item])),
-            charactersById: new Map(characters.map((item) => [item.id, item])),
-            collectionsById: new Map(collections.map((item) => [item.id, item])),
-        };
-
-        return mapperCacheRef.current;
+        return mapperCacheRefreshRef.current;
     };
 
     const loadCore = async (location: string): Promise<void> => {
@@ -244,18 +243,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         return await database.getAll<T>(dbName);
     };
 
-    const get = async <T extends DbObject>(
-        id: number,
-        dbName: string
-    ): Promise<T | null> => {
+    const get = async <T extends DbObject>(id: number, dbName: string): Promise<T | null> => {
         if (database === null) return null;
         return await database.get<T>(id, dbName);
     };
 
-    const add = async <T extends DbObject>(
-        row: T,
-        dbName: string
-    ): Promise<T | null> => {
+    const add = async <T extends DbObject>(row: T, dbName: string): Promise<T | null> => {
         if (database === null) return null;
         const inserted = await database.insert<T>(row, dbName);
         invalidateMapperCache();
@@ -268,10 +261,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         return inserted;
     };
 
-    const update = async <T extends DbObject>(
-        row: T,
-        dbName: string
-    ): Promise<T | null> => {
+    const update = async <T extends DbObject>(row: T, dbName: string): Promise<T | null> => {
         if (database === null) return null;
         const updated = await database.update<T>(row, dbName);
         invalidateMapperCache();
@@ -294,6 +284,83 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         ]);
     };
 
+    type RollbackOp =
+        | { type: "add"; id: number; dbName: string }
+        | { type: "update"; original: Record<string, unknown>; dbName: string }
+        | { type: "remove"; original: Record<string, unknown>; dbName: string };
+
+    const transaction = async (fn: (tx: DbWriteContext) => Promise<void>): Promise<void> => {
+        if (database === null) throw new Error("Database not loaded");
+        const rollbackOps: RollbackOp[] = [];
+
+        const tx: DbWriteContext = {
+            getAll: (dbName) => database.getAll(dbName),
+            get: (id, dbName) => database.get(id, dbName),
+            add: async (row, dbName) => {
+                const result = await database.insert(row, dbName);
+                if (result) rollbackOps.push({ type: "add", id: result.id, dbName });
+                return result;
+            },
+            update: async (row, dbName) => {
+                const original = await database.get(row.id, dbName);
+                const result = await database.update(row, dbName);
+                if (original)
+                    rollbackOps.push({
+                        type: "update",
+                        original: original as Record<string, unknown>,
+                        dbName,
+                    });
+                return result;
+            },
+            remove: async (id, dbName) => {
+                const original = await database.get(id, dbName);
+                await database.delete(id, dbName);
+                if (original)
+                    rollbackOps.push({
+                        type: "remove",
+                        original: original as Record<string, unknown>,
+                        dbName,
+                    });
+            },
+        };
+
+        try {
+            await fn(tx);
+            invalidateMapperCache();
+            setHistory((prev) => {
+                const newEntries: HistoryEntry[] = rollbackOps.map((op) => ({
+                    action: op.type as "add" | "update" | "remove",
+                    table: op.dbName,
+                    id: op.type === "add" ? op.id : (op.original.id as number),
+                    timestamp: new Date(),
+                }));
+                return [...newEntries, ...prev].slice(0, 99);
+            });
+        } catch (err) {
+            for (const op of [...rollbackOps].reverse()) {
+                try {
+                    if (op.type === "add") {
+                        await database.delete(op.id, op.dbName);
+                    } else if (op.type === "update") {
+                        await database.update(
+                            op.original as Parameters<typeof database.update>[0],
+                            op.dbName
+                        );
+                    } else if (op.type === "remove") {
+                        await database.insert(
+                            op.original as Parameters<typeof database.insert>[0],
+                            op.dbName
+                        );
+                    }
+                } catch (rbErr) {
+                    console.error("Transaction rollback failed for op:", op, rbErr);
+                }
+            }
+            invalidateMapperCache();
+            throw err;
+        }
+    };
+
     const mappers = createMappers(database, ensureMapperCache);
 
     const context: ContextValue = {
@@ -302,6 +369,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         add,
         update,
         remove,
+        transaction,
         mappers,
         load,
         loadFromPath,

@@ -1,14 +1,5 @@
 import React from "react";
-import {
-    Modal,
-    Form,
-    Input,
-    InputNumber,
-    Select,
-    Divider,
-    Row,
-    Col,
-} from "antd";
+import { Modal, Form, Input, InputNumber, Select, Divider, Row, Col } from "antd";
 import { EventTypes, Timelines } from "../../constants";
 import { dbRepository, tableNames } from "../../database/dbcontext";
 import {
@@ -29,6 +20,7 @@ import LocaleEditor from "../_shared/LocaleEditor";
 export interface EventModalProps {
     visible: boolean;
     eventToEdit?: Event;
+    defaultCollectionId?: number;
     onOk: (values: EventModalFormValues) => void;
     onCancel: () => void;
     confirmLoading?: boolean;
@@ -83,6 +75,7 @@ export interface EditableEvent {
 const EventModal: React.FC<EventModalProps> = ({
     visible,
     eventToEdit: eventToEdit,
+    defaultCollectionId,
     onOk,
     onCancel,
     confirmLoading = false,
@@ -95,37 +88,33 @@ const EventModal: React.FC<EventModalProps> = ({
     const [characterOptions, setCharacterOptions] = React.useState<
         { value: number; label: string }[]
     >([]);
-    const [factionOptions, setFactionOptions] = React.useState<
-        { value: number; label: string }[]
-    >([]);
-    const [editableEventState, setEditableEventState] =
-        React.useState<EditableEvent | undefined>(undefined);
+    const [factionOptions, setFactionOptions] = React.useState<{ value: number; label: string }[]>(
+        []
+    );
+    const [editableEventState, setEditableEventState] = React.useState<EditableEvent | undefined>(
+        undefined
+    );
 
     React.useEffect(() => {
         async function fetchCollections() {
-            const collectionList = await dbContext.getAll(
-                tableNames.collections
+            const collectionList = await dbContext.getAll(tableNames.collections);
+            const mappedCollections = await dbContext.mappers.collections.mapFromDbArray(
+                collectionList as DB_Collection[]
             );
-            const mappedCollections =
-                await dbContext.mappers.collections.mapFromDbArray(
-                    collectionList as DB_Collection[]
-                );
             setCollections(mappedCollections);
         }
         async function fetchCharacters() {
             const characterList = await dbContext.getAll(tableNames.characters);
-            const mappedCharacters =
-                await dbContext.mappers.characters.mapFromDbArray(
-                    characterList as DB_Character[]
-                );
+            const mappedCharacters = await dbContext.mappers.characters.mapFromDbArray(
+                characterList as DB_Character[]
+            );
             setCharacters(mappedCharacters);
         }
         async function fetchFactions() {
             const factionList = await dbContext.getAll(tableNames.factions);
-            const mappedFactions =
-                await dbContext.mappers.factions.mapFromDbArray(
-                    factionList as DB_Faction[]
-                );
+            const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
+                factionList as DB_Faction[]
+            );
             setFactions(mappedFactions);
         }
         fetchCollections();
@@ -134,7 +123,7 @@ const EventModal: React.FC<EventModalProps> = ({
     }, [dbContext]);
 
     React.useEffect(() => {
-        let editableEvent: EditableEvent | undefined = eventToEdit
+        const editableEvent: EditableEvent | undefined = eventToEdit
             ? {
                   id: eventToEdit.id,
                   name: eventToEdit.name ?? "",
@@ -155,9 +144,7 @@ const EventModal: React.FC<EventModalProps> = ({
                   characters: Array.isArray(eventToEdit.characters)
                       ? eventToEdit.characters.map((c) => c.id)
                       : [],
-                  chapters: Array.isArray(eventToEdit.chapters)
-                      ? eventToEdit.chapters
-                      : [],
+                  chapters: Array.isArray(eventToEdit.chapters) ? eventToEdit.chapters : [],
               }
             : undefined;
 
@@ -166,27 +153,28 @@ const EventModal: React.FC<EventModalProps> = ({
 
     React.useEffect(() => {
         if (visible) {
-            form.setFieldsValue(editableEventState || {});
+            form.setFieldsValue({
+                ...(editableEventState || {}),
+                // Pre-select the active collection when creating a new event
+                collection: editableEventState?.collection ?? defaultCollectionId,
+            });
 
             if (editableEventState?.characters && characters.length > 0) {
                 setCharacterOptions(
                     characters
-                        .filter((c) =>
-                            editableEventState.characters.includes(c.id)
-                        )
+                        .filter((c) => editableEventState.characters.includes(c.id))
                         .map((c) => ({ value: c.id, label: c.name }))
                 );
             }
             if (editableEventState?.factions && factions.length > 0) {
                 setFactionOptions(
                     factions
-                        .filter((f) =>
-                            editableEventState.factions.includes(f.id)
-                        )
+                        .filter((f) => editableEventState.factions.includes(f.id))
                         .map((f) => ({ value: f.id, label: f.name }))
                 );
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editableEventState, visible, characters, factions]);
 
     const handleCharacterSearch = async (search: string) => {
@@ -195,15 +183,12 @@ const EventModal: React.FC<EventModalProps> = ({
             return;
         }
         const characterList = await dbContext.getAll(tableNames.characters);
-        const mappedCharacters =
-            await dbContext.mappers.characters.mapFromDbArray(
-                characterList as DB_Character[]
-            );
+        const mappedCharacters = await dbContext.mappers.characters.mapFromDbArray(
+            characterList as DB_Character[]
+        );
         setCharacterOptions(
             mappedCharacters
-                .filter((c) =>
-                    c.name.toLowerCase().includes(search.toLowerCase())
-                )
+                .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
                 .map((c) => ({ value: c.id, label: c.name }))
         );
     };
@@ -219,9 +204,7 @@ const EventModal: React.FC<EventModalProps> = ({
         );
         setFactionOptions(
             mappedFactions
-                .filter((f) =>
-                    f.name.toLowerCase().includes(search.toLowerCase())
-                )
+                .filter((f) => f.name.toLowerCase().includes(search.toLowerCase()))
                 .map((f) => ({ value: f.id, label: f.name }))
         );
     };
@@ -230,20 +213,12 @@ const EventModal: React.FC<EventModalProps> = ({
         try {
             const values = (await form.validateFields()) as EventFormFields;
             // Set the full collection object for parent
-            let selectedCollection: number | Collection | undefined =
-                values.collection;
+            let selectedCollection: number | Collection | undefined = values.collection;
             if (typeof selectedCollection === "number") {
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollection
-                );
-            } else if (
-                selectedCollection &&
-                typeof selectedCollection === "object"
-            ) {
+                selectedCollection = collections.find((c) => c.id === selectedCollection);
+            } else if (selectedCollection && typeof selectedCollection === "object") {
                 const selectedCollectionObject = selectedCollection;
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollectionObject.id
-                );
+                selectedCollection = collections.find((c) => c.id === selectedCollectionObject.id);
             }
 
             if (!selectedCollection || typeof selectedCollection === "number") {
@@ -287,11 +262,14 @@ const EventModal: React.FC<EventModalProps> = ({
                 form={form}
                 layout="vertical"
                 initialValues={editableEventState}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        handleOk();
+                    }
+                }}
             >
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, marginBottom: 24 }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, marginBottom: 24 }}>
                     Basic Info
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 12 }}>
@@ -306,11 +284,7 @@ const EventModal: React.FC<EventModalProps> = ({
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Event name"
-                                allowClear
-                                size="large"
-                            />
+                            <Input placeholder="Event name" allowClear size="large" autoFocus />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -357,10 +331,7 @@ const EventModal: React.FC<EventModalProps> = ({
                         </Form.Item>
                     </Col>
                 </Row>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Classification
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 12 }}>
@@ -419,9 +390,7 @@ const EventModal: React.FC<EventModalProps> = ({
                         placeholder="Select collection"
                         optionFilterProp="children"
                         filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
+                            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
                         }
                         options={collections.map((c) => ({
                             value: c.id,
@@ -430,19 +399,12 @@ const EventModal: React.FC<EventModalProps> = ({
                         size="large"
                     />
                 </Form.Item>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Associations
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 12 }}>
                     <Col span={12}>
-                        <Form.Item
-                            name="factions"
-                            valuePropName="value"
-                            trigger="onChange"
-                        >
+                        <Form.Item name="factions" valuePropName="value" trigger="onChange">
                             <TagSelect
                                 label="Factions"
                                 options={factionOptions}
@@ -453,11 +415,7 @@ const EventModal: React.FC<EventModalProps> = ({
                         </Form.Item>
                     </Col>
                     <Col span={12}>
-                        <Form.Item
-                            name="characters"
-                            valuePropName="value"
-                            trigger="onChange"
-                        >
+                        <Form.Item name="characters" valuePropName="value" trigger="onChange">
                             <TagSelect
                                 label="Characters"
                                 options={characterOptions}
@@ -468,21 +426,10 @@ const EventModal: React.FC<EventModalProps> = ({
                         </Form.Item>
                     </Col>
                 </Row>
-                <Form.Item
-                    label="Link"
-                    name="link"
-                    style={{ marginBottom: 24 }}
-                >
-                    <Input
-                        placeholder="External link (optional)"
-                        allowClear
-                        size="large"
-                    />
+                <Form.Item label="Link" name="link" style={{ marginBottom: 24 }}>
+                    <Input placeholder="External link (optional)" allowClear size="large" />
                 </Form.Item>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Label & Chapters
                 </Divider>
                 <Row gutter={24}>

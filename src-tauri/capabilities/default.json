@@ -12,16 +12,14 @@
     {
       "identifier": "fs:allow-exists",
       "allow": [
-        { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
         { "path": "$DESKTOP/**" }
       ]
     },
     {
-      "identifier": "fs:read-text-file",
+      "identifier": "fs:allow-read-text-file",
       "allow": [
-        { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
         { "path": "$DESKTOP/**" }
@@ -30,7 +28,6 @@
     {
       "identifier": "fs:write-files",
       "allow": [
-        { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
         { "path": "$DESKTOP/**" }
@@ -39,7 +36,6 @@
     {
       "identifier": "fs:allow-lstat",
       "allow": [
-        { "path": "$HOME/**" },
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
         { "path": "$DESKTOP/**" }

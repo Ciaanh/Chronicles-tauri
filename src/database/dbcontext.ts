@@ -16,6 +16,15 @@ import {
 } from "./models";
 import { DbObject } from "./jsondb/types";
 
+/** Minimal write-capable context passed to transaction callbacks and utilities. */
+export interface DbWriteContext {
+    getAll: <T extends DbObject>(dbName: string) => Promise<T[]>;
+    get: <T extends DbObject>(id: number, dbName: string) => Promise<T | null>;
+    add: <T extends DbObject>(row: T, dbName: string) => Promise<T | null>;
+    update: <T extends DbObject>(row: T, dbName: string) => Promise<T | null>;
+    remove: (id: number, dbName: string) => Promise<void>;
+}
+
 export type HistoryAction = "add" | "update" | "remove";
 
 export interface HistoryEntry {
@@ -59,6 +68,7 @@ export interface ContextValue {
     add: <T extends DbObject>(row: T, dbName: string) => Promise<T | null>;
     update: <T extends DbObject>(row: T, dbName: string) => Promise<T | null>;
     remove: (id: number, dbName: string) => Promise<void>;
+    transaction: (fn: (tx: DbWriteContext) => Promise<void>) => Promise<void>;
     mappers: {
         events: Mapper<DB_Event, Event>;
         characters: Mapper<DB_Character, Character>;

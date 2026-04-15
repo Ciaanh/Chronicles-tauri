@@ -1,44 +1,63 @@
 import { useState, useContext } from "react";
-import { Button, Divider, Space, Typography } from "antd";
+import { Alert, Button, Descriptions, Divider, List, Modal, Space, Typography } from "antd";
 import useMessage from "antd/es/message/useMessage";
-import { save } from "@tauri-apps/plugin-dialog";
-import { writeTextFile } from "@tauri-apps/plugin-fs";
+import { open, save } from "@tauri-apps/plugin-dialog";
+import { readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
 import { AddonGenerator, GenerationRequest } from "../app/addon/generator";
 import { dbRepository, tableNames } from "../database/dbcontext";
 import { fileApi } from "../_utils/files/fileApi";
-import {
-    DB_Character,
-    DB_Collection,
-    DB_Event,
-    DB_Faction,
-    DB_Locale,
-} from "../database/models";
+import { DB_Character, DB_Collection, DB_Event, DB_Faction, DB_Locale } from "../database/models";
 import { Language } from "../constants";
+import { Filters } from "./filters";
+import { parseChroniclesDb, prepareImport, PreparedImport } from "../_utils/importDb";
 
 function toCsv(rows: Record<string, unknown>[]): string {
     if (!rows.length) return "";
     const headers = Object.keys(rows[0]);
-    const escape = (v: unknown) =>
-        `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const escape = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
     return [
         headers.join(","),
         ...rows.map((row) => headers.map((h) => escape(row[h])).join(",")),
     ].join("\n");
 }
 
-const ExportTab: React.FC = () => {
+const ExportTab: React.FC<{ filters: Filters }> = ({ filters }) => {
     const [exporting, setExporting] = useState(false);
     const [csvExporting, setCsvExporting] = useState<string | null>(null);
+    const [importing, setImporting] = useState(false);
+    const [pendingImport, setPendingImport] = useState<PreparedImport | null>(null);
     const dbContext = useContext(dbRepository);
     const [messageApi, contextHolder] = useMessage();
 
     const handleExport = async () => {
         setExporting(true);
         try {
-            const collections = await dbContext.mappers.collections.mapFromDbArray(await dbContext.getAll(tableNames.collections));
-            const events = await dbContext.mappers.events.mapFromDbArray(await dbContext.getAll(tableNames.events));
-            const factions = await dbContext.mappers.factions.mapFromDbArray(await dbContext.getAll(tableNames.factions));
-            const characters = await dbContext.mappers.characters.mapFromDbArray(await dbContext.getAll(tableNames.characters));
+            const allCollections = await dbContext.mappers.collections.mapFromDbArray(
+                await dbContext.getAll(tableNames.collections)
+            );
+            const allEvents = await dbContext.mappers.events.mapFromDbArray(
+                await dbContext.getAll(tableNames.events)
+            );
+            const allFactions = await dbContext.mappers.factions.mapFromDbArray(
+                await dbContext.getAll(tableNames.factions)
+            );
+            const allCharacters = await dbContext.mappers.characters.mapFromDbArray(
+                await dbContext.getAll(tableNames.characters)
+            );
+
+            const collectionId = filters.collection?.id;
+            const collections = collectionId
+                ? allCollections.filter((c) => c.id === collectionId)
+                : allCollections;
+            const events = collectionId
+                ? allEvents.filter((e) => e.collection?.id === collectionId)
+                : allEvents;
+            const factions = collectionId
+                ? allFactions.filter((f) => f.collection?.id === collectionId)
+                : allFactions;
+            const characters = collectionId
+                ? allCharacters.filter((c) => c.collection?.id === collectionId)
+                : allCharacters;
 
             const request: GenerationRequest = {
                 collections,
@@ -46,8 +65,21 @@ const ExportTab: React.FC = () => {
                 factions,
                 characters,
             };
-            await new AddonGenerator().Create(request, fileApi);
-            messageApi.success("Export completed! ZIP file will be saved.");
+            const warnings = await new AddonGenerator().Create(request, fileApi);
+            if (warnings.length > 0) {
+                Modal.warning({
+                    title: `Export completed with ${warnings.length} validation warning(s)`,
+                    content: (
+                        <List
+                            size="small"
+                            dataSource={warnings}
+                            renderItem={(w) => <List.Item>{w}</List.Item>}
+                        />
+                    ),
+                });
+            } else {
+                messageApi.success("Export completed! ZIP file will be saved.");
+            }
         } catch (e) {
             console.error("Export failed:", e);
             messageApi.error("Export failed: " + (e as Error).message);
@@ -104,10 +136,7 @@ const ExportTab: React.FC = () => {
                     enUS: l.enUS,
                     ishtml: l.ishtml,
                     ...Object.fromEntries(
-                        Object.values(Language).map((lang) => [
-                            lang,
-                            l.translations?.[lang] ?? "",
-                        ])
+                        Object.values(Language).map((lang) => [lang, l.translations?.[lang] ?? ""])
                     ),
                 }));
             }
@@ -127,6 +156,42 @@ const ExportTab: React.FC = () => {
         }
     };
 
+    const handleImport = async () => {
+        setImporting(true);
+        try {
+            const filePath = await open({
+                title: "Select Chronicles DB JSON file",
+                filters: [{ name: "JSON", extensions: ["json"] }],
+                multiple: false,
+                directory: false,
+            });
+            if (!filePath) return;
+            const text = await readTextFile(filePath as string);
+            const parsed = parseChroniclesDb(text);
+            const prepared = await prepareImport(parsed, dbContext);
+            setPendingImport(prepared);
+        } catch (e) {
+            console.error("Import failed:", e);
+            messageApi.error("Import failed: " + (e as Error).message);
+        } finally {
+            setImporting(false);
+        }
+    };
+
+    const handleImportConfirm = async () => {
+        if (!pendingImport) return;
+        try {
+            await dbContext.transaction(pendingImport.apply);
+            dbContext.load();
+            messageApi.success("Import completed successfully.");
+        } catch (e) {
+            console.error("Import apply failed:", e);
+            messageApi.error("Import failed: " + (e as Error).message);
+        } finally {
+            setPendingImport(null);
+        }
+    };
+
     return (
         <div style={{ padding: 24 }}>
             {contextHolder}
@@ -134,9 +199,59 @@ const ExportTab: React.FC = () => {
             <Typography.Paragraph>
                 Generate and download the WoW Chronicles addon files (Lua/XML) for your collections.
             </Typography.Paragraph>
+            {filters.collection && (
+                <Alert
+                    type="info"
+                    showIcon
+                    style={{ marginBottom: 16 }}
+                    message={`Exporting only collection: "${filters.collection.name}". Clear the collection filter to export all data.`}
+                />
+            )}
             <Button type="primary" loading={exporting} onClick={handleExport}>
-                Export Addon Files
+                {filters.collection
+                    ? `Export "${filters.collection.name}" Addon Files`
+                    : "Export All Addon Files"}
             </Button>
+
+            <Divider />
+
+            <Typography.Title level={4}>Import Database</Typography.Title>
+            <Typography.Paragraph>
+                Import a Chronicles DB JSON file. All IDs will be re-numbered automatically to avoid
+                collisions with existing data.
+            </Typography.Paragraph>
+            <Button loading={importing} onClick={handleImport}>
+                Import Chronicles DB JSON
+            </Button>
+
+            <Modal
+                open={pendingImport !== null}
+                title="Confirm Import"
+                okText="Import"
+                onOk={handleImportConfirm}
+                onCancel={() => setPendingImport(null)}
+            >
+                <Typography.Paragraph>
+                    The following records will be added to your database:
+                </Typography.Paragraph>
+                <Descriptions bordered column={1} size="small">
+                    <Descriptions.Item label="Collections">
+                        {pendingImport?.summary.collections}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Events">
+                        {pendingImport?.summary.events}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Factions">
+                        {pendingImport?.summary.factions}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Characters">
+                        {pendingImport?.summary.characters}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Locales">
+                        {pendingImport?.summary.locales}
+                    </Descriptions.Item>
+                </Descriptions>
+            </Modal>
 
             <Divider />
 

@@ -1,13 +1,7 @@
 import React from "react";
 import { Modal, Form, Input, Select, Divider, Row, Col } from "antd";
 import { dbRepository, tableNames } from "../../database/dbcontext";
-import {
-    Collection,
-    DB_Collection,
-    Faction,
-    Locale,
-    Chapter,
-} from "../../database/models";
+import { Collection, DB_Collection, Faction, Locale, Chapter } from "../../database/models";
 import { Timelines } from "../../constants";
 import LocaleEditor from "../_shared/LocaleEditor";
 import ChaptersEditor from "../_shared/ChaptersEditor";
@@ -15,6 +9,7 @@ import ChaptersEditor from "../_shared/ChaptersEditor";
 export interface FactionModalProps {
     visible: boolean;
     factionToEdit?: Faction;
+    defaultCollectionId?: number;
     onOk: (values: FactionModalFormValues) => void;
     onCancel: () => void;
     confirmLoading?: boolean;
@@ -51,6 +46,7 @@ export interface EditableFaction {
 const FactionModal: React.FC<FactionModalProps> = ({
     visible,
     factionToEdit,
+    defaultCollectionId,
     onOk,
     onCancel,
     confirmLoading = false,
@@ -58,24 +54,22 @@ const FactionModal: React.FC<FactionModalProps> = ({
     const [form] = Form.useForm();
     const dbContext = React.useContext(dbRepository);
     const [collections, setCollections] = React.useState<Collection[]>([]);
-    const [editableFactionState, setEditableFactionState] =
-        React.useState<EditableFaction | undefined>(undefined);
+    const [editableFactionState, setEditableFactionState] = React.useState<
+        EditableFaction | undefined
+    >(undefined);
 
     React.useEffect(() => {
         async function fetchCollections() {
-            const collectionList = await dbContext.getAll(
-                tableNames.collections
+            const collectionList = await dbContext.getAll(tableNames.collections);
+            const mappedCollections = await dbContext.mappers.collections.mapFromDbArray(
+                collectionList as DB_Collection[]
             );
-            const mappedCollections =
-                await dbContext.mappers.collections.mapFromDbArray(
-                    collectionList as DB_Collection[]
-                );
             setCollections(mappedCollections);
         }
         fetchCollections();
     }, [dbContext]);
     React.useEffect(() => {
-        let editableFaction: EditableFaction | undefined = factionToEdit
+        const editableFaction: EditableFaction | undefined = factionToEdit
             ? {
                   id: factionToEdit.id,
                   name: factionToEdit.name ?? "",
@@ -95,28 +89,24 @@ const FactionModal: React.FC<FactionModalProps> = ({
 
     React.useEffect(() => {
         if (visible) {
-            form.setFieldsValue(editableFactionState || {});
+            form.setFieldsValue({
+                ...(editableFactionState || {}),
+                collection: editableFactionState?.collection ?? defaultCollectionId,
+            });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editableFactionState, visible]);
 
     const handleOk = async () => {
         try {
             const values = (await form.validateFields()) as FactionFormFields;
             // Set the full collection object for parent
-            let selectedCollection: number | Collection | undefined =
-                values.collection;
+            let selectedCollection: number | Collection | undefined = values.collection;
             if (typeof selectedCollection === "number") {
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollection
-                );
-            } else if (
-                selectedCollection &&
-                typeof selectedCollection === "object"
-            ) {
+                selectedCollection = collections.find((c) => c.id === selectedCollection);
+            } else if (selectedCollection && typeof selectedCollection === "object") {
                 const selectedCollectionObject = selectedCollection;
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollectionObject.id
-                );
+                selectedCollection = collections.find((c) => c.id === selectedCollectionObject.id);
             }
 
             if (!selectedCollection || typeof selectedCollection === "number") {
@@ -152,11 +142,14 @@ const FactionModal: React.FC<FactionModalProps> = ({
                 form={form}
                 layout="vertical"
                 initialValues={editableFactionState}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        handleOk();
+                    }
+                }}
             >
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, marginBottom: 24 }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, marginBottom: 24 }}>
                     Basic Info
                 </Divider>{" "}
                 <Row gutter={24} style={{ marginBottom: 12 }}>
@@ -171,20 +164,12 @@ const FactionModal: React.FC<FactionModalProps> = ({
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Faction name"
-                                allowClear
-                                size="large"
-                            />
+                            <Input placeholder="Faction name" allowClear size="large" autoFocus />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item label="Author" name="author">
-                            <Input
-                                placeholder="Author name"
-                                allowClear
-                                size="large"
-                            />
+                            <Input placeholder="Author name" allowClear size="large" />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -225,9 +210,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                         placeholder="Select collection"
                         optionFilterProp="children"
                         filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
+                            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
                         }
                         options={collections.map((c) => ({
                             value: c.id,
@@ -236,10 +219,7 @@ const FactionModal: React.FC<FactionModalProps> = ({
                         size="large"
                     />
                 </Form.Item>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Label
                 </Divider>{" "}
                 <Row gutter={24}>

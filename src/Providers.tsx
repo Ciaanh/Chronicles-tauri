@@ -5,6 +5,8 @@ import { tableNames } from "./database/dbcontext";
 import { dbSchema, DbProvider } from "./database/dbprovider";
 import { ConfigProvider, theme, App } from "antd";
 import { StyleProvider } from "@ant-design/cssinjs";
+import { ThemeProvider } from "./ThemeProvider";
+import { useTheme } from "./useTheme";
 
 const schema: dbSchema = {
     dbname: "ChroniclesDB",
@@ -22,22 +24,18 @@ const schema: dbSchema = {
 
 export default function Providers({ children }: PropsWithChildren) {
     return (
+        <ThemeProvider>
+            <ThemedApp>{children}</ThemedApp>
+        </ThemeProvider>
+    );
+}
+
+function ThemedApp({ children }: PropsWithChildren) {
+    const { darkMode } = useTheme();
+    return (
         <ConfigProvider
             theme={{
-                // token: {
-                //     colorLink: "#1f82ec",
-                //     colorPrimary: "#7793cad9",
-                //     colorInfo: "#7793cad9",
-                //     colorSuccess: "#9fe27ed9",
-                //     colorWarning: "#f9b836d9",
-                //     colorError: "#fd5a5dd9",
-                //     colorBgBase: "#0e0f10",
-                //     borderRadius: 0,
-                //     wireframe: true,
-                //     colorTextBase: "#c4f4ff"
-                //   },
-                algorithm: theme.defaultAlgorithm,
-                //   algorithm: theme.darkAlgorithm,
+                algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 hashed: false,
             }}
         >

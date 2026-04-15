@@ -1,0 +1,33 @@
+// ── Chronicles Design Tokens ──────────────────────────────────────────────────
+// Single source of truth for all magic values used across SCSS files.
+// Import with: @use "./tokens" as t;
+
+// ── Spacing ───────────────────────────────────────────────────────────────────
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+
+// ── Typography (font-size scale) ──────────────────────────────────────────────
+$text-sm: 12px;
+$text-base: 14px;
+$text-md: 16px;
+$text-lg: 20px;
+$text-xl: 24px;
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+$header-height: 64px;
+$footer-height: 40px;
+$breadcrumb-margin: $space-md;
+$tabs-reserved-height: 250px; // header + breadcrumb + padding above tabs
+
+// ── Breakpoints ───────────────────────────────────────────────────────────────
+$bp-sm: 768px;
+$bp-md: 1024px;
+$bp-lg: 1280px;
+
+// ── Collection select ─────────────────────────────────────────────────────────
+$collection-select-width: 155px;
+$collection-select-width-sm: 120px;

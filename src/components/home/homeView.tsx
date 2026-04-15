@@ -48,17 +48,17 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
         {
             label: "Export",
             key: "export",
-            children: <ExportTab />,
+            children: <ExportTab filters={filters} />,
         },
         {
             label: "Stats",
             key: "stats",
-            children: <StatsTab />,
+            children: <StatsTab filters={filters} />,
         },
         {
             label: "Timeline",
             key: "timeline",
-            children: <TimelineTab />,
+            children: <TimelineTab filters={filters} />,
         },
         {
             label: "History",
@@ -68,9 +68,7 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
     ];
 
     const defaultTabName = "events";
-    const defaultTabIndex = tabItems.findIndex(
-        (item) => item.key === defaultTabName
-    );
+    const defaultTabIndex = tabItems.findIndex((item) => item.key === defaultTabName);
     const [currentTab, setCurrentTab] = useState(tabItems[defaultTabIndex]);
 
     const onTabChange = (key: string) => {
@@ -85,10 +83,7 @@ const HomeView: React.FC<HomeViewProps> = ({ filters }) => {
         <div className="content">
             <Breadcrumb
                 className="breadCrumb"
-                items={[
-                    { title: "Home" },
-                    { title: currentTab ? currentTab.label : "" },
-                ]}
+                items={[{ title: "Home" }, { title: currentTab ? currentTab.label : "" }]}
             />
 
             <Tabs

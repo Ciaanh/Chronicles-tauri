@@ -26,8 +26,40 @@ export interface FileGenerationRequest {
     characters: Character[];
 }
 
+/** Basic post-generation Lua syntax sanity check. Returns a list of issues found. */
+export function validateLuaContent(fileName: string, content: string): string[] {
+    const issues: string[] = [];
+
+    // Check balanced braces
+    let depth = 0;
+    for (const ch of content) {
+        if (ch === "{") depth++;
+        else if (ch === "}") depth--;
+        if (depth < 0) {
+            issues.push(`${fileName}: unexpected closing brace '}'`);
+            break;
+        }
+    }
+    if (depth !== 0)
+        issues.push(`${fileName}: unbalanced braces (net ${depth > 0 ? "+" : ""}${depth})`);
+
+    // Check balanced double-quotes (naive — counts unescaped quotes)
+    let quoteCount = 0;
+    for (let i = 0; i < content.length; i++) {
+        if (content[i] === "\\") {
+            i++;
+            continue;
+        } // skip escaped char
+        if (content[i] === '"') quoteCount++;
+    }
+    if (quoteCount % 2 !== 0) issues.push(`${fileName}: unbalanced double quotes`);
+
+    return issues;
+}
+
 export class AddonGenerator {
-    Create = async function (request: GenerationRequest, fileApi: FileApi): Promise<void> {
+    Create = async function (request: GenerationRequest, fileApi: FileApi): Promise<string[]> {
+        const warnings: string[] = [];
         if (request.collections.length > 0) {
             // Prepare collections for file generation (add index)
             const preparedCollections = request.collections.map(
@@ -42,7 +74,6 @@ export class AddonGenerator {
                 }
             );
 
-            // Use the original objects (with all properties) for events, factions, characters
             const fileGenerationRequest: FileGenerationRequest = {
                 collections: preparedCollections,
                 events: request.events,
@@ -52,10 +83,18 @@ export class AddonGenerator {
             const locale = new LocaleService().Generate(fileGenerationRequest);
             const db = new DBService().Generate(fileGenerationRequest);
 
-            // merge arrays locale and db
             const merged: FileContent[] = [...locale, ...db];
+
+            // Post-generation validation
+            for (const file of merged) {
+                if (file.name.endsWith(".lua")) {
+                    const issues = validateLuaContent(file.name, file.content);
+                    warnings.push(...issues);
+                }
+            }
 
             await fileApi.pack(merged);
         }
+        return warnings;
     };
 }

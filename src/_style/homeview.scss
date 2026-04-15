@@ -1,12 +1,14 @@
+@use "./tokens" as t;
+
 .content {
-    padding: 0px 24px;
+    padding: 0 t.$space-lg;
 }
 
 .breadCrumb {
-    margin: 16px 0px;
+    margin: t.$breadcrumb-margin 0;
 }
 
 .tabs {
-    height: calc(100vh - 250px);
+    height: calc(100vh - t.$tabs-reserved-height);
     overflow: auto;
 }

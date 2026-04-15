@@ -8,23 +8,10 @@ import {
     DB_Locale,
     Locale,
 } from "../../database/models";
-import {
-    App,
-    Button,
-    Input,
-    Space,
-    Table,
-    TableProps,
-    Modal,
-    Typography,
-    Switch,
-} from "antd";
+import { App, Button, Input, Space, Table, TableProps, Modal, Typography, Switch } from "antd";
 import { Filters } from "../filters";
 
-import {
-    DeleteOutlined,
-    EditOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import LocaleEditor from "../_shared/LocaleEditor";
 
 interface LocaleListProps {
@@ -36,9 +23,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     const [locales, setLocales] = useState<Locale[]>([]);
     const [search, setSearch] = useState("");
     const [editingLocale, setEditingLocale] = useState<Locale | null>(null);
-    const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(
-        null
-    );
+    const [editingLocaleDraft, setEditingLocaleDraft] = useState<Locale | null>(null);
     const [showOnlyUnreferenced, setShowOnlyUnreferenced] = useState(false);
     const dbContext = useContext(dbRepository);
     const { modal } = App.useApp();
@@ -77,8 +62,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         eventList.forEach((e) => {
             if (typeof e.labelId === "number") referencedIds.add(e.labelId);
             e.chapters?.forEach((chapter: DB_Chapter) => {
-                if (typeof chapter.headerId === "number")
-                    referencedIds.add(chapter.headerId);
+                if (typeof chapter.headerId === "number") referencedIds.add(chapter.headerId);
                 if (Array.isArray(chapter.pageIds)) {
                     chapter.pageIds.forEach((pid) => {
                         if (typeof pid === "number") referencedIds.add(pid);
@@ -97,9 +81,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 c.chapters.forEach((chapter) => {
                     if (chapter.headerId) referencedIds.add(chapter.headerId);
                     if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
-                        chapter.pageIds.forEach((pageId) =>
-                            referencedIds.add(pageId)
-                        );
+                        chapter.pageIds.forEach((pageId) => referencedIds.add(pageId));
                     }
                 });
             }
@@ -112,9 +94,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 f.chapters.forEach((chapter) => {
                     if (chapter.headerId) referencedIds.add(chapter.headerId);
                     if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
-                        chapter.pageIds.forEach((pageId) =>
-                            referencedIds.add(pageId)
-                        );
+                        chapter.pageIds.forEach((pageId) => referencedIds.add(pageId));
                     }
                 });
             }
@@ -124,15 +104,11 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         let filteredLocales = dbLocaleList;
         if (showOnlyUnreferenced) {
             filteredLocales = dbLocaleList.filter(
-                (locale) =>
-                    typeof locale.id === "number" &&
-                    !referencedIds.has(locale.id)
+                (locale) => typeof locale.id === "number" && !referencedIds.has(locale.id)
             );
         }
 
-        const mappedLocales = await dbContext.mappers.locales.mapFromDbArray(
-            filteredLocales
-        );
+        const mappedLocales = await dbContext.mappers.locales.mapFromDbArray(filteredLocales);
 
         setLocales(mappedLocales);
         setLoading(false);
@@ -140,7 +116,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
 
     useEffect(() => {
         fetchLocales();
-    }, [filters.collection, showOnlyUnreferenced]);
+    }, [filters.collection, showOnlyUnreferenced]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleDeleteAllUnreferenced = () => {
         modal.confirm({
@@ -199,10 +175,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             dataIndex: "id",
             width: 20,
             render: (id: number) => (
-                <Typography.Text
-                    ellipsis
-                    style={{ maxWidth: 60, display: "block", color: "#888" }}
-                >
+                <Typography.Text ellipsis style={{ maxWidth: 60, display: "block", color: "#888" }}>
                     {id}
                 </Typography.Text>
             ),
@@ -212,10 +185,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             dataIndex: "enUS",
             width: 180,
             render: (enUS: string) => (
-                <Typography.Text
-                    ellipsis
-                    style={{ maxWidth: 220, display: "block" }}
-                >
+                <Typography.Text ellipsis style={{ maxWidth: 220, display: "block" }}>
                     {enUS}
                 </Typography.Text>
             ),
@@ -256,9 +226,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             return (
                 event.labelId === localeId ||
                 event.chapters.some(
-                    (chapter) =>
-                        chapter.headerId === localeId ||
-                        chapter.pageIds.includes(localeId)
+                    (chapter) => chapter.headerId === localeId || chapter.pageIds.includes(localeId)
                 )
             );
         });
@@ -276,9 +244,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 return character.chapters.some((chapter) => {
                     if (chapter.headerId === localeId) return true;
                     if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
-                        return chapter.pageIds.some(
-                            (pageId) => pageId === localeId
-                        );
+                        return chapter.pageIds.some((pageId) => pageId === localeId);
                     }
                     return false;
                 });
@@ -297,9 +263,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 return faction.chapters.some((chapter) => {
                     if (chapter.headerId === localeId) return true;
                     if (chapter.pageIds && Array.isArray(chapter.pageIds)) {
-                        return chapter.pageIds.some(
-                            (pageId) => pageId === localeId
-                        );
+                        return chapter.pageIds.some((pageId) => pageId === localeId);
                     }
                     return false;
                 });
@@ -308,9 +272,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             return false;
         });
 
-        return (
-            referencedInEvents || referencedInCharacters || referencedInFactions
-        );
+        return referencedInEvents || referencedInCharacters || referencedInFactions;
     }
 
     async function deleteLocale(localeId: number) {
@@ -319,9 +281,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
             visible: true,
             localeId,
             referenced,
-            title: referenced
-                ? "Locale is referenced elsewhere"
-                : "Delete Locale?",
+            title: referenced ? "Locale is referenced elsewhere" : "Delete Locale?",
             content: referenced
                 ? "This locale is referenced by other data. Its content will be wiped (emptied), but the record will remain. Proceed?"
                 : "This locale is not referenced and will be permanently deleted. Proceed?",
@@ -333,10 +293,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
         if (deleteModal.localeId == null) return;
         if (deleteModal.referenced) {
             // Wipe the locale's content but keep the record
-            const locale = await dbContext.get(
-                deleteModal.localeId,
-                tableNames.locales
-            );
+            const locale = await dbContext.get(deleteModal.localeId, tableNames.locales);
             if (locale) {
                 const wipedLocale = {
                     ...locale,
@@ -360,14 +317,9 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
             <Space>
-                <Button onClick={cleanLocales}>
-                    Clean locales
-                </Button>
+                <Button onClick={cleanLocales}>Clean locales</Button>
 
-                <Button
-                    onClick={reloadLocales}
-                    loading={loading}
-                >
+                <Button onClick={reloadLocales} loading={loading}>
                     Load locales from DB
                 </Button>
 
@@ -381,23 +333,13 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 <Space align="center">
                     <Switch
                         checked={showOnlyUnreferenced}
-                        onChange={() =>
-                            setShowOnlyUnreferenced((prev) => !prev)
-                        }
+                        onChange={() => setShowOnlyUnreferenced((prev) => !prev)}
                     />
-                    <span>
-                        {showOnlyUnreferenced
-                            ? "Show Only Unreferenced"
-                            : "Show All"}
-                    </span>
+                    <span>{showOnlyUnreferenced ? "Show Only Unreferenced" : "Show All"}</span>
                 </Space>
 
                 {showOnlyUnreferenced && locales.length > 0 && (
-                    <Button
-                        danger
-                        onClick={handleDeleteAllUnreferenced}
-                        loading={loading}
-                    >
+                    <Button danger onClick={handleDeleteAllUnreferenced} loading={loading}>
                         Delete all unreferenced ({locales.length})
                     </Button>
                 )}
@@ -407,11 +349,13 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                 rowKey="id"
                 columns={columns}
                 dataSource={locales.filter(
-                    (l) =>
-                        !search ||
-                        l.enUS.toLowerCase().includes(search.toLowerCase())
+                    (l) => !search || l.enUS.toLowerCase().includes(search.toLowerCase())
                 )}
-                pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (total) => `${total} locales` }}
+                pagination={{
+                    pageSize: 20,
+                    showSizeChanger: true,
+                    showTotal: (total) => `${total} locales`,
+                }}
                 scroll={{
                     scrollToFirstRowOnChange: false,
                 }}
@@ -435,11 +379,7 @@ const LocaleList: React.FC<LocaleListProps> = ({ filters }) => {
                         <Button key="cancel" onClick={handleEditLocaleCancel}>
                             Cancel
                         </Button>,
-                        <Button
-                            key="save"
-                            type="primary"
-                            onClick={handleEditLocaleSave}
-                        >
+                        <Button key="save" type="primary" onClick={handleEditLocaleSave}>
                             Save
                         </Button>,
                     ]}

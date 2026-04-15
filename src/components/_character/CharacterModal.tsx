@@ -18,6 +18,7 @@ import ChaptersEditor from "../_shared/ChaptersEditor";
 export interface CharacterModalProps {
     visible: boolean;
     characterToEdit?: Character;
+    defaultCollectionId?: number;
     onOk: (values: CharacterModalFormValues) => void;
     onCancel: () => void;
     confirmLoading?: boolean;
@@ -57,6 +58,7 @@ export interface EditableCharacter {
 const CharacterModal: React.FC<CharacterModalProps> = ({
     visible,
     characterToEdit,
+    defaultCollectionId,
     onOk,
     onCancel,
     confirmLoading = false,
@@ -65,36 +67,33 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
     const dbContext = React.useContext(dbRepository);
     const [collections, setCollections] = React.useState<Collection[]>([]);
     const [factions, setFactions] = React.useState<Faction[]>([]);
-    const [factionOptions, setFactionOptions] = React.useState<
-        { value: number; label: string }[]
-    >([]);
-    const [editableCharacterState, setEditableCharacterState] =
-        React.useState<EditableCharacter | undefined>(undefined);
+    const [factionOptions, setFactionOptions] = React.useState<{ value: number; label: string }[]>(
+        []
+    );
+    const [editableCharacterState, setEditableCharacterState] = React.useState<
+        EditableCharacter | undefined
+    >(undefined);
 
     React.useEffect(() => {
         async function fetchCollections() {
-            const collectionList = await dbContext.getAll(
-                tableNames.collections
+            const collectionList = await dbContext.getAll(tableNames.collections);
+            const mappedCollections = await dbContext.mappers.collections.mapFromDbArray(
+                collectionList as DB_Collection[]
             );
-            const mappedCollections =
-                await dbContext.mappers.collections.mapFromDbArray(
-                    collectionList as DB_Collection[]
-                );
             setCollections(mappedCollections);
         }
         async function fetchFactions() {
             const factionList = await dbContext.getAll(tableNames.factions);
-            const mappedFactions =
-                await dbContext.mappers.factions.mapFromDbArray(
-                    factionList as DB_Faction[]
-                );
+            const mappedFactions = await dbContext.mappers.factions.mapFromDbArray(
+                factionList as DB_Faction[]
+            );
             setFactions(mappedFactions);
         }
         fetchCollections();
         fetchFactions();
     }, [dbContext]);
     React.useEffect(() => {
-        let editableCharacter: EditableCharacter | undefined = characterToEdit
+        const editableCharacter: EditableCharacter | undefined = characterToEdit
             ? {
                   id: characterToEdit.id,
                   name: characterToEdit.name ?? "",
@@ -103,8 +102,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                   label: characterToEdit.label ?? {},
                   timeline: characterToEdit.timeline ?? undefined,
                   collection:
-                      characterToEdit.collection &&
-                      characterToEdit.collection.id
+                      characterToEdit.collection && characterToEdit.collection.id
                           ? characterToEdit.collection.id
                           : undefined,
                   factions: Array.isArray(characterToEdit.factions)
@@ -118,18 +116,20 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
 
     React.useEffect(() => {
         if (visible) {
-            form.setFieldsValue(editableCharacterState || {});
+            form.setFieldsValue({
+                ...(editableCharacterState || {}),
+                collection: editableCharacterState?.collection ?? defaultCollectionId,
+            });
 
             if (editableCharacterState?.factions && factions.length > 0) {
                 setFactionOptions(
                     factions
-                        .filter((f) =>
-                            editableCharacterState.factions.includes(f.id)
-                        )
+                        .filter((f) => editableCharacterState.factions.includes(f.id))
                         .map((f) => ({ value: f.id, label: f.name }))
                 );
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editableCharacterState, visible, factions]);
 
     const handleFactionSearch = async (search: string) => {
@@ -143,9 +143,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
         );
         setFactionOptions(
             mappedFactions
-                .filter((f) =>
-                    f.name.toLowerCase().includes(search.toLowerCase())
-                )
+                .filter((f) => f.name.toLowerCase().includes(search.toLowerCase()))
                 .map((f) => ({ value: f.id, label: f.name }))
         );
     };
@@ -154,20 +152,12 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
         try {
             const values = (await form.validateFields()) as CharacterFormFields;
             // Set the full collection object for parent
-            let selectedCollection: number | Collection | undefined =
-                values.collection;
+            let selectedCollection: number | Collection | undefined = values.collection;
             if (typeof selectedCollection === "number") {
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollection
-                );
-            } else if (
-                selectedCollection &&
-                typeof selectedCollection === "object"
-            ) {
+                selectedCollection = collections.find((c) => c.id === selectedCollection);
+            } else if (selectedCollection && typeof selectedCollection === "object") {
                 const selectedCollectionObject = selectedCollection;
-                selectedCollection = collections.find(
-                    (c) => c.id === selectedCollectionObject.id
-                );
+                selectedCollection = collections.find((c) => c.id === selectedCollectionObject.id);
             }
 
             if (!selectedCollection || typeof selectedCollection === "number") {
@@ -209,11 +199,14 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                 form={form}
                 layout="vertical"
                 initialValues={editableCharacterState}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        handleOk();
+                    }
+                }}
             >
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, marginBottom: 24 }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, marginBottom: 24 }}>
                     Basic Info
                 </Divider>{" "}
                 <Row gutter={24} style={{ marginBottom: 12 }}>
@@ -228,20 +221,12 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                                 },
                             ]}
                         >
-                            <Input
-                                placeholder="Character name"
-                                allowClear
-                                size="large"
-                            />
+                            <Input placeholder="Character name" allowClear size="large" autoFocus />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item label="Author" name="author">
-                            <Input
-                                placeholder="Author name"
-                                allowClear
-                                size="large"
-                            />
+                            <Input placeholder="Author name" allowClear size="large" />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -282,9 +267,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         placeholder="Select collection"
                         optionFilterProp="children"
                         filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
+                            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
                         }
                         options={collections.map((c) => ({
                             value: c.id,
@@ -293,19 +276,12 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         size="large"
                     />
                 </Form.Item>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Associations
                 </Divider>
                 <Row gutter={24} style={{ marginBottom: 12 }}>
                     <Col span={24}>
-                        <Form.Item
-                            name="factions"
-                            valuePropName="value"
-                            trigger="onChange"
-                        >
+                        <Form.Item name="factions" valuePropName="value" trigger="onChange">
                             <TagSelect
                                 label="Factions"
                                 options={factionOptions}
@@ -316,10 +292,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
                         </Form.Item>
                     </Col>
                 </Row>
-                <Divider
-                    orientation="left"
-                    style={{ fontSize: 18, margin: "32px 0 24px 0" }}
-                >
+                <Divider orientation="left" style={{ fontSize: 18, margin: "32px 0 24px 0" }}>
                     Label
                 </Divider>{" "}
                 <Row gutter={24}>

@@ -1,6 +1,6 @@
 import "./_style/appcontent.scss";
 import { useContext, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Button, Divider, Layout, Menu, MenuProps, theme } from "antd";
 
 const { Header, Content, Footer } = Layout;
@@ -15,12 +15,14 @@ import CollectionSelect from "./components/_collection/CollectionSelect";
 
 import { Collection } from "./database/models";
 import { dbRepository } from "./database/dbcontext";
+import { useTheme } from "./useTheme";
 
 function AppContent() {
     const dbContext = useContext(dbRepository);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const { darkMode, toggleDarkMode } = useTheme();
 
     const [filters, setFilters] = useState<Filters>({
         collection: null,
@@ -52,6 +54,16 @@ function AppContent() {
 
                 <Divider type="vertical" />
 
+                <Button
+                    onClick={toggleDarkMode}
+                    title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                    aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                    {darkMode ? "☀ Light" : "☾ Dark"}
+                </Button>
+
+                <Divider type="vertical" />
+
                 <Button onClick={() => dbContext.saveAs()}>Save As…</Button>
 
                 <Divider type="vertical" />
@@ -66,21 +78,14 @@ function AppContent() {
             <Content className="container">
                 <ErrorBoundary>
                     <Routes>
-                        <Route
-                            path={Path.Home}
-                            element={<HomeView filters={filters} />}
-                        />
-                        <Route
-                            path={Path.Settings}
-                            element={<SettingsView />}
-                        />
+                        <Route path={Path.Home} element={<HomeView filters={filters} />} />
+                        <Route path={Path.Settings} element={<SettingsView />} />
+                        <Route path="*" element={<Navigate to={Path.Home} replace />} />
                     </Routes>
                 </ErrorBoundary>
             </Content>
 
-            <Footer className="footer">
-                ©{new Date().getFullYear()} by Ciaanh
-            </Footer>
+            <Footer className="footer">©{new Date().getFullYear()} by Ciaanh</Footer>
         </Layout>
     );
 }

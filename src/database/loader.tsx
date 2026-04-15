@@ -15,7 +15,7 @@ function Loader() {
         if (dbContext.lastLoadedPath) {
             addRecentFile(dbContext.lastLoadedPath);
         }
-    }, [dbContext.lastLoadedPath]);
+    }, [dbContext.lastLoadedPath]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Card className="centeredCard">
@@ -52,9 +52,7 @@ function Loader() {
                 )}
                 {recentFiles.length > 0 && (
                     <div style={{ marginTop: 24, width: "100%", maxWidth: 480 }}>
-                        <Typography.Text type="secondary">
-                            Recent files
-                        </Typography.Text>
+                        <Typography.Text type="secondary">Recent files</Typography.Text>
                         <List
                             size="small"
                             style={{ marginTop: 8 }}
@@ -67,9 +65,7 @@ function Loader() {
                                             type="link"
                                             icon={<FolderOpenOutlined />}
                                             loading={dbContext.loading}
-                                            onClick={() =>
-                                                dbContext.loadFromPath(path)
-                                            }
+                                            onClick={() => dbContext.loadFromPath(path)}
                                         >
                                             Open
                                         </Button>,
@@ -77,9 +73,7 @@ function Loader() {
                                             key="remove"
                                             type="link"
                                             danger
-                                            onClick={() =>
-                                                removeRecentFile(path)
-                                            }
+                                            onClick={() => removeRecentFile(path)}
                                         >
                                             Remove
                                         </Button>,
@@ -103,5 +97,3 @@ function Loader() {
 }
 
 export default Loader;
-
-

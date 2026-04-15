@@ -17,22 +17,26 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
     const [editingName, setEditingName] = useState<string>("");
     const dbContext = useContext(dbRepository);
 
+    function sortedCollections(collectionList: Collection[]) {
+        return collectionList.sort((a, b) => a.id - b.id);
+    }
+
     async function fetchCollections() {
         setLoading(true);
         const collectionList = await dbContext.getAll(tableNames.collections);
 
-        const mappedCollections =
-            await dbContext.mappers.collections.mapFromDbArray(
-                collectionList as DB_Collection[]
-            );
+        const mappedCollections = await dbContext.mappers.collections.mapFromDbArray(
+            collectionList as DB_Collection[]
+        );
 
         setCollections(sortedCollections(mappedCollections));
         setLoading(false);
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchCollections();
-    }, [filters.collection]);
+    }, [filters.collection]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const reloadCollections = async () => {
         fetchCollections();
@@ -48,23 +52,28 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
             dataIndex: "id",
             width: 20,
             render: (id: number) => (
-                <Typography.Text ellipsis style={{ maxWidth: 60, display: "block", color: '#888' }}>{id}</Typography.Text>
+                <Typography.Text ellipsis style={{ maxWidth: 60, display: "block", color: "#888" }}>
+                    {id}
+                </Typography.Text>
             ),
         },
         {
             title: "Name",
             dataIndex: "name",
             width: 180,
-            render: (name: string, record: Collection) => (
+            render: (name: string, record: Collection) =>
                 editingId === record.id ? (
                     <input
                         value={editingName}
-                        onChange={e => setEditingName(e.target.value)}
-                        style={{ width: '100%' }}
+                        onChange={(e) => setEditingName(e.target.value)}
+                        style={{ width: "100%" }}
                         autoFocus
                         onKeyDown={async (e) => {
-                            if (e.key === 'Enter') {
-                                await dbContext.update({ ...record, name: editingName }, tableNames.collections);
+                            if (e.key === "Enter") {
+                                await dbContext.update(
+                                    { ...record, name: editingName },
+                                    tableNames.collections
+                                );
                                 setEditingId(null);
                                 setEditingName("");
                                 fetchCollections();
@@ -72,9 +81,10 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
                         }}
                     />
                 ) : (
-                    <Typography.Text ellipsis style={{ maxWidth: 160, display: "block" }}>{name}</Typography.Text>
-                )
-            ),
+                    <Typography.Text ellipsis style={{ maxWidth: 160, display: "block" }}>
+                        {name}
+                    </Typography.Text>
+                ),
         },
         {
             title: "",
@@ -88,7 +98,10 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
                             type="primary"
                             size="small"
                             onClick={async () => {
-                                await dbContext.update({ ...record, name: editingName }, tableNames.collections);
+                                await dbContext.update(
+                                    { ...record, name: editingName },
+                                    tableNames.collections
+                                );
                                 setEditingId(null);
                                 setEditingName("");
                                 fetchCollections();
@@ -118,15 +131,8 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
         },
     ];
 
-    function sortedCollections(collectionList: Collection[]) {
-        return collectionList
-            .sort((a, b) => a.id - b.id);
-    }
-
     async function deleteCollection(collectionId: number) {
-        await dbContext
-            .remove(collectionId, tableNames.collections)
-            .then(() => fetchCollections());
+        await dbContext.remove(collectionId, tableNames.collections).then(() => fetchCollections());
     }
 
     async function addCollection() {
@@ -136,14 +142,9 @@ const CollectionList: React.FC<CollectionListProps> = ({ filters }) => {
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
             <Space>
-                <Button onClick={cleanCollections}>
-                    Clean collections
-                </Button>
+                <Button onClick={cleanCollections}>Clean collections</Button>
 
-                <Button
-                    onClick={reloadCollections}
-                    loading={loading}
-                >
+                <Button onClick={reloadCollections} loading={loading}>
                     Load collections from DB
                 </Button>
 

@@ -1,3 +1,5 @@
+@use "./tokens" as t;
+
 .view {
     height: 100vh;
     display: flex;
@@ -21,15 +23,15 @@
 }
 
 .collection-select {
-    width: 155px;
+    width: t.$collection-select-width;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: t.$bp-lg) {
     .collection-select {
-        width: 120px;
+        width: t.$collection-select-width-sm;
     }
 
     .header {
-        gap: 4px;
+        gap: t.$space-xs;
     }
 }
