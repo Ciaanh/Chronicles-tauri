@@ -2,11 +2,7 @@ import { useState, Fragment, useRef, useEffect } from "react";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import { normalize, join, dirname } from "@tauri-apps/api/path";
 import { exists, lstat, readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
-// neutron-db is pinned to 0.1.0 (no caret) because its API surface is narrow:
-// it exposes AsyncDatabase with get/getAll/add/update/remove, and the 0.x
-// version range offers no stability guarantees. Upgrade intentionally after
-// verifying the API contract has not changed.
-import { AsyncDatabase } from "neutron-db";
+import { AsyncDatabase } from "./jsondb/database";
 
 import { ContextValue, DbWriteContext, HistoryEntry, tableNames, dbRepository } from "./dbcontext";
 
@@ -104,6 +100,7 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
     };
 
     const loadCore = async (location: string): Promise<void> => {
+        const dbpath = await resolveDbPath(location, dbschema.dbname);
         const schema: Schema = {
             dbname: dbschema.dbname,
             tables: dbschema.tables,
@@ -111,10 +108,8 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             compressedJson: true,
             writeDebounceMs: dbschema.writeDebounceMs,
             autoSaveIntervalMs: dbschema.autoSaveIntervalMs,
-            location,
+            location: dbpath,
         };
-
-        const dbpath = await resolveDbPath(location, dbschema.dbname);
         if (await exists(dbpath)) {
             const json = await readTextFile(dbpath);
             await writeTextFile(dbpath + ".bak", json);

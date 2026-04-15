@@ -20,7 +20,7 @@ import {
     Faction,
     Locale,
 } from "../models";
-import { AsyncDatabase } from "neutron-db";
+import { AsyncDatabase } from "../jsondb/database";
 import { Mapper, LocalMapper } from "../dbcontext";
 
 export interface MapperCache {
@@ -87,18 +87,14 @@ export function createMappers(
             const pages = dbo.pageIds
                 .map((id) => cache.localesById.get(id))
                 .filter((locale): locale is DB_Locale => locale !== undefined);
-            const header = dbo.headerId
-                ? cache.localesById.get(dbo.headerId)
-                : undefined;
+            const header = dbo.headerId ? cache.localesById.get(dbo.headerId) : undefined;
             return {
                 header: dbo.headerId
                     ? header
                         ? await LocaleMapper.mapFromDb(header)
                         : null
                     : null,
-                pages: await Promise.all(
-                    pages.map((locale) => LocaleMapper.mapFromDb(locale))
-                ),
+                pages: await Promise.all(pages.map((locale) => LocaleMapper.mapFromDb(locale))),
             };
         },
         mapFromDbArray: async (dbo: DB_Chapter[]): Promise<Chapter[]> => {
@@ -119,7 +115,7 @@ export function createMappers(
                     ({
                         headerId: chapter.header?.id,
                         pageIds: chapter.pages.map((page) => page.id),
-                    } as DB_Chapter)
+                    }) as DB_Chapter
             ),
             timeline: dto.timeline,
             collectionId: dto.collection.id,
@@ -130,17 +126,14 @@ export function createMappers(
             const label = cache.localesById.get(dbo.labelId);
             if (!label) throw new Error(`Label not found for faction ${dbo.name}`);
             const collection = cache.collectionsById.get(dbo.collectionId);
-            if (!collection)
-                throw new Error(`Collection not found for faction ${dbo.name}`);
+            if (!collection) throw new Error(`Collection not found for faction ${dbo.name}`);
             return {
                 id: dbo.id,
                 name: dbo.name,
                 author: dbo.author,
                 label: await LocaleMapper.mapFromDb(label),
                 chapters: dbo.chapters
-                    ? await Promise.all(
-                          dbo.chapters.map((c) => ChapterMapper.mapFromDb(c))
-                      )
+                    ? await Promise.all(dbo.chapters.map((c) => ChapterMapper.mapFromDb(c)))
                     : [],
                 timeline: dbo.timeline,
                 collection: await CollectionMapper.mapFromDb(collection),
@@ -164,7 +157,7 @@ export function createMappers(
                     ({
                         headerId: chapter.header?.id,
                         pageIds: chapter.pages.map((page) => page.id),
-                    } as DB_Chapter)
+                    }) as DB_Chapter
             ),
             timeline: dto.timeline,
             factionIds: dto.factions.map((faction) => faction.id),
@@ -174,30 +167,22 @@ export function createMappers(
             if (database === null) throw new Error("Database not loaded");
             const cache = await ensureMapperCache();
             const label = cache.localesById.get(dbo.labelId);
-            if (!label)
-                throw new Error(`Label not found for character ${dbo.name}`);
+            if (!label) throw new Error(`Label not found for character ${dbo.name}`);
             const factions = dbo.factionIds
                 .map((id) => cache.factionsById.get(id))
                 .filter((f): f is DB_Faction => f !== undefined);
             const collection = cache.collectionsById.get(dbo.collectionId);
-            if (!collection)
-                throw new Error(
-                    `Collection not found for character ${dbo.name}`
-                );
+            if (!collection) throw new Error(`Collection not found for character ${dbo.name}`);
             return {
                 id: dbo.id,
                 name: dbo.name,
                 author: dbo.author,
                 label: await LocaleMapper.mapFromDb(label),
                 chapters: dbo.chapters
-                    ? await Promise.all(
-                          dbo.chapters.map((c) => ChapterMapper.mapFromDb(c))
-                      )
+                    ? await Promise.all(dbo.chapters.map((c) => ChapterMapper.mapFromDb(c)))
                     : [],
                 timeline: dbo.timeline,
-                factions: await Promise.all(
-                    factions.map((f) => FactionMapper.mapFromDb(f))
-                ),
+                factions: await Promise.all(factions.map((f) => FactionMapper.mapFromDb(f))),
                 collection: await CollectionMapper.mapFromDb(collection),
             };
         },
@@ -225,7 +210,7 @@ export function createMappers(
                     ({
                         headerId: chapter.header?.id,
                         pageIds: chapter.pages.map((page) => page.id),
-                    } as DB_Chapter)
+                    }) as DB_Chapter
             ),
             collectionId: dto.collection.id,
             order: dto.order,
@@ -237,18 +222,17 @@ export function createMappers(
             if (database === null) throw new Error("Database not loaded");
             const cache = await ensureMapperCache();
 
-            const factions = dbo.factionIds
+            const factions = (dbo.factionIds ?? [])
                 .map((id) => cache.factionsById.get(id))
                 .filter((f): f is DB_Faction => f !== undefined);
-            const characters = dbo.characterIds
+            const characters = (dbo.characterIds ?? [])
                 .map((id) => cache.charactersById.get(id))
                 .filter((c): c is DB_Character => c !== undefined);
             const label = cache.localesById.get(dbo.labelId);
             const collection = cache.collectionsById.get(dbo.collectionId);
 
             if (!label) throw new Error(`Label not found for event ${dbo.name}`);
-            if (!collection)
-                throw new Error(`Collection not found for event ${dbo.name}`);
+            if (!collection) throw new Error(`Collection not found for event ${dbo.name}`);
 
             return {
                 id: dbo.id,
@@ -257,15 +241,11 @@ export function createMappers(
                 eventType: dbo.eventType,
                 timeline: dbo.timeline,
                 link: dbo.link,
-                factions: await Promise.all(
-                    factions.map((f) => FactionMapper.mapFromDb(f))
-                ),
-                characters: await Promise.all(
-                    characters.map((c) => CharacterMapper.mapFromDb(c))
-                ),
+                factions: await Promise.all(factions.map((f) => FactionMapper.mapFromDb(f))),
+                characters: await Promise.all(characters.map((c) => CharacterMapper.mapFromDb(c))),
                 label: await LocaleMapper.mapFromDb(label),
                 chapters: await Promise.all(
-                    dbo.chapters.map((c) => ChapterMapper.mapFromDb(c))
+                    (dbo.chapters ?? []).map((c) => ChapterMapper.mapFromDb(c))
                 ),
                 collection: await CollectionMapper.mapFromDb(collection),
                 order: dbo.order,

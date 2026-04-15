@@ -38,6 +38,7 @@ function ThemedApp({ children }: PropsWithChildren) {
                 algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 hashed: false,
             }}
+            compatible
         >
             <StyleProvider hashPriority="high">
                 <App>
