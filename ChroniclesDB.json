@@ -3925,6 +3925,397 @@
       ],
       "collectionId": 14,
       "order": 4
+    },
+    {
+      "id": 175,
+      "name": "Helm of Domination Shattered",
+      "yearStart": 35,
+      "yearEnd": 35,
+      "eventType": 2,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        54,
+        1,
+        15
+      ],
+      "characterIds": [
+        66,
+        76,
+        74
+      ],
+      "labelId": 605,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            606
+          ]
+        }
+      ],
+      "collectionId": 15,
+      "order": 0
+    },
+    {
+      "id": 176,
+      "name": "Maw Campaign and Anduin's Captivity",
+      "yearStart": 35,
+      "yearEnd": 35,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        53,
+        54,
+        55
+      ],
+      "characterIds": [
+        65,
+        74,
+        76
+      ],
+      "labelId": 607,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            608
+          ]
+        }
+      ],
+      "collectionId": 15,
+      "order": 1
+    },
+    {
+      "id": 177,
+      "name": "Sanctum of Domination",
+      "yearStart": 35,
+      "yearEnd": 35,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        54,
+        53,
+        56
+      ],
+      "characterIds": [
+        66,
+        65,
+        76
+      ],
+      "labelId": 609,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            610
+          ]
+        }
+      ],
+      "collectionId": 15,
+      "order": 2
+    },
+    {
+      "id": 178,
+      "name": "Zereth Mortis Expedition",
+      "yearStart": 35,
+      "yearEnd": 35,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        53,
+        55,
+        56
+      ],
+      "characterIds": [
+        74,
+        77,
+        78
+      ],
+      "labelId": 611,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            612
+          ]
+        }
+      ],
+      "collectionId": 15,
+      "order": 3
+    },
+    {
+      "id": 179,
+      "name": "Defeat of the Jailer",
+      "yearStart": 35,
+      "yearEnd": 35,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        53,
+        56,
+        1,
+        15
+      ],
+      "characterIds": [
+        74,
+        65,
+        76
+      ],
+      "labelId": 613,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            614
+          ]
+        }
+      ],
+      "collectionId": 15,
+      "order": 4
+    },
+    {
+      "id": 180,
+      "name": "Dragon Isles Reawaken",
+      "yearStart": 40,
+      "yearEnd": 40,
+      "eventType": 2,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        57,
+        58,
+        59
+      ],
+      "characterIds": [
+        79,
+        81,
+        82
+      ],
+      "labelId": 615,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            616
+          ]
+        }
+      ],
+      "collectionId": 16,
+      "order": 0
+    },
+    {
+      "id": 181,
+      "name": "Raszageth Freed",
+      "yearStart": 40,
+      "yearEnd": 40,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        58,
+        57,
+        59
+      ],
+      "characterIds": [
+        79,
+        80,
+        81
+      ],
+      "labelId": 617,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            618
+          ]
+        }
+      ],
+      "collectionId": 16,
+      "order": 1
+    },
+    {
+      "id": 182,
+      "name": "Vault of the Incarnates",
+      "yearStart": 40,
+      "yearEnd": 40,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        58,
+        57
+      ],
+      "characterIds": [
+        80,
+        79,
+        81
+      ],
+      "labelId": 619,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            620
+          ]
+        }
+      ],
+      "collectionId": 16,
+      "order": 2
+    },
+    {
+      "id": 183,
+      "name": "Aberrus and Fyrakk's Ascendance",
+      "yearStart": 40,
+      "yearEnd": 40,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        58,
+        57,
+        60
+      ],
+      "characterIds": [
+        81,
+        82,
+        83
+      ],
+      "labelId": 621,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            622
+          ]
+        }
+      ],
+      "collectionId": 16,
+      "order": 3
+    },
+    {
+      "id": 184,
+      "name": "Amirdrassil Restored / Fall of Fyrakk",
+      "yearStart": 40,
+      "yearEnd": 40,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        60,
+        57,
+        58
+      ],
+      "characterIds": [
+        83,
+        79,
+        82
+      ],
+      "labelId": 623,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            624
+          ]
+        }
+      ],
+      "collectionId": 16,
+      "order": 4
+    },
+    {
+      "id": 185,
+      "name": "Earthen Unrest in Khaz Algar",
+      "yearStart": 42,
+      "yearEnd": 42,
+      "eventType": 2,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        61,
+        62,
+        63
+      ],
+      "characterIds": [
+        65,
+        7,
+        86
+      ],
+      "labelId": 661,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            662
+          ]
+        }
+      ],
+      "collectionId": 18,
+      "order": 1
+    },
+    {
+      "id": 186,
+      "name": "Xal'atath Reveals Her Design",
+      "yearStart": 42,
+      "yearEnd": 42,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        64,
+        63,
+        61
+      ],
+      "characterIds": [
+        84,
+        85,
+        65
+      ],
+      "labelId": 663,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            664
+          ]
+        }
+      ],
+      "collectionId": 18,
+      "order": 2
+    },
+    {
+      "id": 187,
+      "name": "Counterstrike at Beledar",
+      "yearStart": 42,
+      "yearEnd": 42,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        62,
+        47,
+        61,
+        64
+      ],
+      "characterIds": [
+        85,
+        65,
+        84
+      ],
+      "labelId": 665,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            666
+          ]
+        }
+      ],
+      "collectionId": 18,
+      "order": 3
     }
   ],
   "characters": [
@@ -5333,6 +5724,257 @@
         50
       ],
       "collectionId": 14
+    },
+    {
+      "id": 74,
+      "name": "Zovaal the Jailer",
+      "author": "",
+      "labelId": 625,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            626
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        54
+      ],
+      "collectionId": 15
+    },
+    {
+      "id": 75,
+      "name": "Uther the Lightbringer (Ascended)",
+      "author": "",
+      "labelId": 627,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            628
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        53
+      ],
+      "collectionId": 15
+    },
+    {
+      "id": 76,
+      "name": "Bolvar Fordragon",
+      "author": "",
+      "labelId": 629,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            630
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        53,
+        56
+      ],
+      "collectionId": 15
+    },
+    {
+      "id": 77,
+      "name": "Pelagos",
+      "author": "",
+      "labelId": 631,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            632
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        53
+      ],
+      "collectionId": 15
+    },
+    {
+      "id": 78,
+      "name": "The Primus",
+      "author": "",
+      "labelId": 633,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            634
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        56
+      ],
+      "collectionId": 15
+    },
+    {
+      "id": 79,
+      "name": "Alexstrasza",
+      "author": "",
+      "labelId": 635,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            636
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        57
+      ],
+      "collectionId": 16
+    },
+    {
+      "id": 80,
+      "name": "Raszageth",
+      "author": "",
+      "labelId": 637,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            638
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        58
+      ],
+      "collectionId": 16
+    },
+    {
+      "id": 81,
+      "name": "Iridikron",
+      "author": "",
+      "labelId": 639,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            640
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        58
+      ],
+      "collectionId": 16
+    },
+    {
+      "id": 82,
+      "name": "Vyranoth",
+      "author": "",
+      "labelId": 641,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            642
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        58,
+        57
+      ],
+      "collectionId": 16
+    },
+    {
+      "id": 83,
+      "name": "Fyrakk",
+      "author": "",
+      "labelId": 643,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            644
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        58
+      ],
+      "collectionId": 16
+    },
+    {
+      "id": 84,
+      "name": "Xal'atath",
+      "author": "",
+      "labelId": 667,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            668
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        64
+      ],
+      "collectionId": 18
+    },
+    {
+      "id": 85,
+      "name": "Alleria Windrunner",
+      "author": "",
+      "labelId": 669,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            670
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        47,
+        62
+      ],
+      "collectionId": 18
+    },
+    {
+      "id": 86,
+      "name": "Faerin Lothar",
+      "author": "",
+      "labelId": 671,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            672
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        62,
+        61
+      ],
+      "collectionId": 18
     }
   ],
   "factions": [
@@ -6167,6 +6809,198 @@
       ],
       "timeline": 1,
       "collectionId": 14
+    },
+    {
+      "id": 53,
+      "name": "Covenants of Death",
+      "author": "",
+      "labelId": 645,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            646
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 15
+    },
+    {
+      "id": 54,
+      "name": "Mawsworn",
+      "author": "",
+      "labelId": 647,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            648
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 15
+    },
+    {
+      "id": 55,
+      "name": "Brokers Cartels",
+      "author": "",
+      "labelId": 649,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            650
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 15
+    },
+    {
+      "id": 56,
+      "name": "Maldraxxus Legions",
+      "author": "",
+      "labelId": 651,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            652
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 15
+    },
+    {
+      "id": 57,
+      "name": "Dragon Aspects Restored",
+      "author": "",
+      "labelId": 653,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            654
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 16
+    },
+    {
+      "id": 58,
+      "name": "Primal Incarnates",
+      "author": "",
+      "labelId": 655,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            656
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 16
+    },
+    {
+      "id": 59,
+      "name": "Dracthyr Flights",
+      "author": "",
+      "labelId": 657,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            658
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 16
+    },
+    {
+      "id": 60,
+      "name": "Dream Wardens",
+      "author": "",
+      "labelId": 659,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            660
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 16
+    },
+    {
+      "id": 61,
+      "name": "Assembly of the Deeps",
+      "author": "",
+      "labelId": 673,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            674
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 18
+    },
+    {
+      "id": 62,
+      "name": "Hallowfall Arathi",
+      "author": "",
+      "labelId": 675,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            676
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 18
+    },
+    {
+      "id": 63,
+      "name": "Nerubian Ascendancy",
+      "author": "",
+      "labelId": 677,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            678
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 18
+    },
+    {
+      "id": 64,
+      "name": "Void Lords",
+      "author": "",
+      "labelId": 679,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            680
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 18
     }
   ],
   "chapters": [
@@ -9260,6 +10094,386 @@
       "id": 604,
       "ishtml": false,
       "enUS": "Cross-faction military coordination formed under existential threat to oppose Azshara and N'Zoth."
+    },
+    {
+      "id": 605,
+      "ishtml": false,
+      "enUS": "Helm of Domination Shattered"
+    },
+    {
+      "id": 606,
+      "ishtml": false,
+      "enUS": "Sylvanas shatters the Helm of Domination above Icecrown, tearing open a rift to the Shadowlands and unleashing the Scourge."
+    },
+    {
+      "id": 607,
+      "ishtml": false,
+      "enUS": "Maw Campaign and Anduin's Captivity"
+    },
+    {
+      "id": 608,
+      "ishtml": false,
+      "enUS": "Azeroth's champions enter the Maw, where the Jailer captures Anduin and begins weaponizing him against the mortal realms."
+    },
+    {
+      "id": 609,
+      "ishtml": false,
+      "enUS": "Sanctum of Domination"
+    },
+    {
+      "id": 610,
+      "ishtml": false,
+      "enUS": "The assault on the Sanctum breaks the Jailer's hold over key souls as Sylvanas's fractured spirit is restored."
+    },
+    {
+      "id": 611,
+      "ishtml": false,
+      "enUS": "Zereth Mortis Expedition"
+    },
+    {
+      "id": 612,
+      "ishtml": false,
+      "enUS": "Allied forces pursue the Jailer into Zereth Mortis, where the First Ones' mechanisms determine the fate of reality."
+    },
+    {
+      "id": 613,
+      "ishtml": false,
+      "enUS": "Defeat of the Jailer"
+    },
+    {
+      "id": 614,
+      "ishtml": false,
+      "enUS": "The Jailer is defeated in the Sepulcher, ending his design to remake existence and closing the Shadowlands war."
+    },
+    {
+      "id": 615,
+      "ishtml": false,
+      "enUS": "Dragon Isles Reawaken"
+    },
+    {
+      "id": 616,
+      "ishtml": false,
+      "enUS": "Ancient wards fail and the Dragon Isles awaken, calling the aspects and mortal allies back to their long-sealed homeland."
+    },
+    {
+      "id": 617,
+      "ishtml": false,
+      "enUS": "Raszageth Freed"
+    },
+    {
+      "id": 618,
+      "ishtml": false,
+      "enUS": "Raszageth is released and rallies primalist forces, opening a new elemental war against the dragonflights."
+    },
+    {
+      "id": 619,
+      "ishtml": false,
+      "enUS": "Vault of the Incarnates"
+    },
+    {
+      "id": 620,
+      "ishtml": false,
+      "enUS": "Champions storm the Vault of the Incarnates and end Raszageth's rampage, though the greater incarnate threat remains."
+    },
+    {
+      "id": 621,
+      "ishtml": false,
+      "enUS": "Aberrus and Fyrakk's Ascendance"
+    },
+    {
+      "id": 622,
+      "ishtml": false,
+      "enUS": "Ancient draconic secrets in Aberrus are claimed amid betrayal, enabling Fyrakk's rise and escalating the primal conflict."
+    },
+    {
+      "id": 623,
+      "ishtml": false,
+      "enUS": "Amirdrassil Restored / Fall of Fyrakk"
+    },
+    {
+      "id": 624,
+      "ishtml": false,
+      "enUS": "The defense of Amirdrassil culminates in Fyrakk's defeat and restores hope for both dragonflights and kaldorei."
+    },
+    {
+      "id": 625,
+      "ishtml": false,
+      "enUS": "Zovaal the Jailer"
+    },
+    {
+      "id": 626,
+      "ishtml": false,
+      "enUS": "Banished ruler of the Maw whose schemes nearly reshape reality through domination magic and relics of the First Ones."
+    },
+    {
+      "id": 627,
+      "ishtml": false,
+      "enUS": "Uther the Lightbringer (Ascended)"
+    },
+    {
+      "id": 628,
+      "ishtml": false,
+      "enUS": "In Bastion, Uther confronts his past and helps expose the Jailer's manipulations over divided souls."
+    },
+    {
+      "id": 629,
+      "ishtml": false,
+      "enUS": "Bolvar Fordragon"
+    },
+    {
+      "id": 630,
+      "ishtml": false,
+      "enUS": "After the helm is shattered, Bolvar leads mortal resistance against Maw incursions and guides the Shadowlands campaign."
+    },
+    {
+      "id": 631,
+      "ishtml": false,
+      "enUS": "Pelagos"
+    },
+    {
+      "id": 632,
+      "ishtml": false,
+      "enUS": "Kyrian aspirant whose arc culminates in stewardship over the Arbiter's duty after the Jailer's defeat."
+    },
+    {
+      "id": 633,
+      "ishtml": false,
+      "enUS": "The Primus"
+    },
+    {
+      "id": 634,
+      "ishtml": false,
+      "enUS": "Master strategist of Maldraxxus who returns to oppose the Jailer and restore balance among the covenants."
+    },
+    {
+      "id": 635,
+      "ishtml": false,
+      "enUS": "Alexstrasza"
+    },
+    {
+      "id": 636,
+      "ishtml": false,
+      "enUS": "Life-binder of the red flight who leads the united aspects in reclaiming the Dragon Isles from primalist forces."
+    },
+    {
+      "id": 637,
+      "ishtml": false,
+      "enUS": "Raszageth"
+    },
+    {
+      "id": 638,
+      "ishtml": false,
+      "enUS": "Storm incarnate whose release triggers the first phase of Dragonflight's war between aspects and incarnates."
+    },
+    {
+      "id": 639,
+      "ishtml": false,
+      "enUS": "Iridikron"
+    },
+    {
+      "id": 640,
+      "ishtml": false,
+      "enUS": "Cunning earth incarnate who pursues long-term plans that outlast open battles and threaten future eras."
+    },
+    {
+      "id": 641,
+      "ishtml": false,
+      "enUS": "Vyranoth"
+    },
+    {
+      "id": 642,
+      "ishtml": false,
+      "enUS": "Frost incarnate whose stance shifts over the campaign as primal goals diverge from irredeemable destruction."
+    },
+    {
+      "id": 643,
+      "ishtml": false,
+      "enUS": "Fyrakk"
+    },
+    {
+      "id": 644,
+      "ishtml": false,
+      "enUS": "Flame incarnate empowered by shadowflame, ultimately defeated during the assault to defend Amirdrassil."
+    },
+    {
+      "id": 645,
+      "ishtml": false,
+      "enUS": "Covenants of Death"
+    },
+    {
+      "id": 646,
+      "ishtml": false,
+      "enUS": "The major powers of the Shadowlands that unite to resist the Maw and restore the cycle of death."
+    },
+    {
+      "id": 647,
+      "ishtml": false,
+      "enUS": "Mawsworn"
+    },
+    {
+      "id": 648,
+      "ishtml": false,
+      "enUS": "Domination-forged armies serving the Jailer, central antagonists across Korthia and the Sanctum campaign."
+    },
+    {
+      "id": 649,
+      "ishtml": false,
+      "enUS": "Brokers Cartels"
+    },
+    {
+      "id": 650,
+      "ishtml": false,
+      "enUS": "Interdimensional traders and schemers whose knowledge of hidden places proves vital in Zereth Mortis."
+    },
+    {
+      "id": 651,
+      "ishtml": false,
+      "enUS": "Maldraxxus Legions"
+    },
+    {
+      "id": 652,
+      "ishtml": false,
+      "enUS": "Necrolord war hosts reorganized under the Primus to counter the Jailer's military machine."
+    },
+    {
+      "id": 653,
+      "ishtml": false,
+      "enUS": "Dragon Aspects Restored"
+    },
+    {
+      "id": 654,
+      "ishtml": false,
+      "enUS": "Renewed coalition of dragonflights reclaiming ancestral purpose and power on the Dragon Isles."
+    },
+    {
+      "id": 655,
+      "ishtml": false,
+      "enUS": "Primal Incarnates"
+    },
+    {
+      "id": 656,
+      "ishtml": false,
+      "enUS": "Elemental proto-dragon leaders opposing titan-gifted order and seeking dominion over the isles."
+    },
+    {
+      "id": 657,
+      "ishtml": false,
+      "enUS": "Dracthyr Flights"
+    },
+    {
+      "id": 658,
+      "ishtml": false,
+      "enUS": "Awakened dracthyr forces navigating ancient loyalties while fighting to secure the future of the Dragon Isles."
+    },
+    {
+      "id": 659,
+      "ishtml": false,
+      "enUS": "Dream Wardens"
+    },
+    {
+      "id": 660,
+      "ishtml": false,
+      "enUS": "Guardians of the Emerald Dream and Amirdrassil who stand at the center of Fyrakk's final offensive."
+    },
+    {
+      "id": 661,
+      "ishtml": false,
+      "enUS": "Earthen Unrest in Khaz Algar"
+    },
+    {
+      "id": 662,
+      "ishtml": false,
+      "enUS": "As tensions erupt beneath Azeroth, earthen powers and nerubian incursions destabilize Khaz Algar's regions."
+    },
+    {
+      "id": 663,
+      "ishtml": false,
+      "enUS": "Xal'atath Reveals Her Design"
+    },
+    {
+      "id": 664,
+      "ishtml": false,
+      "enUS": "Xal'atath steps into the open and binds void-aligned forces into a coordinated campaign against Azeroth's defenders."
+    },
+    {
+      "id": 665,
+      "ishtml": false,
+      "enUS": "Counterstrike at Beledar"
+    },
+    {
+      "id": 666,
+      "ishtml": false,
+      "enUS": "Allied champions launch a counteroffensive around Beledar, disrupting Xal'atath's ritual network and forcing a retreat."
+    },
+    {
+      "id": 667,
+      "ishtml": false,
+      "enUS": "Xal'atath"
+    },
+    {
+      "id": 668,
+      "ishtml": false,
+      "enUS": "The Harbinger and architect of void plots in Khaz Algar, manipulating factions to fracture Azeroth from within."
+    },
+    {
+      "id": 669,
+      "ishtml": false,
+      "enUS": "Alleria Windrunner"
+    },
+    {
+      "id": 670,
+      "ishtml": false,
+      "enUS": "Void-touched ranger whose insight and discipline are pivotal in countering Xal'atath's influence."
+    },
+    {
+      "id": 671,
+      "ishtml": false,
+      "enUS": "Faerin Lothar"
+    },
+    {
+      "id": 672,
+      "ishtml": false,
+      "enUS": "Arathi champion of Hallowfall who rallies local resistance and bridges surface and subterranean alliances."
+    },
+    {
+      "id": 673,
+      "ishtml": false,
+      "enUS": "Assembly of the Deeps"
+    },
+    {
+      "id": 674,
+      "ishtml": false,
+      "enUS": "Coalition of Khaz Algar's deep-dwelling allies coordinating military and civic defense below the surface."
+    },
+    {
+      "id": 675,
+      "ishtml": false,
+      "enUS": "Hallowfall Arathi"
+    },
+    {
+      "id": 676,
+      "ishtml": false,
+      "enUS": "The isolated Arathi host of Hallowfall, now rejoined to wider Azerothian struggles in the War Within era."
+    },
+    {
+      "id": 677,
+      "ishtml": false,
+      "enUS": "Nerubian Ascendancy"
+    },
+    {
+      "id": 678,
+      "ishtml": false,
+      "enUS": "Militarized nerubian forces pushing from subterranean bastions to claim strategic routes in Khaz Algar."
+    },
+    {
+      "id": 679,
+      "ishtml": false,
+      "enUS": "Void Lords"
+    },
+    {
+      "id": 680,
+      "ishtml": false,
+      "enUS": "Transcendent entities of the Void whose long designs are advanced through mortal proxies and ritual conflict."
     }
   ]
 }
