@@ -4316,6 +4316,97 @@
       ],
       "collectionId": 18,
       "order": 3
+    },
+    {
+      "id": 188,
+      "name": "Azeroth's Worldsoul Resonance",
+      "yearStart": 43,
+      "yearEnd": 43,
+      "eventType": 2,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        65,
+        61,
+        47
+      ],
+      "characterIds": [
+        87,
+        65
+      ],
+      "labelId": 681,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            682
+          ]
+        }
+      ],
+      "collectionId": 17,
+      "order": 0
+    },
+    {
+      "id": 189,
+      "name": "Void Rift Campaigns",
+      "yearStart": 43,
+      "yearEnd": 43,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        66,
+        64,
+        47
+      ],
+      "characterIds": [
+        85,
+        84,
+        87
+      ],
+      "labelId": 683,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            684
+          ]
+        }
+      ],
+      "collectionId": 17,
+      "order": 1
+    },
+    {
+      "id": 190,
+      "name": "Council of the Last Dawn",
+      "yearStart": 44,
+      "yearEnd": 44,
+      "eventType": 1,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        65,
+        66,
+        47,
+        15,
+        1
+      ],
+      "characterIds": [
+        65,
+        85,
+        88
+      ],
+      "labelId": 685,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            686
+          ]
+        }
+      ],
+      "collectionId": 17,
+      "order": 2
     }
   ],
   "characters": [
@@ -5975,6 +6066,45 @@
         61
       ],
       "collectionId": 18
+    },
+    {
+      "id": 87,
+      "name": "Magni Bronzebeard (Speaker)",
+      "author": "",
+      "labelId": 687,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            688
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        65
+      ],
+      "collectionId": 17
+    },
+    {
+      "id": 88,
+      "name": "Algalon the Observer (Return)",
+      "author": "",
+      "labelId": 689,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            690
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        65,
+        47
+      ],
+      "collectionId": 17
     }
   ],
   "factions": [
@@ -7001,6 +7131,38 @@
       ],
       "timeline": 1,
       "collectionId": 18
+    },
+    {
+      "id": 65,
+      "name": "Worldsoul Accord",
+      "author": "",
+      "labelId": 691,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            692
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 17
+    },
+    {
+      "id": 66,
+      "name": "Void Conclave",
+      "author": "",
+      "labelId": 693,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            694
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 17
     }
   ],
   "chapters": [
@@ -10474,6 +10636,76 @@
       "id": 680,
       "ishtml": false,
       "enUS": "Transcendent entities of the Void whose long designs are advanced through mortal proxies and ritual conflict."
+    },
+    {
+      "id": 681,
+      "ishtml": false,
+      "enUS": "Azeroth's Worldsoul Resonance"
+    },
+    {
+      "id": 682,
+      "ishtml": false,
+      "enUS": "Worldsoul pulses intensify across Azeroth, forcing new alliances between surface powers and deep-realm defenders."
+    },
+    {
+      "id": 683,
+      "ishtml": false,
+      "enUS": "Void Rift Campaigns"
+    },
+    {
+      "id": 684,
+      "ishtml": false,
+      "enUS": "Coordinated void breaches erupt across key strongholds, and strike teams led by Alleria wage a multi-front containment war."
+    },
+    {
+      "id": 685,
+      "ishtml": false,
+      "enUS": "Council of the Last Dawn"
+    },
+    {
+      "id": 686,
+      "ishtml": false,
+      "enUS": "A final war council forms between rival factions and cosmic allies to prepare Azeroth for the coming age beyond the Worldsoul Saga."
+    },
+    {
+      "id": 687,
+      "ishtml": false,
+      "enUS": "Magni Bronzebeard (Speaker)"
+    },
+    {
+      "id": 688,
+      "ishtml": false,
+      "enUS": "Still attuned to Azeroth's voice, Magni coordinates worldsoul defenses and mediates between mortal and cosmic powers."
+    },
+    {
+      "id": 689,
+      "ishtml": false,
+      "enUS": "Algalon the Observer (Return)"
+    },
+    {
+      "id": 690,
+      "ishtml": false,
+      "enUS": "The observer returns to evaluate Azeroth's survival trajectory and aid in calibrating titan safeguards."
+    },
+    {
+      "id": 691,
+      "ishtml": false,
+      "enUS": "Worldsoul Accord"
+    },
+    {
+      "id": 692,
+      "ishtml": false,
+      "enUS": "A strategic pact focused on stabilizing Azeroth's worldsoul and coordinating defenses across all major fronts."
+    },
+    {
+      "id": 693,
+      "ishtml": false,
+      "enUS": "Void Conclave"
+    },
+    {
+      "id": 694,
+      "ishtml": false,
+      "enUS": "A converged network of void agents and warbands attempting to exploit worldsoul resonance for permanent ingress."
     }
   ]
 }
