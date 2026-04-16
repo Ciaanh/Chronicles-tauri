@@ -3633,6 +3633,298 @@
         61
       ],
       "collectionId": 12
+    },
+    {
+      "id": 165,
+      "name": "Broken Shore Invasion / Deaths of Varian and Vol'jin",
+      "yearStart": 31,
+      "yearEnd": 31,
+      "eventType": 2,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        15,
+        1,
+        12
+      ],
+      "characterIds": [
+        64,
+        66
+      ],
+      "labelId": 549,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            550
+          ]
+        }
+      ],
+      "collectionId": 13,
+      "order": 0
+    },
+    {
+      "id": 166,
+      "name": "Sylvanas Named Warchief / Anduin Crowned",
+      "yearStart": 31,
+      "yearEnd": 31,
+      "eventType": 1,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        1,
+        15
+      ],
+      "characterIds": [
+        65,
+        66
+      ],
+      "labelId": 551,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            552
+          ]
+        }
+      ],
+      "collectionId": 13,
+      "order": 1
+    },
+    {
+      "id": 167,
+      "name": "Illidari Return and Legionfall Campaign",
+      "yearStart": 31,
+      "yearEnd": 31,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        45,
+        46,
+        12
+      ],
+      "characterIds": [
+        67,
+        65
+      ],
+      "labelId": 553,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            554
+          ]
+        }
+      ],
+      "collectionId": 13,
+      "order": 2
+    },
+    {
+      "id": 168,
+      "name": "Argus Campaign / Fall of Kil'jaeden",
+      "yearStart": 31,
+      "yearEnd": 31,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        47,
+        12,
+        46
+      ],
+      "characterIds": [
+        67,
+        68
+      ],
+      "labelId": 555,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            556
+          ]
+        }
+      ],
+      "collectionId": 13,
+      "order": 3
+    },
+    {
+      "id": 169,
+      "name": "Sargeras Imprisoned / Azeroth Wounded",
+      "yearStart": 31,
+      "yearEnd": 31,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        47,
+        15,
+        1
+      ],
+      "characterIds": [
+        69,
+        67,
+        65
+      ],
+      "labelId": 557,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            558
+          ]
+        }
+      ],
+      "collectionId": 13,
+      "order": 4
+    },
+    {
+      "id": 170,
+      "name": "Burning of Teldrassil",
+      "yearStart": 32,
+      "yearEnd": 32,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        1,
+        15
+      ],
+      "characterIds": [
+        66,
+        65
+      ],
+      "labelId": 559,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            560
+          ]
+        }
+      ],
+      "collectionId": 14,
+      "order": 0
+    },
+    {
+      "id": 171,
+      "name": "Siege of Lordaeron",
+      "yearStart": 32,
+      "yearEnd": 32,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        1,
+        15,
+        52
+      ],
+      "characterIds": [
+        66,
+        65
+      ],
+      "labelId": 561,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            562
+          ]
+        }
+      ],
+      "collectionId": 14,
+      "order": 1
+    },
+    {
+      "id": 172,
+      "name": "Battle of Dazar'alor / Zandalari Join the Horde",
+      "yearStart": 32,
+      "yearEnd": 32,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        48,
+        1,
+        49
+      ],
+      "characterIds": [
+        70,
+        71,
+        65
+      ],
+      "labelId": 563,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            564
+          ]
+        }
+      ],
+      "collectionId": 14,
+      "order": 2
+    },
+    {
+      "id": 173,
+      "name": "Nazjatar Campaign / Rise of N'Zoth",
+      "yearStart": 32,
+      "yearEnd": 32,
+      "eventType": 3,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        51,
+        50,
+        52
+      ],
+      "characterIds": [
+        72,
+        73
+      ],
+      "labelId": 565,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            566
+          ]
+        }
+      ],
+      "collectionId": 14,
+      "order": 3
+    },
+    {
+      "id": 174,
+      "name": "Ny'alotha / Defeat of N'Zoth",
+      "yearStart": 32,
+      "yearEnd": 32,
+      "eventType": 4,
+      "timeline": 1,
+      "link": "",
+      "factionIds": [
+        50,
+        52,
+        1,
+        15
+      ],
+      "characterIds": [
+        73,
+        66,
+        65
+      ],
+      "labelId": 567,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            568
+          ]
+        }
+      ],
+      "collectionId": 14,
+      "order": 4
     }
   ],
   "characters": [
@@ -4847,6 +5139,200 @@
         12,
         42
       ]
+    },
+    {
+      "id": 64,
+      "name": "Varian Wrynn",
+      "author": "",
+      "labelId": 569,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            570
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        15
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 65,
+      "name": "Anduin Wrynn",
+      "author": "",
+      "labelId": 571,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            572
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        15,
+        52
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 66,
+      "name": "Sylvanas Windrunner",
+      "author": "",
+      "labelId": 573,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            574
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        1
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 67,
+      "name": "Illidan Stormrage",
+      "author": "",
+      "labelId": 575,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            576
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        45,
+        47
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 68,
+      "name": "Kil'jaeden",
+      "author": "",
+      "labelId": 577,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            578
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        12
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 69,
+      "name": "Sargeras",
+      "author": "",
+      "labelId": 579,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            580
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        12
+      ],
+      "collectionId": 13
+    },
+    {
+      "id": 70,
+      "name": "King Rastakhan",
+      "author": "",
+      "labelId": 581,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            582
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        48
+      ],
+      "collectionId": 14
+    },
+    {
+      "id": 71,
+      "name": "Talanji",
+      "author": "",
+      "labelId": 583,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            584
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        48,
+        1
+      ],
+      "collectionId": 14
+    },
+    {
+      "id": 72,
+      "name": "Queen Azshara",
+      "author": "",
+      "labelId": 585,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            586
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        51,
+        50
+      ],
+      "collectionId": 14
+    },
+    {
+      "id": 73,
+      "name": "N'Zoth",
+      "author": "",
+      "labelId": 587,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            588
+          ]
+        }
+      ],
+      "timeline": 1,
+      "factionIds": [
+        50
+      ],
+      "collectionId": 14
     }
   ],
   "factions": [
@@ -5553,6 +6039,134 @@
       "author": "",
       "name": "Blackrock Clan (Alt)",
       "id": 44
+    },
+    {
+      "id": 45,
+      "name": "Illidari Reforged",
+      "author": "",
+      "labelId": 589,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            590
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 13
+    },
+    {
+      "id": 46,
+      "name": "Armies of Legionfall",
+      "author": "",
+      "labelId": 591,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            592
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 13
+    },
+    {
+      "id": 47,
+      "name": "Army of the Light",
+      "author": "",
+      "labelId": 593,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            594
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 13
+    },
+    {
+      "id": 48,
+      "name": "Zandalari Empire",
+      "author": "",
+      "labelId": 595,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            596
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 14
+    },
+    {
+      "id": 49,
+      "name": "Kul Tiras Admiralty",
+      "author": "",
+      "labelId": 597,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            598
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 14
+    },
+    {
+      "id": 50,
+      "name": "Black Empire",
+      "author": "",
+      "labelId": 599,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            600
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 14
+    },
+    {
+      "id": 51,
+      "name": "Nazjatar Naga",
+      "author": "",
+      "labelId": 601,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            602
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 14
+    },
+    {
+      "id": 52,
+      "name": "Fourth War Coalition",
+      "author": "",
+      "labelId": 603,
+      "chapters": [
+        {
+          "headerId": null,
+          "pageIds": [
+            604
+          ]
+        }
+      ],
+      "timeline": 1,
+      "collectionId": 14
     }
   ],
   "chapters": [
@@ -8366,6 +8980,286 @@
       "enUS": "Alternate timeline Blackrock clan, primary threat in alternate Draenor under Grommash.",
       "id": 548,
       "ishtml": false
+    },
+    {
+      "id": 549,
+      "ishtml": false,
+      "enUS": "Broken Shore Invasion / Deaths of Varian and Vol'jin"
+    },
+    {
+      "id": 550,
+      "ishtml": false,
+      "enUS": "The Burning Legion overwhelms Azeroth's united armies at the Broken Shore, where both Varian Wrynn and Vol'jin fall in battle."
+    },
+    {
+      "id": 551,
+      "ishtml": false,
+      "enUS": "Sylvanas Named Warchief / Anduin Crowned"
+    },
+    {
+      "id": 552,
+      "ishtml": false,
+      "enUS": "In the aftermath of the Broken Shore, Sylvanas becomes Warchief of the Horde while Anduin takes the throne of Stormwind."
+    },
+    {
+      "id": 553,
+      "ishtml": false,
+      "enUS": "Illidari Return and Legionfall Campaign"
+    },
+    {
+      "id": 554,
+      "ishtml": false,
+      "enUS": "The Illidari and allied champions launch the Legionfall campaign, reclaiming key footholds and preparing the assault against demonic strongholds."
+    },
+    {
+      "id": 555,
+      "ishtml": false,
+      "enUS": "Argus Campaign / Fall of Kil'jaeden"
+    },
+    {
+      "id": 556,
+      "ishtml": false,
+      "enUS": "The war expands to Argus where the Army of the Light and Azeroth's champions break Legion command chains and end Kil'jaeden's threat."
+    },
+    {
+      "id": 557,
+      "ishtml": false,
+      "enUS": "Sargeras Imprisoned / Azeroth Wounded"
+    },
+    {
+      "id": 558,
+      "ishtml": false,
+      "enUS": "The Pantheon imprisons Sargeras, but his final strike drives a colossal blade into Azeroth, igniting the age of Azerite."
+    },
+    {
+      "id": 559,
+      "ishtml": false,
+      "enUS": "Burning of Teldrassil"
+    },
+    {
+      "id": 560,
+      "ishtml": false,
+      "enUS": "Sylvanas orders the burning of Teldrassil, escalating faction tensions into total war across Azeroth."
+    },
+    {
+      "id": 561,
+      "ishtml": false,
+      "enUS": "Siege of Lordaeron"
+    },
+    {
+      "id": 562,
+      "ishtml": false,
+      "enUS": "Alliance forces besiege Lordaeron in retaliation, and the conflict reshapes front lines of the Fourth War."
+    },
+    {
+      "id": 563,
+      "ishtml": false,
+      "enUS": "Battle of Dazar'alor / Zandalari Join the Horde"
+    },
+    {
+      "id": 564,
+      "ishtml": false,
+      "enUS": "The battle at Dazar'alor ends with the death of Rastakhan and cements the Zandalari alliance with the Horde under Talanji."
+    },
+    {
+      "id": 565,
+      "ishtml": false,
+      "enUS": "Nazjatar Campaign / Rise of N'Zoth"
+    },
+    {
+      "id": 566,
+      "ishtml": false,
+      "enUS": "Azshara lures both factions into Nazjatar and the conflict culminates in N'Zoth breaking free from his prison."
+    },
+    {
+      "id": 567,
+      "ishtml": false,
+      "enUS": "Ny'alotha / Defeat of N'Zoth"
+    },
+    {
+      "id": 568,
+      "ishtml": false,
+      "enUS": "Azeroth's champions invade Ny'alotha and end N'Zoth's reign, closing the Black Empire threat in the Fourth War era."
+    },
+    {
+      "id": 569,
+      "ishtml": false,
+      "enUS": "Varian Wrynn"
+    },
+    {
+      "id": 570,
+      "ishtml": false,
+      "enUS": "High King of the Alliance whose final stand at the Broken Shore becomes a defining sacrifice of the Legion invasion."
+    },
+    {
+      "id": 571,
+      "ishtml": false,
+      "enUS": "Anduin Wrynn"
+    },
+    {
+      "id": 572,
+      "ishtml": false,
+      "enUS": "Successor to Varian and king of Stormwind, Anduin leads the Alliance through Legion's end and the Fourth War."
+    },
+    {
+      "id": 573,
+      "ishtml": false,
+      "enUS": "Sylvanas Windrunner"
+    },
+    {
+      "id": 574,
+      "ishtml": false,
+      "enUS": "Former Banshee Queen who becomes Warchief after Vol'jin and drives the opening campaigns of Battle for Azeroth."
+    },
+    {
+      "id": 575,
+      "ishtml": false,
+      "enUS": "Illidan Stormrage"
+    },
+    {
+      "id": 576,
+      "ishtml": false,
+      "enUS": "Leader of the Illidari whose campaign against the Legion culminates in Sargeras's imprisonment."
+    },
+    {
+      "id": 577,
+      "ishtml": false,
+      "enUS": "Kil'jaeden"
+    },
+    {
+      "id": 578,
+      "ishtml": false,
+      "enUS": "Demonic commander of the Burning Legion defeated during Azeroth's offensive beyond the Great Dark."
+    },
+    {
+      "id": 579,
+      "ishtml": false,
+      "enUS": "Sargeras"
+    },
+    {
+      "id": 580,
+      "ishtml": false,
+      "enUS": "Fallen titan and master of the Legion, finally bound by the Pantheon after his final strike at Azeroth."
+    },
+    {
+      "id": 581,
+      "ishtml": false,
+      "enUS": "King Rastakhan"
+    },
+    {
+      "id": 582,
+      "ishtml": false,
+      "enUS": "Long-ruling Zandalari king whose death at Dazar'alor marks a turning point in the Fourth War."
+    },
+    {
+      "id": 583,
+      "ishtml": false,
+      "enUS": "Talanji"
+    },
+    {
+      "id": 584,
+      "ishtml": false,
+      "enUS": "Princess and later queen of Zandalar who secures her people's alliance with the Horde."
+    },
+    {
+      "id": 585,
+      "ishtml": false,
+      "enUS": "Queen Azshara"
+    },
+    {
+      "id": 586,
+      "ishtml": false,
+      "enUS": "Naga ruler who engineers the Nazjatar trap and helps trigger the release of N'Zoth."
+    },
+    {
+      "id": 587,
+      "ishtml": false,
+      "enUS": "N'Zoth"
+    },
+    {
+      "id": 588,
+      "ishtml": false,
+      "enUS": "Last free Old God of Azeroth, defeated when champions breach Ny'alotha and sever his influence."
+    },
+    {
+      "id": 589,
+      "ishtml": false,
+      "enUS": "Illidari Reforged"
+    },
+    {
+      "id": 590,
+      "ishtml": false,
+      "enUS": "Demon hunter forces reorganized under Illidan to wage a final war against Legion command structures."
+    },
+    {
+      "id": 591,
+      "ishtml": false,
+      "enUS": "Armies of Legionfall"
+    },
+    {
+      "id": 592,
+      "ishtml": false,
+      "enUS": "Coalition of class orders and allies assembled to break the Legion's hold over Azeroth and beyond."
+    },
+    {
+      "id": 593,
+      "ishtml": false,
+      "enUS": "Army of the Light"
+    },
+    {
+      "id": 594,
+      "ishtml": false,
+      "enUS": "Ancient resistance forged by the naaru and their allies, joining Azeroth's champions on Argus."
+    },
+    {
+      "id": 595,
+      "ishtml": false,
+      "enUS": "Zandalari Empire"
+    },
+    {
+      "id": 596,
+      "ishtml": false,
+      "enUS": "Seafaring troll kingdom whose alliance decision becomes central to the Fourth War balance of power."
+    },
+    {
+      "id": 597,
+      "ishtml": false,
+      "enUS": "Kul Tiras Admiralty"
+    },
+    {
+      "id": 598,
+      "ishtml": false,
+      "enUS": "Naval command and fleets of Kul Tiras that restore Alliance maritime dominance in the Fourth War."
+    },
+    {
+      "id": 599,
+      "ishtml": false,
+      "enUS": "Black Empire"
+    },
+    {
+      "id": 600,
+      "ishtml": false,
+      "enUS": "Manifest domain of Old God influence reborn through N'Zoth's plans and visions of Ny'alotha."
+    },
+    {
+      "id": 601,
+      "ishtml": false,
+      "enUS": "Nazjatar Naga"
+    },
+    {
+      "id": 602,
+      "ishtml": false,
+      "enUS": "Azshara's naga legions controlling Nazjatar and acting as the spearpoint of Old God-aligned strategy."
+    },
+    {
+      "id": 603,
+      "ishtml": false,
+      "enUS": "Fourth War Coalition"
+    },
+    {
+      "id": 604,
+      "ishtml": false,
+      "enUS": "Cross-faction military coordination formed under existential threat to oppose Azshara and N'Zoth."
     }
   ]
 }
