@@ -43,6 +43,43 @@ export function createMappers(
     database: AsyncDatabase | null,
     ensureMapperCache: () => Promise<MapperCache>
 ): AllMappers {
+    function isDbChapter(value: unknown): value is DB_Chapter {
+        return (
+            typeof value === "object" &&
+            value !== null &&
+            Array.isArray((value as DB_Chapter).pageIds)
+        );
+    }
+
+    function getLegacyEventChapters(dbo: DB_Event): DB_Chapter[] {
+        const chapterRefs = Array.isArray(dbo.chapterIds) ? dbo.chapterIds : [];
+        const inlineLegacyChapters = chapterRefs.filter(isDbChapter);
+        const descriptionIds = Array.isArray(dbo.descriptionIds) ? dbo.descriptionIds : [];
+        const descriptionChapter =
+            descriptionIds.length > 0 ? [{ headerId: undefined, pageIds: descriptionIds }] : [];
+
+        return [...inlineLegacyChapters, ...descriptionChapter];
+    }
+
+    function getEventDbChapters(dbo: DB_Event): DB_Chapter[] {
+        if (Array.isArray(dbo.chapters) && dbo.chapters.length > 0) {
+            return dbo.chapters;
+        }
+        return getLegacyEventChapters(dbo);
+    }
+
+    function getCharacterDbChapters(dbo: DB_Character): DB_Chapter[] {
+        if (Array.isArray(dbo.chapters) && dbo.chapters.length > 0) {
+            return dbo.chapters;
+        }
+
+        const legacyPageIds = [dbo.biographyId, dbo.descriptionId].filter(
+            (id): id is number => typeof id === "number"
+        );
+
+        return legacyPageIds.length > 0 ? [{ headerId: undefined, pageIds: legacyPageIds }] : [];
+    }
+
     // ── LocaleMapper ─────────────────────────────────────────────────────────
     const LocaleMapper: Mapper<DB_Locale, Locale> = {
         map: (dto: Locale): DB_Locale => ({
@@ -168,7 +205,7 @@ export function createMappers(
             const cache = await ensureMapperCache();
             const label = cache.localesById.get(dbo.labelId);
             if (!label) throw new Error(`Label not found for character ${dbo.name}`);
-            const factions = dbo.factionIds
+            const factions = (dbo.factionIds ?? [])
                 .map((id) => cache.factionsById.get(id))
                 .filter((f): f is DB_Faction => f !== undefined);
             const collection = cache.collectionsById.get(dbo.collectionId);
@@ -176,11 +213,11 @@ export function createMappers(
             return {
                 id: dbo.id,
                 name: dbo.name,
-                author: dbo.author,
+                author: dbo.author ?? "",
                 label: await LocaleMapper.mapFromDb(label),
-                chapters: dbo.chapters
-                    ? await Promise.all(dbo.chapters.map((c) => ChapterMapper.mapFromDb(c)))
-                    : [],
+                chapters: await Promise.all(
+                    getCharacterDbChapters(dbo).map((c) => ChapterMapper.mapFromDb(c))
+                ),
                 timeline: dbo.timeline,
                 factions: await Promise.all(factions.map((f) => FactionMapper.mapFromDb(f))),
                 collection: await CollectionMapper.mapFromDb(collection),
@@ -221,6 +258,7 @@ export function createMappers(
             }
             if (database === null) throw new Error("Database not loaded");
             const cache = await ensureMapperCache();
+            const eventChapters = getEventDbChapters(dbo);
 
             const factions = (dbo.factionIds ?? [])
                 .map((id) => cache.factionsById.get(id))
@@ -244,9 +282,7 @@ export function createMappers(
                 factions: await Promise.all(factions.map((f) => FactionMapper.mapFromDb(f))),
                 characters: await Promise.all(characters.map((c) => CharacterMapper.mapFromDb(c))),
                 label: await LocaleMapper.mapFromDb(label),
-                chapters: await Promise.all(
-                    (dbo.chapters ?? []).map((c) => ChapterMapper.mapFromDb(c))
-                ),
+                chapters: await Promise.all(eventChapters.map((c) => ChapterMapper.mapFromDb(c))),
                 collection: await CollectionMapper.mapFromDb(collection),
                 order: dbo.order,
             };

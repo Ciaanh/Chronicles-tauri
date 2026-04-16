@@ -2,21 +2,23 @@ import { DbObject } from "../../jsondb/types";
 import { DB_Chapter } from "./DB_Chapter";
 
 export interface DB_Event extends DbObject {
-  name: string;
-  author: string;
-  yearStart: number;
-  yearEnd: number;
-  eventType: number;
-  timeline: number;
-  collectionId: number;
+    name: string;
+    author?: string;
+    yearStart: number;
+    yearEnd: number;
+    eventType: number;
+    timeline: number;
+    collectionId: number;
 
-  link: string;
+    link: string;
 
-  factionIds: number[];
-  characterIds: number[];
+    factionIds: number[];
+    characterIds: number[];
 
-  labelId: number;
-  chapters: DB_Chapter[];
+    labelId: number;
+    chapters?: DB_Chapter[];
+    chapterIds?: Array<number | DB_Chapter>;
+    descriptionIds?: number[];
 
-  order: number;
+    order: number;
 }
