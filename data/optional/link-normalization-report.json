@@ -1,0 +1,3217 @@
+{
+  "timestamp": "2026-04-16T13:46:21.691Z",
+  "options": {
+    "dryRun": false
+  },
+  "metrics": {
+    "eventsScanned": 320,
+    "resolvedViaDict": 0,
+    "resolvedViaHttp": 55,
+    "unresolved": 265,
+    "unchanged": 0
+  },
+  "resolved": [
+    {
+      "eventId": 1,
+      "eventName": "Opening of the Dark Portal",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Opening%20of%20the%20Dark%20Portal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Opening_of_the_Dark_Portal",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Opening_of_the_Dark_Portal"
+    },
+    {
+      "eventId": 2,
+      "eventName": "The Great Wars",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Great%20Wars",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Great_Wars",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Great_Wars"
+    },
+    {
+      "eventId": 3,
+      "eventName": "World of Warcraft",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=World%20of%20Warcraft",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/World_of_Warcraft",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: World_of_Warcraft"
+    },
+    {
+      "eventId": 4,
+      "eventName": "Burning Crusade",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Burning%20Crusade",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Burning_Crusade",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Burning_Crusade"
+    },
+    {
+      "eventId": 5,
+      "eventName": "Wrath of the Lich King",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrath%20of%20the%20Lich%20King",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Wrath_of_the_Lich_King",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Wrath_of_the_Lich_King"
+    },
+    {
+      "eventId": 6,
+      "eventName": "Cataclysm",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Cataclysm",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Cataclysm",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Cataclysm"
+    },
+    {
+      "eventId": 7,
+      "eventName": "Mists of Pandaria",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Mists%20of%20Pandaria",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Mists_of_Pandaria",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Mists_of_Pandaria"
+    },
+    {
+      "eventId": 8,
+      "eventName": "Warlords of Draenor",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warlords%20of%20Draenor",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Warlords_of_Draenor",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Warlords_of_Draenor"
+    },
+    {
+      "eventId": 9,
+      "eventName": "Legion",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Legion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Legion",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Legion"
+    },
+    {
+      "eventId": 10,
+      "eventName": "Battle for Azeroth",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20Azeroth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Battle_for_Azeroth",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Battle_for_Azeroth"
+    },
+    {
+      "eventId": 11,
+      "eventName": "Shadowlands",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Shadowlands",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Shadowlands",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Shadowlands"
+    },
+    {
+      "eventId": 12,
+      "eventName": "Dragonflight",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dragonflight",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Dragonflight",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Dragonflight"
+    },
+    {
+      "eventId": 14,
+      "eventName": "The rise of demons",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20rise%20of%20demons",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Rise_of_demons",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: rise_of_demons"
+    },
+    {
+      "eventId": 21,
+      "eventName": "Charge of the Dragonflights",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Charge%20of%20the%20Dragonflights",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Charge_of_the_Dragonflights",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Charge_of_the_Dragonflights"
+    },
+    {
+      "eventId": 27,
+      "eventName": "The curse of flesh",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20curse%20of%20flesh",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Curse_of_flesh",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: curse_of_flesh"
+    },
+    {
+      "eventId": 34,
+      "eventName": "The Zandalari Wars",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Zandalari%20Wars",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Zandalari_Wars",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Zandalari_Wars"
+    },
+    {
+      "eventId": 35,
+      "eventName": "War of the Ancients",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Ancients",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/War_of_the_Ancients",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: War_of_the_Ancients"
+    },
+    {
+      "eventId": 36,
+      "eventName": "Lunar Festival",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Lunar%20Festival",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Lunar_Festival",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Lunar_Festival"
+    },
+    {
+      "eventId": 38,
+      "eventName": "War of the Satyr",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Satyr",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/War_of_the_Satyr",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: War_of_the_Satyr"
+    },
+    {
+      "eventId": 86,
+      "eventName": "Gurubashi War",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gurubashi%20War",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Gurubashi_War",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Gurubashi_War"
+    },
+    {
+      "eventId": 100,
+      "eventName": "The War Within",
+      "collectionId": 1,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20War%20Within",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/War_Within",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: War_Within"
+    },
+    {
+      "eventId": 113,
+      "eventName": "Battle of Hillsbrad",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Hillsbrad",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Battle_of_Hillsbrad",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Battle_of_Hillsbrad"
+    },
+    {
+      "eventId": 114,
+      "eventName": "Siege of Lordaeron / Gul'dan's Betrayal",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Lordaeron%20%2F%20Gul%27dan%27s%20Betrayal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Siege_of_Lordaeron",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Siege_of_Lordaeron"
+    },
+    {
+      "eventId": 120,
+      "eventName": "Culling of Stratholme",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Culling%20of%20Stratholme",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Culling_of_Stratholme",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Culling_of_Stratholme"
+    },
+    {
+      "eventId": 124,
+      "eventName": "Battle of Mount Hyjal",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Mount%20Hyjal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Battle_of_Mount_Hyjal",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Battle_of_Mount_Hyjal"
+    },
+    {
+      "eventId": 129,
+      "eventName": "Battle of Grim Batol / Liberation of Alexstrasza",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Grim%20Batol%20%2F%20Liberation%20of%20Alexstrasza",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Battle_of_Grim_Batol",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Battle_of_Grim_Batol"
+    },
+    {
+      "eventId": 130,
+      "eventName": "War of the Spider",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Spider",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/War_of_the_Spider",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: War_of_the_Spider"
+    },
+    {
+      "eventId": 133,
+      "eventName": "Blackrock Depths / Moira Bronzebeard Kidnapped",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackrock%20Depths%20%2F%20Moira%20Bronzebeard%20Kidnapped",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Blackrock_Depths",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Blackrock_Depths"
+    },
+    {
+      "eventId": 134,
+      "eventName": "Stratholme / Baron Rivendare and the Scarlet Crusade",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Stratholme%20%2F%20Baron%20Rivendare%20and%20the%20Scarlet%20Crusade",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Stratholme",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Stratholme"
+    },
+    {
+      "eventId": 140,
+      "eventName": "Reopening of the Dark Portal / Arrival in Outland",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Reopening%20of%20the%20Dark%20Portal%20%2F%20Arrival%20in%20Outland",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Arrival_in_Outland",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Arrival_in_Outland"
+    },
+    {
+      "eventId": 149,
+      "eventName": "Assault on Icecrown Citadel / Fall of the Lich King",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Assault%20on%20Icecrown%20Citadel%20%2F%20Fall%20of%20the%20Lich%20King",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Assault_on_Icecrown_Citadel",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Assault_on_Icecrown_Citadel"
+    },
+    {
+      "eventId": 150,
+      "eventName": "The Shattering / Return of Deathwing",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Shattering%20%2F%20Return%20of%20Deathwing",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/The_Shattering",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: The_Shattering"
+    },
+    {
+      "eventId": 168,
+      "eventName": "Argus Campaign / Fall of Kil'jaeden",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Argus%20Campaign%20%2F%20Fall%20of%20Kil%27jaeden",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Argus_Campaign",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Argus_Campaign"
+    },
+    {
+      "eventId": 170,
+      "eventName": "Burning of Teldrassil",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Burning%20of%20Teldrassil",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Burning_of_Teldrassil",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Burning_of_Teldrassil"
+    },
+    {
+      "eventId": 171,
+      "eventName": "Siege of Lordaeron",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Lordaeron",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Siege_of_Lordaeron",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Siege_of_Lordaeron"
+    },
+    {
+      "eventId": 177,
+      "eventName": "Sanctum of Domination",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sanctum%20of%20Domination",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Sanctum_of_Domination",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Sanctum_of_Domination"
+    },
+    {
+      "eventId": 206,
+      "eventName": "World of Warcraft campaign",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=World%20of%20Warcraft%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/World_of_Warcraft_campaign",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: World_of_Warcraft_campaign"
+    },
+    {
+      "eventId": 212,
+      "eventName": "Elemental Invasions",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Elemental%20Invasions",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Elemental_Invasions",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Elemental_Invasions"
+    },
+    {
+      "eventId": 238,
+      "eventName": "Ulduar",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ulduar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Ulduar",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Ulduar"
+    },
+    {
+      "eventId": 239,
+      "eventName": "Elemental Unrest",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Elemental%20Unrest",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Elemental_Unrest",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Elemental_Unrest"
+    },
+    {
+      "eventId": 241,
+      "eventName": "The Cataclysm - Deathwing returns to Azeroth, scarring it with a great cataclysm.",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Cataclysm%20-%20Deathwing%20returns%20to%20Azeroth%2C%20scarring%20it%20with%20a%20great%20cataclysm.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Cataclysm",
+      "method": "slug-verified",
+      "confidence": "medium",
+      "note": "Verified slug: Cataclysm"
+    },
+    {
+      "eventId": 248,
+      "eventName": "Firelands Invasion",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Firelands%20Invasion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Firelands_Invasion",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Firelands_Invasion"
+    },
+    {
+      "eventId": 252,
+      "eventName": "Scarlet Monastery",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Scarlet%20Monastery",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Scarlet_Monastery",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Scarlet_Monastery"
+    },
+    {
+      "eventId": 259,
+      "eventName": "Mists of Pandaria campaign",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Mists%20of%20Pandaria%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Mists_of_Pandaria_campaign",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Mists_of_Pandaria_campaign"
+    },
+    {
+      "eventId": 269,
+      "eventName": "Warlords of Draenor campaign",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warlords%20of%20Draenor%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Warlords_of_Draenor_campaign",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Warlords_of_Draenor_campaign"
+    },
+    {
+      "eventId": 291,
+      "eventName": "Before the Storm",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Before%20the%20Storm",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Before_the_Storm",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Before_the_Storm"
+    },
+    {
+      "eventId": 293,
+      "eventName": "Battle for Lordaeron",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20Lordaeron",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Battle_for_Lordaeron",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Battle_for_Lordaeron"
+    },
+    {
+      "eventId": 299,
+      "eventName": "Shadows Rising",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Shadows%20Rising",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Shadows_Rising",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Shadows_Rising"
+    },
+    {
+      "eventId": 300,
+      "eventName": "Terror by Torchlight",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Terror%20by%20Torchlight",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Terror_by_Torchlight",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Terror_by_Torchlight"
+    },
+    {
+      "eventId": 301,
+      "eventName": "Exploring Azeroth: The Eastern Kingdoms",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exploring%20Azeroth%3A%20The%20Eastern%20Kingdoms",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Exploring_Azeroth%3A_The_Eastern_Kingdoms",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Exploring_Azeroth:_The_Eastern_Kingdoms"
+    },
+    {
+      "eventId": 302,
+      "eventName": "Exploring Azeroth: Kalimdor",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exploring%20Azeroth%3A%20Kalimdor",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Exploring_Azeroth%3A_Kalimdor",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Exploring_Azeroth:_Kalimdor"
+    },
+    {
+      "eventId": 303,
+      "eventName": "Death Rising",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Death%20Rising",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Death_Rising",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Death_Rising"
+    },
+    {
+      "eventId": 310,
+      "eventName": "Exploring Azeroth: Northrend",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exploring%20Azeroth%3A%20Northrend",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Exploring_Azeroth%3A_Northrend",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Exploring_Azeroth:_Northrend"
+    },
+    {
+      "eventId": 311,
+      "eventName": "Exploring Azeroth: Pandaria",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exploring%20Azeroth%3A%20Pandaria",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Exploring_Azeroth%3A_Pandaria",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: Exploring_Azeroth:_Pandaria"
+    },
+    {
+      "eventId": 312,
+      "eventName": "The Vow Eternal",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Vow%20Eternal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/The_Vow_Eternal",
+      "method": "slug-verified",
+      "confidence": "high",
+      "note": "Verified slug: The_Vow_Eternal"
+    }
+  ],
+  "reviewQueue": [
+    {
+      "eventId": 13,
+      "eventName": "Origins of the universe",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Origins%20of%20the%20universe",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Origins%20of%20the%20universe",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Origins_of_the_universe, Origins_Of_The_Universe"
+    },
+    {
+      "eventId": 15,
+      "eventName": "Banishment of the jailer",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Banishment%20of%20the%20jailer",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Banishment%20of%20the%20jailer",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Banishment_of_the_jailer, Banishment_Of_The_Jailer"
+    },
+    {
+      "eventId": 16,
+      "eventName": "Exile of the nathrezim",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exile%20of%20the%20nathrezim",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Exile%20of%20the%20nathrezim",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Exile_of_the_nathrezim, Exile_Of_The_Nathrezim"
+    },
+    {
+      "eventId": 17,
+      "eventName": "Betrayal of Sargeras",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Betrayal%20of%20Sargeras",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Betrayal%20of%20Sargeras",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Betrayal_of_Sargeras, Betrayal_Of_Sargeras"
+    },
+    {
+      "eventId": 18,
+      "eventName": "The coming of the Old Gods",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20coming%20of%20the%20Old%20Gods",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20coming%20of%20the%20Old%20Gods",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_coming_of_the_Old_Gods, The_Coming_Of_The_Old_Gods, coming_of_the_Old_Gods"
+    },
+    {
+      "eventId": 19,
+      "eventName": "Wrath of the titan-forged",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrath%20of%20the%20titan-forged",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrath%20of%20the%20titan-forged",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Wrath_of_the_titan-forged, Wrath_Of_The_Titan-forged, Wrath_of_the_titanforged"
+    },
+    {
+      "eventId": 20,
+      "eventName": "The Ordering of Azeroth",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Ordering%20of%20Azeroth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Ordering%20of%20Azeroth",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Ordering_of_Azeroth, The_Ordering_Of_Azeroth, Ordering_of_Azeroth"
+    },
+    {
+      "eventId": 22,
+      "eventName": "Earliest known date",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Earliest%20known%20date",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Earliest%20known%20date",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Earliest_known_date, Earliest_Known_Date"
+    },
+    {
+      "eventId": 23,
+      "eventName": "Rise of the eredars",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20eredars",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20eredars",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rise_of_the_eredars, Rise_Of_The_Eredars"
+    },
+    {
+      "eventId": 24,
+      "eventName": "War of the Incarnates",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Incarnates",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Incarnates",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_the_Incarnates, War_Of_The_Incarnates"
+    },
+    {
+      "eventId": 25,
+      "eventName": "Sleep of the dracthyrs",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sleep%20of%20the%20dracthyrs",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sleep%20of%20the%20dracthyrs",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sleep_of_the_dracthyrs, Sleep_Of_The_Dracthyrs"
+    },
+    {
+      "eventId": 26,
+      "eventName": "Rise of the trolls",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20trolls",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20trolls",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rise_of_the_trolls, Rise_Of_The_Trolls"
+    },
+    {
+      "eventId": 28,
+      "eventName": "Rise of Lei Shen",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20Lei%20Shen",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20Lei%20Shen",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rise_of_Lei_Shen, Rise_Of_Lei_Shen"
+    },
+    {
+      "eventId": 29,
+      "eventName": "Rise of the night elves",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20night%20elves",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20night%20elves",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rise_of_the_night_elves, Rise_Of_The_Night_Elves"
+    },
+    {
+      "eventId": 30,
+      "eventName": "Sargeras and the eredars",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sargeras%20and%20the%20eredars",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sargeras%20and%20the%20eredars",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sargeras_and_the_eredars, Sargeras_And_The_Eredars"
+    },
+    {
+      "eventId": 31,
+      "eventName": "War of Uldum",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20Uldum",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20Uldum",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_Uldum, War_Of_Uldum"
+    },
+    {
+      "eventId": 32,
+      "eventName": "Foundation of Eldre'Thalas",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Foundation%20of%20Eldre%27Thalas",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Foundation%20of%20Eldre%27Thalas",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Foundation_of_Eldre'Thalas, Foundation_Of_Eldre'Thalas"
+    },
+    {
+      "eventId": 33,
+      "eventName": "Revolution of the pandaren",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Revolution%20of%20the%20pandaren",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Revolution%20of%20the%20pandaren",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Revolution_of_the_pandaren, Revolution_Of_The_Pandaren"
+    },
+    {
+      "eventId": 37,
+      "eventName": "Night elves expansion",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Night%20elves%20expansion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Night%20elves%20expansion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Night_elves_expansion, Night_Elves_Expansion"
+    },
+    {
+      "eventId": 40,
+      "eventName": "Catastrophe of Moonsong Forest",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Catastrophe%20of%20Moonsong%20Forest",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Catastrophe%20of%20Moonsong%20Forest",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Catastrophe_of_Moonsong_Forest, Catastrophe_Of_Moonsong_Forest"
+    },
+    {
+      "eventId": 41,
+      "eventName": "The cursed world tree",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20cursed%20world%20tree",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20cursed%20world%20tree",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_cursed_world_tree, The_Cursed_World_Tree, cursed_world_tree"
+    },
+    {
+      "eventId": 42,
+      "eventName": "Rescue of the frostsaber queen",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rescue%20of%20the%20frostsaber%20queen",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rescue%20of%20the%20frostsaber%20queen",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rescue_of_the_frostsaber_queen, Rescue_Of_The_Frostsaber_Queen"
+    },
+    {
+      "eventId": 43,
+      "eventName": "Curse of the Mechagnomes",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Curse%20of%20the%20Mechagnomes",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Curse%20of%20the%20Mechagnomes",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Curse_of_the_Mechagnomes, Curse_Of_The_Mechagnomes"
+    },
+    {
+      "eventId": 44,
+      "eventName": "Rise of the Apexis",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20Apexis",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rise%20of%20the%20Apexis",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rise_of_the_Apexis, Rise_Of_The_Apexis"
+    },
+    {
+      "eventId": 45,
+      "eventName": "Sealing of the Barrow Deeps",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sealing%20of%20the%20Barrow%20Deeps",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sealing%20of%20the%20Barrow%20Deeps",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sealing_of_the_Barrow_Deeps, Sealing_Of_The_Barrow_Deeps"
+    },
+    {
+      "eventId": 46,
+      "eventName": "Founding of Arathor and Troll Wars",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20Arathor%20and%20Troll%20Wars",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20Arathor%20and%20Troll%20Wars",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Founding_of_Arathor_and_Troll_Wars, Founding_Of_Arathor_And_Troll_Wars"
+    },
+    {
+      "eventId": 47,
+      "eventName": "Expansion of Arathor",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Expansion%20of%20Arathor",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Expansion%20of%20Arathor",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Expansion_of_Arathor, Expansion_Of_Arathor"
+    },
+    {
+      "eventId": 48,
+      "eventName": "The guardians of Tirisfal",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20guardians%20of%20Tirisfal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20guardians%20of%20Tirisfal",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_guardians_of_Tirisfal, The_Guardians_Of_Tirisfal, guardians_of_Tirisfal"
+    },
+    {
+      "eventId": 49,
+      "eventName": "The first Guardian",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20first%20Guardian",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20first%20Guardian",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_first_Guardian, The_First_Guardian, first_Guardian"
+    },
+    {
+      "eventId": 50,
+      "eventName": "Awakening of the Dwarves",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20the%20Dwarves",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20the%20Dwarves",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Awakening_of_the_Dwarves, Awakening_Of_The_Dwarves"
+    },
+    {
+      "eventId": 51,
+      "eventName": "Destruction of the Evergrowth",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Destruction%20of%20the%20Evergrowth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Destruction%20of%20the%20Evergrowth",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Destruction_of_the_Evergrowth, Destruction_Of_The_Evergrowth"
+    },
+    {
+      "eventId": 52,
+      "eventName": "Gurubashi civil war",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gurubashi%20civil%20war",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gurubashi%20civil%20war",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gurubashi_civil_war, Gurubashi_Civil_War"
+    },
+    {
+      "eventId": 53,
+      "eventName": "Seven Kingdoms",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Seven%20Kingdoms",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Seven%20Kingdoms",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Seven_Kingdoms"
+    },
+    {
+      "eventId": 54,
+      "eventName": "Betrayal of Tortheldrin",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Betrayal%20of%20Tortheldrin",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Betrayal%20of%20Tortheldrin",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Betrayal_of_Tortheldrin, Betrayal_Of_Tortheldrin"
+    },
+    {
+      "eventId": 55,
+      "eventName": "Apexis civil war",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Apexis%20civil%20war",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Apexis%20civil%20war",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Apexis_civil_war, Apexis_Civil_War"
+    },
+    {
+      "eventId": 56,
+      "eventName": "Awakening of Theradras",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Theradras",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Theradras",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Awakening_of_Theradras, Awakening_Of_Theradras"
+    },
+    {
+      "eventId": 57,
+      "eventName": "Ogre Rebellion",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ogre%20Rebellion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ogre%20Rebellion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ogre_Rebellion"
+    },
+    {
+      "eventId": 58,
+      "eventName": "Sleep of Malfurion",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sleep%20of%20Malfurion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sleep%20of%20Malfurion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sleep_of_Malfurion, Sleep_Of_Malfurion"
+    },
+    {
+      "eventId": 59,
+      "eventName": "War of the Shifting Sands",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Shifting%20Sands",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Shifting%20Sands",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_the_Shifting_Sands, War_Of_The_Shifting_Sands"
+    },
+    {
+      "eventId": 60,
+      "eventName": "Aegwynn and the Dragon Hunt",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aegwynn%20and%20the%20Dragon%20Hunt",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aegwynn%20and%20the%20Dragon%20Hunt",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Aegwynn_and_the_Dragon_Hunt, Aegwynn_And_The_Dragon_Hunt"
+    },
+    {
+      "eventId": 61,
+      "eventName": "Journey of the Turtle",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Journey%20of%20the%20Turtle",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Journey%20of%20the%20Turtle",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Journey_of_the_Turtle, Journey_Of_The_Turtle"
+    },
+    {
+      "eventId": 62,
+      "eventName": "Emergence of the Orcs",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Emergence%20of%20the%20Orcs",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Emergence%20of%20the%20Orcs",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Emergence_of_the_Orcs, Emergence_Of_The_Orcs"
+    },
+    {
+      "eventId": 63,
+      "eventName": "Choice of Aegwynn",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Choice%20of%20Aegwynn",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Choice%20of%20Aegwynn",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Choice_of_Aegwynn, Choice_Of_Aegwynn"
+    },
+    {
+      "eventId": 64,
+      "eventName": "War of the Arakoa",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Arakoa",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Arakoa",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_the_Arakoa, War_Of_The_Arakoa"
+    },
+    {
+      "eventId": 65,
+      "eventName": "Foundation of the Farstriders",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Foundation%20of%20the%20Farstriders",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Foundation%20of%20the%20Farstriders",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Foundation_of_the_Farstriders, Foundation_Of_The_Farstriders"
+    },
+    {
+      "eventId": 66,
+      "eventName": "Fall of Leviroth ",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Leviroth%20",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Leviroth%20",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fall_of_Leviroth, Fall_Of_Leviroth"
+    },
+    {
+      "eventId": 67,
+      "eventName": "Explosion of the Throne of the Elements",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Explosion%20of%20the%20Throne%20of%20the%20Elements",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Explosion%20of%20the%20Throne%20of%20the%20Elements",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Explosion_of_the_Throne_of_the_Elements, Explosion_Of_The_Throne_Of_The_Elements"
+    },
+    {
+      "eventId": 68,
+      "eventName": "Union of the Clans",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Union%20of%20the%20Clans",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Union%20of%20the%20Clans",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Union_of_the_Clans, Union_Of_The_Clans"
+    },
+    {
+      "eventId": 69,
+      "eventName": "Siege of Goria",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Goria",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Goria",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Siege_of_Goria, Siege_Of_Goria"
+    },
+    {
+      "eventId": 70,
+      "eventName": "Quest of King Mechagon",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Quest%20of%20King%20Mechagon",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Quest%20of%20King%20Mechagon",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Quest_of_King_Mechagon, Quest_Of_King_Mechagon"
+    },
+    {
+      "eventId": 71,
+      "eventName": "Last Genesaur",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Last%20Genesaur",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Last%20Genesaur",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Last_Genesaur"
+    },
+    {
+      "eventId": 72,
+      "eventName": "Founding of the Earthen Ring",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20the%20Earthen%20Ring",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20the%20Earthen%20Ring",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Founding_of_the_Earthen_Ring, Founding_Of_The_Earthen_Ring"
+    },
+    {
+      "eventId": 73,
+      "eventName": "War of the Three Hammers",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Three%20Hammers",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20the%20Three%20Hammers",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_the_Three_Hammers, War_Of_The_Three_Hammers"
+    },
+    {
+      "eventId": 74,
+      "eventName": "Arrival of the Draenei",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arrival%20of%20the%20Draenei",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arrival%20of%20the%20Draenei",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Arrival_of_the_Draenei, Arrival_Of_The_Draenei"
+    },
+    {
+      "eventId": 75,
+      "eventName": "Draenei impact on the Orcs",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Draenei%20impact%20on%20the%20Orcs",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Draenei%20impact%20on%20the%20Orcs",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Draenei_impact_on_the_Orcs, Draenei_Impact_On_The_Orcs"
+    },
+    {
+      "eventId": 76,
+      "eventName": "Rebellion of the Goblins",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rebellion%20of%20the%20Goblins",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Rebellion%20of%20the%20Goblins",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Rebellion_of_the_Goblins, Rebellion_Of_The_Goblins"
+    },
+    {
+      "eventId": 77,
+      "eventName": "Ogre attack on Shattrath",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ogre%20attack%20on%20Shattrath",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ogre%20attack%20on%20Shattrath",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ogre_attack_on_Shattrath, Ogre_Attack_On_Shattrath"
+    },
+    {
+      "eventId": 78,
+      "eventName": "Orcs confront Draenei",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Orcs%20confront%20Draenei",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Orcs%20confront%20Draenei",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Orcs_confront_Draenei, Orcs_Confront_Draenei"
+    },
+    {
+      "eventId": 79,
+      "eventName": "Expedition to Kel'Theril",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Expedition%20to%20Kel%27Theril",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Expedition%20to%20Kel%27Theril",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Expedition_to_Kel'Theril, Expedition_To_Kel'Theril"
+    },
+    {
+      "eventId": 80,
+      "eventName": "Gnoll War",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gnoll%20War",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gnoll%20War",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gnoll_War"
+    },
+    {
+      "eventId": 81,
+      "eventName": "Medivh",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Medivh"
+    },
+    {
+      "eventId": 82,
+      "eventName": "The Shadow Pact",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Shadow%20Pact",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Shadow%20Pact",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Shadow_Pact, Shadow_Pact"
+    },
+    {
+      "eventId": 83,
+      "eventName": "Awakening of Medivh's power",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Medivh%27s%20power",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Medivh%27s%20power",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Awakening_of_Medivh's_power, Awakening_Of_Medivh's_Power"
+    },
+    {
+      "eventId": 84,
+      "eventName": "Grommash Hellscream",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Grommash%20Hellscream",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Grommash%20Hellscream",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Grommash_Hellscream"
+    },
+    {
+      "eventId": 85,
+      "eventName": "Awakening of Medivh",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Medivh",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Awakening%20of%20Medivh",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Awakening_of_Medivh, Awakening_Of_Medivh"
+    },
+    {
+      "eventId": 87,
+      "eventName": "Aegwynn confronts Medivh",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aegwynn%20confronts%20Medivh",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aegwynn%20confronts%20Medivh",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Aegwynn_confronts_Medivh, Aegwynn_Confronts_Medivh"
+    },
+    {
+      "eventId": 88,
+      "eventName": "Durotan and Orgrim meet Velen",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Durotan%20and%20Orgrim%20meet%20Velen",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Durotan%20and%20Orgrim%20meet%20Velen",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Durotan_and_Orgrim_meet_Velen, Durotan_And_Orgrim_Meet_Velen"
+    },
+    {
+      "eventId": 89,
+      "eventName": "Discovery of Draenor by the Burning Legion",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Discovery%20of%20Draenor%20by%20the%20Burning%20Legion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Discovery%20of%20Draenor%20by%20the%20Burning%20Legion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Discovery_of_Draenor_by_the_Burning_Legion, Discovery_Of_Draenor_By_The_Burning_Legion"
+    },
+    {
+      "eventId": 90,
+      "eventName": "Battle of Bladespire",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Bladespire",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Bladespire",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_of_Bladespire, Battle_Of_Bladespire"
+    },
+    {
+      "eventId": 91,
+      "eventName": "Medivh discovers Dreanor",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh%20discovers%20Dreanor",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh%20discovers%20Dreanor",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Medivh_discovers_Dreanor, Medivh_Discovers_Dreanor"
+    },
+    {
+      "eventId": 92,
+      "eventName": "Gul'dan plots for war",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul%27dan%20plots%20for%20war",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul%27dan%20plots%20for%20war",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gul'dan_plots_for_war, Gul'dan_Plots_For_War"
+    },
+    {
+      "eventId": 93,
+      "eventName": "Ner'zhul's fall",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%27s%20fall",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%27s%20fall",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ner'zhul's_fall, Ner'zhul's_Fall"
+    },
+    {
+      "eventId": 94,
+      "eventName": "Tensions in the Horde",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tensions%20in%20the%20Horde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tensions%20in%20the%20Horde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Tensions_in_the_Horde, Tensions_In_The_Horde"
+    },
+    {
+      "eventId": 95,
+      "eventName": "Blackhand is declared Warchief",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20is%20declared%20Warchief",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20is%20declared%20Warchief",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackhand_is_declared_Warchief, Blackhand_Is_Declared_Warchief"
+    },
+    {
+      "eventId": 96,
+      "eventName": "Fall of the Draenei",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20the%20Draenei",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20the%20Draenei",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fall_of_the_Draenei, Fall_Of_The_Draenei"
+    },
+    {
+      "eventId": 97,
+      "eventName": "Corruption of the Horde",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Corruption%20of%20the%20Horde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Corruption%20of%20the%20Horde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Corruption_of_the_Horde, Corruption_Of_The_Horde"
+    },
+    {
+      "eventId": 98,
+      "eventName": "March of the Horde",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=March%20of%20the%20Horde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=March%20of%20the%20Horde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: March_of_the_Horde, March_Of_The_Horde"
+    },
+    {
+      "eventId": 99,
+      "eventName": "Medivh contacts Gul'dan",
+      "collectionId": 2,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh%20contacts%20Gul%27dan",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Medivh%20contacts%20Gul%27dan",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Medivh_contacts_Gul'dan, Medivh_Contacts_Gul'dan"
+    },
+    {
+      "eventId": 101,
+      "eventName": "Fall of Dalaran",
+      "collectionId": 18,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Dalaran",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Dalaran",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fall_of_Dalaran, Fall_Of_Dalaran"
+    },
+    {
+      "eventId": 102,
+      "eventName": "Arrival of the Horde through the Dark Portal",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arrival%20of%20the%20Horde%20through%20the%20Dark%20Portal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arrival%20of%20the%20Horde%20through%20the%20Dark%20Portal",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Arrival_of_the_Horde_through_the_Dark_Portal, Arrival_Of_The_Horde_Through_The_Dark_Portal"
+    },
+    {
+      "eventId": 103,
+      "eventName": "Khadgar Becomes Medivh's Apprentice",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20Becomes%20Medivh%27s%20Apprentice",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20Becomes%20Medivh%27s%20Apprentice",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Khadgar_Becomes_Medivh's_Apprentice"
+    },
+    {
+      "eventId": 104,
+      "eventName": "Banishment of the Frostwolves",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Banishment%20of%20the%20Frostwolves",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Banishment%20of%20the%20Frostwolves",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Banishment_of_the_Frostwolves, Banishment_Of_The_Frostwolves"
+    },
+    {
+      "eventId": 105,
+      "eventName": "Birth of Thrall / Death of Durotan and Draka",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Birth%20of%20Thrall%20%2F%20Death%20of%20Durotan%20and%20Draka",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Birth%20of%20Thrall%20%2F%20Death%20of%20Durotan%20and%20Draka",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Birth_of_Thrall_/_Death_of_Durotan_and_Draka, Birth_Of_Thrall_/_Death_Of_Durotan_And_Draka, Birth_of_Thrall__Death_of_Durotan_and_Draka, Birth_of_Thrall, Birth_Of_Thrall, Death_of_Durotan_and_Draka, Death_Of_Durotan_And_Draka"
+    },
+    {
+      "eventId": 106,
+      "eventName": "Death of Medivh / Orgrim Kills Blackhand",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Death%20of%20Medivh%20%2F%20Orgrim%20Kills%20Blackhand",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Death%20of%20Medivh%20%2F%20Orgrim%20Kills%20Blackhand",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Death_of_Medivh_/_Orgrim_Kills_Blackhand, Death_Of_Medivh_/_Orgrim_Kills_Blackhand, Death_of_Medivh__Orgrim_Kills_Blackhand, Death_of_Medivh, Death_Of_Medivh, Orgrim_Kills_Blackhand"
+    },
+    {
+      "eventId": 107,
+      "eventName": "Fall of Stormwind / Assassination of King Llane",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Stormwind%20%2F%20Assassination%20of%20King%20Llane",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Stormwind%20%2F%20Assassination%20of%20King%20Llane",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fall_of_Stormwind_/_Assassination_of_King_Llane, Fall_Of_Stormwind_/_Assassination_Of_King_Llane, Fall_of_Stormwind__Assassination_of_King_Llane, Fall_of_Stormwind, Fall_Of_Stormwind, Assassination_of_King_Llane, Assassination_Of_King_Llane"
+    },
+    {
+      "eventId": 108,
+      "eventName": "Formation of the Council of Seven Nations",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Formation%20of%20the%20Council%20of%20Seven%20Nations",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Formation%20of%20the%20Council%20of%20Seven%20Nations",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Formation_of_the_Council_of_Seven_Nations, Formation_Of_The_Council_Of_Seven_Nations"
+    },
+    {
+      "eventId": 109,
+      "eventName": "Formation of the Alliance of Lordaeron",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Formation%20of%20the%20Alliance%20of%20Lordaeron",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Formation%20of%20the%20Alliance%20of%20Lordaeron",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Formation_of_the_Alliance_of_Lordaeron, Formation_Of_The_Alliance_Of_Lordaeron"
+    },
+    {
+      "eventId": 110,
+      "eventName": "Founding of the Order of the Silver Hand",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20the%20Order%20of%20the%20Silver%20Hand",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20the%20Order%20of%20the%20Silver%20Hand",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Founding_of_the_Order_of_the_Silver_Hand, Founding_Of_The_Order_Of_The_Silver_Hand"
+    },
+    {
+      "eventId": 111,
+      "eventName": "Alexstrasza Captured at Grim Batol",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alexstrasza%20Captured%20at%20Grim%20Batol",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alexstrasza%20Captured%20at%20Grim%20Batol",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Alexstrasza_Captured_at_Grim_Batol, Alexstrasza_Captured_At_Grim_Batol"
+    },
+    {
+      "eventId": 112,
+      "eventName": "Gul'dan Creates the First Death Knights",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul%27dan%20Creates%20the%20First%20Death%20Knights",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul%27dan%20Creates%20the%20First%20Death%20Knights",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gul'dan_Creates_the_First_Death_Knights, Gul'dan_Creates_The_First_Death_Knights"
+    },
+    {
+      "eventId": 115,
+      "eventName": "Death of Anduin Lothar at Blackrock Spire",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Death%20of%20Anduin%20Lothar%20at%20Blackrock%20Spire",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Death%20of%20Anduin%20Lothar%20at%20Blackrock%20Spire",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Death_of_Anduin_Lothar_at_Blackrock_Spire, Death_Of_Anduin_Lothar_At_Blackrock_Spire"
+    },
+    {
+      "eventId": 116,
+      "eventName": "Khadgar Destroys the Dark Portal",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20Destroys%20the%20Dark%20Portal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20Destroys%20the%20Dark%20Portal",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Khadgar_Destroys_the_Dark_Portal, Khadgar_Destroys_The_Dark_Portal"
+    },
+    {
+      "eventId": 117,
+      "eventName": "Ner'zhul Reopens the Portal / Draenor Shatters",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%20Reopens%20the%20Portal%20%2F%20Draenor%20Shatters",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%20Reopens%20the%20Portal%20%2F%20Draenor%20Shatters",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ner'zhul_Reopens_the_Portal_/_Draenor_Shatters, Ner'zhul_Reopens_The_Portal_/_Draenor_Shatters, Ner'zhul_Reopens_the_Portal__Draenor_Shatters, Ner'zhul_Reopens_the_Portal, Ner'zhul_Reopens_The_Portal, Draenor_Shatters"
+    },
+    {
+      "eventId": 118,
+      "eventName": "Ner'zhul Becomes the Lich King",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%20Becomes%20the%20Lich%20King",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ner%27zhul%20Becomes%20the%20Lich%20King",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ner'zhul_Becomes_the_Lich_King, Ner'zhul_Becomes_The_Lich_King"
+    },
+    {
+      "eventId": 119,
+      "eventName": "The Scourge Spreads Through Lordaeron",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Scourge%20Spreads%20Through%20Lordaeron",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Scourge%20Spreads%20Through%20Lordaeron",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Scourge_Spreads_Through_Lordaeron, Scourge_Spreads_Through_Lordaeron"
+    },
+    {
+      "eventId": 121,
+      "eventName": "Arthas Claims Frostmourne",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arthas%20Claims%20Frostmourne",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arthas%20Claims%20Frostmourne",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Arthas_Claims_Frostmourne"
+    },
+    {
+      "eventId": 122,
+      "eventName": "Arthas Murders King Terenas",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arthas%20Murders%20King%20Terenas",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Arthas%20Murders%20King%20Terenas",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Arthas_Murders_King_Terenas"
+    },
+    {
+      "eventId": 123,
+      "eventName": "Invasion of Quel'Thalas and the Sunwell's Corruption",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Invasion%20of%20Quel%27Thalas%20and%20the%20Sunwell%27s%20Corruption",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Invasion%20of%20Quel%27Thalas%20and%20the%20Sunwell%27s%20Corruption",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Invasion_of_Quel'Thalas_and_the_Sunwell's_Corruption, Invasion_Of_Quel'Thalas_And_The_Sunwell's_Corruption"
+    },
+    {
+      "eventId": 125,
+      "eventName": "Illidan Attempts to Destroy the Frozen Throne",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Illidan%20Attempts%20to%20Destroy%20the%20Frozen%20Throne",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Illidan%20Attempts%20to%20Destroy%20the%20Frozen%20Throne",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Illidan_Attempts_to_Destroy_the_Frozen_Throne, Illidan_Attempts_To_Destroy_The_Frozen_Throne"
+    },
+    {
+      "eventId": 126,
+      "eventName": "Kael'thas and the Blood Elves Join Illidan",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Kael%27thas%20and%20the%20Blood%20Elves%20Join%20Illidan",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Kael%27thas%20and%20the%20Blood%20Elves%20Join%20Illidan",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Kael'thas_and_the_Blood_Elves_Join_Illidan, Kael'thas_And_The_Blood_Elves_Join_Illidan"
+    },
+    {
+      "eventId": 127,
+      "eventName": "Founding of Durotar and Orgrimmar",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20Durotar%20and%20Orgrimmar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Founding%20of%20Durotar%20and%20Orgrimmar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Founding_of_Durotar_and_Orgrimmar, Founding_Of_Durotar_And_Orgrimmar"
+    },
+    {
+      "eventId": 128,
+      "eventName": "The Forsaken Join the Horde",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Forsaken%20Join%20the%20Horde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Forsaken%20Join%20the%20Horde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Forsaken_Join_the_Horde, The_Forsaken_Join_The_Horde, Forsaken_Join_the_Horde"
+    },
+    {
+      "eventId": 131,
+      "eventName": "World of Warcraft Classic Campaign",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=World%20of%20Warcraft%20Classic%20Campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=World%20of%20Warcraft%20Classic%20Campaign",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: World_of_Warcraft_Classic_Campaign, World_Of_Warcraft_Classic_Campaign"
+    },
+    {
+      "eventId": 132,
+      "eventName": "Ragefire Chasm and the Shadow Council in Orgrimmar",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ragefire%20Chasm%20and%20the%20Shadow%20Council%20in%20Orgrimmar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ragefire%20Chasm%20and%20the%20Shadow%20Council%20in%20Orgrimmar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ragefire_Chasm_and_the_Shadow_Council_in_Orgrimmar, Ragefire_Chasm_And_The_Shadow_Council_In_Orgrimmar"
+    },
+    {
+      "eventId": 135,
+      "eventName": "Naxxramas and the Scourge Invasion",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Naxxramas%20and%20the%20Scourge%20Invasion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Naxxramas%20and%20the%20Scourge%20Invasion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Naxxramas_and_the_Scourge_Invasion, Naxxramas_And_The_Scourge_Invasion"
+    },
+    {
+      "eventId": 136,
+      "eventName": "Blackwing Lair and Nefarian's Defeat",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackwing%20Lair%20and%20Nefarian%27s%20Defeat",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackwing%20Lair%20and%20Nefarian%27s%20Defeat",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackwing_Lair_and_Nefarian's_Defeat, Blackwing_Lair_And_Nefarian's_Defeat"
+    },
+    {
+      "eventId": 137,
+      "eventName": "Zul'Gurub and the Return of Hakkar",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Zul%27Gurub%20and%20the%20Return%20of%20Hakkar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Zul%27Gurub%20and%20the%20Return%20of%20Hakkar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Zul'Gurub_and_the_Return_of_Hakkar, Zul'Gurub_And_The_Return_Of_Hakkar"
+    },
+    {
+      "eventId": 138,
+      "eventName": "War of Ahn'Qiraj / Awakening of C'Thun",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20Ahn%27Qiraj%20%2F%20Awakening%20of%20C%27Thun",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20of%20Ahn%27Qiraj%20%2F%20Awakening%20of%20C%27Thun",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_of_Ahn'Qiraj_/_Awakening_of_C'Thun, War_Of_Ahn'Qiraj_/_Awakening_Of_C'Thun, War_of_Ahn'Qiraj__Awakening_of_C'Thun, War_of_Ahn'Qiraj, War_Of_Ahn'Qiraj, Awakening_of_C'Thun, Awakening_Of_C'Thun"
+    },
+    {
+      "eventId": 139,
+      "eventName": "End of Classic / Rising Alliance-Horde Tensions",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=End%20of%20Classic%20%2F%20Rising%20Alliance-Horde%20Tensions",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=End%20of%20Classic%20%2F%20Rising%20Alliance-Horde%20Tensions",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: End_of_Classic_/_Rising_Alliance-Horde_Tensions, End_Of_Classic_/_Rising_Alliance-Horde_Tensions, End_of_Classic__Rising_AllianceHorde_Tensions, End_of_Classic, End_Of_Classic, Rising_Alliance-Horde_Tensions, Rising_AllianceHorde_Tensions"
+    },
+    {
+      "eventId": 141,
+      "eventName": "Alliance and Horde Expedition in Outland",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20Expedition%20in%20Outland",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20Expedition%20in%20Outland",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Alliance_and_Horde_Expedition_in_Outland, Alliance_And_Horde_Expedition_In_Outland"
+    },
+    {
+      "eventId": 142,
+      "eventName": "Fall of Magtheridon and Illidan's Rule",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Magtheridon%20and%20Illidan%27s%20Rule",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fall%20of%20Magtheridon%20and%20Illidan%27s%20Rule",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fall_of_Magtheridon_and_Illidan's_Rule, Fall_Of_Magtheridon_And_Illidan's_Rule"
+    },
+    {
+      "eventId": 143,
+      "eventName": "Tempest Keep Campaign and Kael'thas Betrayal",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tempest%20Keep%20Campaign%20and%20Kael%27thas%20Betrayal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tempest%20Keep%20Campaign%20and%20Kael%27thas%20Betrayal",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Tempest_Keep_Campaign_and_Kael'thas_Betrayal, Tempest_Keep_Campaign_And_Kael'thas_Betrayal"
+    },
+    {
+      "eventId": 144,
+      "eventName": "Sunwell Crisis and Defeat of Kil'jaeden",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sunwell%20Crisis%20and%20Defeat%20of%20Kil%27jaeden",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sunwell%20Crisis%20and%20Defeat%20of%20Kil%27jaeden",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sunwell_Crisis_and_Defeat_of_Kil'jaeden, Sunwell_Crisis_And_Defeat_Of_Kil'jaeden"
+    },
+    {
+      "eventId": 145,
+      "eventName": "Northrend Campaign Begins",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Northrend%20Campaign%20Begins",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Northrend%20Campaign%20Begins",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Northrend_Campaign_Begins"
+    },
+    {
+      "eventId": 146,
+      "eventName": "Battle of the Wrathgate and the Undercity Crisis",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20the%20Wrathgate%20and%20the%20Undercity%20Crisis",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20the%20Wrathgate%20and%20the%20Undercity%20Crisis",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_of_the_Wrathgate_and_the_Undercity_Crisis, Battle_Of_The_Wrathgate_And_The_Undercity_Crisis"
+    },
+    {
+      "eventId": 147,
+      "eventName": "Ulduar and the Fall of Yogg-Saron",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ulduar%20and%20the%20Fall%20of%20Yogg-Saron",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ulduar%20and%20the%20Fall%20of%20Yogg-Saron",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ulduar_and_the_Fall_of_Yogg-Saron, Ulduar_And_The_Fall_Of_Yogg-Saron, Ulduar_and_the_Fall_of_YoggSaron"
+    },
+    {
+      "eventId": 148,
+      "eventName": "Argent Tournament and the Ebon Blade Offensive",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Argent%20Tournament%20and%20the%20Ebon%20Blade%20Offensive",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Argent%20Tournament%20and%20the%20Ebon%20Blade%20Offensive",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Argent_Tournament_and_the_Ebon_Blade_Offensive, Argent_Tournament_And_The_Ebon_Blade_Offensive"
+    },
+    {
+      "eventId": 151,
+      "eventName": "Worgen and Goblins Enter the Faction War",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Worgen%20and%20Goblins%20Enter%20the%20Faction%20War",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Worgen%20and%20Goblins%20Enter%20the%20Faction%20War",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Worgen_and_Goblins_Enter_the_Faction_War, Worgen_And_Goblins_Enter_The_Faction_War"
+    },
+    {
+      "eventId": 152,
+      "eventName": "Twilight's Hammer Uprising",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Twilight%27s%20Hammer%20Uprising",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Twilight%27s%20Hammer%20Uprising",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Twilight's_Hammer_Uprising"
+    },
+    {
+      "eventId": 153,
+      "eventName": "Firelands Campaign / Fall of Ragnaros",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Firelands%20Campaign%20%2F%20Fall%20of%20Ragnaros",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Firelands%20Campaign%20%2F%20Fall%20of%20Ragnaros",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Firelands_Campaign_/_Fall_of_Ragnaros, Firelands_Campaign_/_Fall_Of_Ragnaros, Firelands_Campaign__Fall_of_Ragnaros, Firelands_Campaign, Fall_of_Ragnaros, Fall_Of_Ragnaros"
+    },
+    {
+      "eventId": 154,
+      "eventName": "Dragon Soul / Deathwing's Defeat",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dragon%20Soul%20%2F%20Deathwing%27s%20Defeat",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dragon%20Soul%20%2F%20Deathwing%27s%20Defeat",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Dragon_Soul_/_Deathwing's_Defeat, Dragon_Soul__Deathwing's_Defeat, Dragon_Soul, Deathwing's_Defeat"
+    },
+    {
+      "eventId": 155,
+      "eventName": "Discovery of Pandaria",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Discovery%20of%20Pandaria",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Discovery%20of%20Pandaria",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Discovery_of_Pandaria, Discovery_Of_Pandaria"
+    },
+    {
+      "eventId": 156,
+      "eventName": "Jade Forest and Mantid Awakening",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Jade%20Forest%20and%20Mantid%20Awakening",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Jade%20Forest%20and%20Mantid%20Awakening",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Jade_Forest_and_Mantid_Awakening, Jade_Forest_And_Mantid_Awakening"
+    },
+    {
+      "eventId": 157,
+      "eventName": "Domination Point and Aggression in Vale",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Domination%20Point%20and%20Aggression%20in%20Vale",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Domination%20Point%20and%20Aggression%20in%20Vale",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Domination_Point_and_Aggression_in_Vale, Domination_Point_And_Aggression_In_Vale"
+    },
+    {
+      "eventId": 158,
+      "eventName": "Heart of Fear and Terrace of Endless Spring",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Heart%20of%20Fear%20and%20Terrace%20of%20Endless%20Spring",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Heart%20of%20Fear%20and%20Terrace%20of%20Endless%20Spring",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Heart_of_Fear_and_Terrace_of_Endless_Spring, Heart_Of_Fear_And_Terrace_Of_Endless_Spring"
+    },
+    {
+      "eventId": 159,
+      "eventName": "Siege of Orgrimmar / Garrosh Fall",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Orgrimmar%20%2F%20Garrosh%20Fall",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Siege%20of%20Orgrimmar%20%2F%20Garrosh%20Fall",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Siege_of_Orgrimmar_/_Garrosh_Fall, Siege_Of_Orgrimmar_/_Garrosh_Fall, Siege_of_Orgrimmar__Garrosh_Fall, Siege_of_Orgrimmar, Siege_Of_Orgrimmar, Garrosh_Fall"
+    },
+    {
+      "eventId": 160,
+      "eventName": "Dark Portal Opens Again",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dark%20Portal%20Opens%20Again",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dark%20Portal%20Opens%20Again",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Dark_Portal_Opens_Again"
+    },
+    {
+      "eventId": 161,
+      "eventName": "Alliance and Horde Struggle for Draenor",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20Struggle%20for%20Draenor",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20Struggle%20for%20Draenor",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Alliance_and_Horde_Struggle_for_Draenor, Alliance_And_Horde_Struggle_For_Draenor"
+    },
+    {
+      "eventId": 162,
+      "eventName": "Blackrock Foundry and Durotan Plea",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackrock%20Foundry%20and%20Durotan%20Plea",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackrock%20Foundry%20and%20Durotan%20Plea",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackrock_Foundry_and_Durotan_Plea, Blackrock_Foundry_And_Durotan_Plea"
+    },
+    {
+      "eventId": 163,
+      "eventName": "Hellfire Citadel and Legion Invasion",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Hellfire%20Citadel%20and%20Legion%20Invasion",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Hellfire%20Citadel%20and%20Legion%20Invasion",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Hellfire_Citadel_and_Legion_Invasion, Hellfire_Citadel_And_Legion_Invasion"
+    },
+    {
+      "eventId": 164,
+      "eventName": "Timeline Divergence and Escape",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Timeline%20Divergence%20and%20Escape",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Timeline%20Divergence%20and%20Escape",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Timeline_Divergence_and_Escape, Timeline_Divergence_And_Escape"
+    },
+    {
+      "eventId": 165,
+      "eventName": "Broken Shore Invasion / Deaths of Varian and Vol'jin",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Broken%20Shore%20Invasion%20%2F%20Deaths%20of%20Varian%20and%20Vol%27jin",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Broken%20Shore%20Invasion%20%2F%20Deaths%20of%20Varian%20and%20Vol%27jin",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Broken_Shore_Invasion_/_Deaths_of_Varian_and_Vol'jin, Broken_Shore_Invasion_/_Deaths_Of_Varian_And_Vol'jin, Broken_Shore_Invasion__Deaths_of_Varian_and_Vol'jin, Broken_Shore_Invasion, Deaths_of_Varian_and_Vol'jin, Deaths_Of_Varian_And_Vol'jin"
+    },
+    {
+      "eventId": 166,
+      "eventName": "Sylvanas Named Warchief / Anduin Crowned",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sylvanas%20Named%20Warchief%20%2F%20Anduin%20Crowned",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sylvanas%20Named%20Warchief%20%2F%20Anduin%20Crowned",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sylvanas_Named_Warchief_/_Anduin_Crowned, Sylvanas_Named_Warchief__Anduin_Crowned, Sylvanas_Named_Warchief, Anduin_Crowned"
+    },
+    {
+      "eventId": 167,
+      "eventName": "Illidari Return and Legionfall Campaign",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Illidari%20Return%20and%20Legionfall%20Campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Illidari%20Return%20and%20Legionfall%20Campaign",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Illidari_Return_and_Legionfall_Campaign, Illidari_Return_And_Legionfall_Campaign"
+    },
+    {
+      "eventId": 169,
+      "eventName": "Sargeras Imprisoned / Azeroth Wounded",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sargeras%20Imprisoned%20%2F%20Azeroth%20Wounded",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Sargeras%20Imprisoned%20%2F%20Azeroth%20Wounded",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Sargeras_Imprisoned_/_Azeroth_Wounded, Sargeras_Imprisoned__Azeroth_Wounded, Sargeras_Imprisoned, Azeroth_Wounded"
+    },
+    {
+      "eventId": 172,
+      "eventName": "Battle of Dazar'alor / Zandalari Join the Horde",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Dazar%27alor%20%2F%20Zandalari%20Join%20the%20Horde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Dazar%27alor%20%2F%20Zandalari%20Join%20the%20Horde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_of_Dazar'alor_/_Zandalari_Join_the_Horde, Battle_Of_Dazar'alor_/_Zandalari_Join_The_Horde, Battle_of_Dazar'alor__Zandalari_Join_the_Horde, Battle_of_Dazar'alor, Battle_Of_Dazar'alor, Zandalari_Join_the_Horde, Zandalari_Join_The_Horde"
+    },
+    {
+      "eventId": 173,
+      "eventName": "Nazjatar Campaign / Rise of N'Zoth",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Nazjatar%20Campaign%20%2F%20Rise%20of%20N%27Zoth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Nazjatar%20Campaign%20%2F%20Rise%20of%20N%27Zoth",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Nazjatar_Campaign_/_Rise_of_N'Zoth, Nazjatar_Campaign_/_Rise_Of_N'Zoth, Nazjatar_Campaign__Rise_of_N'Zoth, Nazjatar_Campaign, Rise_of_N'Zoth, Rise_Of_N'Zoth"
+    },
+    {
+      "eventId": 174,
+      "eventName": "Ny'alotha / Defeat of N'Zoth",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ny%27alotha%20%2F%20Defeat%20of%20N%27Zoth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ny%27alotha%20%2F%20Defeat%20of%20N%27Zoth",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ny'alotha_/_Defeat_of_N'Zoth, Ny'alotha_/_Defeat_Of_N'Zoth, Ny'alotha__Defeat_of_N'Zoth, Ny'alotha, Defeat_of_N'Zoth, Defeat_Of_N'Zoth"
+    },
+    {
+      "eventId": 175,
+      "eventName": "Helm of Domination Shattered",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Helm%20of%20Domination%20Shattered",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Helm%20of%20Domination%20Shattered",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Helm_of_Domination_Shattered, Helm_Of_Domination_Shattered"
+    },
+    {
+      "eventId": 176,
+      "eventName": "Maw Campaign and Anduin's Captivity",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Maw%20Campaign%20and%20Anduin%27s%20Captivity",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Maw%20Campaign%20and%20Anduin%27s%20Captivity",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Maw_Campaign_and_Anduin's_Captivity, Maw_Campaign_And_Anduin's_Captivity"
+    },
+    {
+      "eventId": 178,
+      "eventName": "Zereth Mortis Expedition",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Zereth%20Mortis%20Expedition",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Zereth%20Mortis%20Expedition",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Zereth_Mortis_Expedition"
+    },
+    {
+      "eventId": 179,
+      "eventName": "Defeat of the Jailer",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Defeat%20of%20the%20Jailer",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Defeat%20of%20the%20Jailer",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Defeat_of_the_Jailer, Defeat_Of_The_Jailer"
+    },
+    {
+      "eventId": 180,
+      "eventName": "Dragon Isles Reawaken",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dragon%20Isles%20Reawaken",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dragon%20Isles%20Reawaken",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Dragon_Isles_Reawaken"
+    },
+    {
+      "eventId": 181,
+      "eventName": "Raszageth Freed",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Raszageth%20Freed",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Raszageth%20Freed",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Raszageth_Freed"
+    },
+    {
+      "eventId": 182,
+      "eventName": "Vault of the Incarnates",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Vault%20of%20the%20Incarnates",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Vault%20of%20the%20Incarnates",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Vault_of_the_Incarnates, Vault_Of_The_Incarnates"
+    },
+    {
+      "eventId": 183,
+      "eventName": "Aberrus and Fyrakk's Ascendance",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aberrus%20and%20Fyrakk%27s%20Ascendance",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Aberrus%20and%20Fyrakk%27s%20Ascendance",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Aberrus_and_Fyrakk's_Ascendance, Aberrus_And_Fyrakk's_Ascendance"
+    },
+    {
+      "eventId": 184,
+      "eventName": "Amirdrassil Restored / Fall of Fyrakk",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Amirdrassil%20Restored%20%2F%20Fall%20of%20Fyrakk",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Amirdrassil%20Restored%20%2F%20Fall%20of%20Fyrakk",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Amirdrassil_Restored_/_Fall_of_Fyrakk, Amirdrassil_Restored_/_Fall_Of_Fyrakk, Amirdrassil_Restored__Fall_of_Fyrakk, Amirdrassil_Restored, Fall_of_Fyrakk, Fall_Of_Fyrakk"
+    },
+    {
+      "eventId": 185,
+      "eventName": "Earthen Unrest in Khaz Algar",
+      "collectionId": 18,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Earthen%20Unrest%20in%20Khaz%20Algar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Earthen%20Unrest%20in%20Khaz%20Algar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Earthen_Unrest_in_Khaz_Algar, Earthen_Unrest_In_Khaz_Algar"
+    },
+    {
+      "eventId": 186,
+      "eventName": "Xal'atath Reveals Her Design",
+      "collectionId": 18,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Xal%27atath%20Reveals%20Her%20Design",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Xal%27atath%20Reveals%20Her%20Design",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Xal'atath_Reveals_Her_Design"
+    },
+    {
+      "eventId": 187,
+      "eventName": "Counterstrike at Beledar",
+      "collectionId": 18,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Counterstrike%20at%20Beledar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Counterstrike%20at%20Beledar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Counterstrike_at_Beledar, Counterstrike_At_Beledar"
+    },
+    {
+      "eventId": 188,
+      "eventName": "Azeroth's Worldsoul Resonance",
+      "collectionId": 17,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Azeroth%27s%20Worldsoul%20Resonance",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Azeroth%27s%20Worldsoul%20Resonance",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Azeroth's_Worldsoul_Resonance"
+    },
+    {
+      "eventId": 189,
+      "eventName": "Void Rift Campaigns",
+      "collectionId": 17,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Void%20Rift%20Campaigns",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Void%20Rift%20Campaigns",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Void_Rift_Campaigns"
+    },
+    {
+      "eventId": 190,
+      "eventName": "Council of the Last Dawn",
+      "collectionId": 17,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Council%20of%20the%20Last%20Dawn",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Council%20of%20the%20Last%20Dawn",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Council_of_the_Last_Dawn, Council_Of_The_Last_Dawn"
+    },
+    {
+      "eventId": 191,
+      "eventName": "The Horde enter the Dark Portal and small skirmishes break out with the humans.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20enter%20the%20Dark%20Portal%20and%20small%20skirmishes%20break%20out%20with%20the%20humans.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20enter%20the%20Dark%20Portal%20and%20small%20skirmishes%20break%20out%20with%20the%20humans.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Horde_enter_the_Dark_Portal_and_small_skirmishes_break_out_with_the_humans., The_Horde_Enter_The_Dark_Portal_And_Small_Skirmishes_Break_Out_With_The_Humans., Horde_enter_the_Dark_Portal_and_small_skirmishes_break_out_with_the_humans., The_Horde_enter_the_Dark_Portal_and_small_skirmishes_break_out_with_the_humans"
+    },
+    {
+      "eventId": 192,
+      "eventName": "Warcraft: Orcs & Humans begins",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warcraft%3A%20Orcs%20%26%20Humans%20begins",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warcraft%3A%20Orcs%20%26%20Humans%20begins",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Warcraft:_Orcs_&_Humans_begins, Warcraft:_Orcs_&_Humans_Begins, Warcraft_Orcs__Humans_begins"
+    },
+    {
+      "eventId": 193,
+      "eventName": "Khadgar is taken in as the apprentice of the Guardian, Medivh, and befriends the half-orc Garona",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20is%20taken%20in%20as%20the%20apprentice%20of%20the%20Guardian%2C%20Medivh%2C%20and%20befriends%20the%20half-orc%20Garona",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20is%20taken%20in%20as%20the%20apprentice%20of%20the%20Guardian%2C%20Medivh%2C%20and%20befriends%20the%20half-orc%20Garona",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Khadgar_is_taken_in_as_the_apprentice_of_the_Guardian,_Medivh,_and_befriends_the_half-orc_Garona, Khadgar_Is_Taken_In_As_The_Apprentice_Of_The_Guardian,_Medivh,_And_Befriends_The_Half-orc_Garona, Khadgar_is_taken_in_as_the_apprentice_of_the_Guardian_Medivh_and_befriends_the_halforc_Garona"
+    },
+    {
+      "eventId": 194,
+      "eventName": "The Frostwolves are banished from the Horde and begin sneaking north to find a new home.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Frostwolves%20are%20banished%20from%20the%20Horde%20and%20begin%20sneaking%20north%20to%20find%20a%20new%20home.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Frostwolves%20are%20banished%20from%20the%20Horde%20and%20begin%20sneaking%20north%20to%20find%20a%20new%20home.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Frostwolves_are_banished_from_the_Horde_and_begin_sneaking_north_to_find_a_new_home., The_Frostwolves_Are_Banished_From_The_Horde_And_Begin_Sneaking_North_To_Find_A_New_Home., Frostwolves_are_banished_from_the_Horde_and_begin_sneaking_north_to_find_a_new_home., The_Frostwolves_are_banished_from_the_Horde_and_begin_sneaking_north_to_find_a_new_home"
+    },
+    {
+      "eventId": 195,
+      "eventName": "Blackhand orders the Horde push north and west, far into Stormwind's territories. Many villages and towns are destroyed.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20orders%20the%20Horde%20push%20north%20and%20west%2C%20far%20into%20Stormwind%27s%20territories.%20Many%20villages%20and%20towns%20are%20destroyed.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20orders%20the%20Horde%20push%20north%20and%20west%2C%20far%20into%20Stormwind%27s%20territories.%20Many%20villages%20and%20towns%20are%20destroyed.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackhand_orders_the_Horde_push_north_and_west,_far_into_Stormwind's_territories._Many_villages_and_towns_are_destroyed., Blackhand_Orders_The_Horde_Push_North_And_West,_Far_Into_Stormwind's_Territories._Many_Villages_And_Towns_Are_Destroyed., Blackhand_orders_the_Horde_push_north_and_west_far_into_Stormwind's_territories_Many_villages_and_towns_are_destroyed"
+    },
+    {
+      "eventId": 196,
+      "eventName": "The Bleeding Hollow clan pushes into Stranglethorn Vale but are met with strong resistance from the",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Bleeding%20Hollow%20clan%20pushes%20into%20Stranglethorn%20Vale%20but%20are%20met%20with%20strong%20resistance%20from%20the",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Bleeding%20Hollow%20clan%20pushes%20into%20Stranglethorn%20Vale%20but%20are%20met%20with%20strong%20resistance%20from%20the",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Bleeding_Hollow_clan_pushes_into_Stranglethorn_Vale_but_are_met_with_strong_resistance_from_the, The_Bleeding_Hollow_Clan_Pushes_Into_Stranglethorn_Vale_But_Are_Met_With_Strong_Resistance_From_The, Bleeding_Hollow_clan_pushes_into_Stranglethorn_Vale_but_are_met_with_strong_resistance_from_the"
+    },
+    {
+      "eventId": 197,
+      "eventName": "To combat the Horde, the Northshire Clerics begin entering the battlefield, the humans' first view of a",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=To%20combat%20the%20Horde%2C%20the%20Northshire%20Clerics%20begin%20entering%20the%20battlefield%2C%20the%20humans'%20first%20view%20of%20a",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=To%20combat%20the%20Horde%2C%20the%20Northshire%20Clerics%20begin%20entering%20the%20battlefield%2C%20the%20humans'%20first%20view%20of%20a",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: To_combat_the_Horde,_the_Northshire_Clerics_begin_entering_the_battlefield,_the_humans'_first_view_of_a, To_Combat_The_Horde,_The_Northshire_Clerics_Begin_Entering_The_Battlefield,_The_Humans'_First_View_Of_A, To_combat_the_Horde_the_Northshire_Clerics_begin_entering_the_battlefield_the_humans'_first_view_of_a"
+    },
+    {
+      "eventId": 198,
+      "eventName": "The Old Gods begin contacting Cho'gall and the Twilight's Hammer clan.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Old%20Gods%20begin%20contacting%20Cho'gall%20and%20the%20Twilight's%20Hammer%20clan.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Old%20Gods%20begin%20contacting%20Cho'gall%20and%20the%20Twilight's%20Hammer%20clan.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Old_Gods_begin_contacting_Cho'gall_and_the_Twilight's_Hammer_clan., The_Old_Gods_Begin_Contacting_Cho'gall_And_The_Twilight's_Hammer_Clan., Old_Gods_begin_contacting_Cho'gall_and_the_Twilight's_Hammer_clan., The_Old_Gods_begin_contacting_Cho'gall_and_the_Twilight's_Hammer_clan"
+    },
+    {
+      "eventId": 199,
+      "eventName": "The Frostwolves arrive in Alterac Valley, having almost entirely avoided Azeroth's other races thanks to the elements.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Frostwolves%20arrive%20in%20Alterac%20Valley%2C%20having%20almost%20entirely%20avoided%20Azeroth%27s%20other%20races%20thanks%20to%20the%20elements.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Frostwolves%20arrive%20in%20Alterac%20Valley%2C%20having%20almost%20entirely%20avoided%20Azeroth%27s%20other%20races%20thanks%20to%20the%20elements.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Frostwolves_arrive_in_Alterac_Valley,_having_almost_entirely_avoided_Azeroth's_other_races_thanks_to_the_elements., The_Frostwolves_Arrive_In_Alterac_Valley,_Having_Almost_Entirely_Avoided_Azeroth's_Other_Races_Thanks_To_The_Elements., Frostwolves_arrive_in_Alterac_Valley,_having_almost_entirely_avoided_Azeroth's_other_races_thanks_to_the_elements., The_Frostwolves_arrive_in_Alterac_Valley_having_almost_entirely_avoided_Azeroth's_other_races_thanks_to_the_elements"
+    },
+    {
+      "eventId": 200,
+      "eventName": "Redridge falls to the Horde.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Redridge%20falls%20to%20the%20Horde.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Redridge%20falls%20to%20the%20Horde.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Redridge_falls_to_the_Horde., Redridge_Falls_To_The_Horde., Redridge_falls_to_the_Horde"
+    },
+    {
+      "eventId": 201,
+      "eventName": "The Shadow Council moves their operations to Blackrock Mountain.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Shadow%20Council%20moves%20their%20operations%20to%20Blackrock%20Mountain.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Shadow%20Council%20moves%20their%20operations%20to%20Blackrock%20Mountain.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Shadow_Council_moves_their_operations_to_Blackrock_Mountain., The_Shadow_Council_Moves_Their_Operations_To_Blackrock_Mountain., Shadow_Council_moves_their_operations_to_Blackrock_Mountain., The_Shadow_Council_moves_their_operations_to_Blackrock_Mountain"
+    },
+    {
+      "eventId": 202,
+      "eventName": "The Horde begins their first siege of Stormwind City.",
+      "collectionId": 6,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20begins%20their%20first%20siege%20of%20Stormwind%20City.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20begins%20their%20first%20siege%20of%20Stormwind%20City.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Horde_begins_their_first_siege_of_Stormwind_City., The_Horde_Begins_Their_First_Siege_Of_Stormwind_City., Horde_begins_their_first_siege_of_Stormwind_City., The_Horde_begins_their_first_siege_of_Stormwind_City"
+    },
+    {
+      "eventId": 203,
+      "eventName": "Gnomeregan is lost after Sicco Thermaplugg convinces Gelbin Mekkatorque to release lethal radiation in",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gnomeregan%20is%20lost%20after%20Sicco%20Thermaplugg%20convinces%20Gelbin%20Mekkatorque%20to%20release%20lethal%20radiation%20in",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gnomeregan%20is%20lost%20after%20Sicco%20Thermaplugg%20convinces%20Gelbin%20Mekkatorque%20to%20release%20lethal%20radiation%20in",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gnomeregan_is_lost_after_Sicco_Thermaplugg_convinces_Gelbin_Mekkatorque_to_release_lethal_radiation_in, Gnomeregan_Is_Lost_After_Sicco_Thermaplugg_Convinces_Gelbin_Mekkatorque_To_Release_Lethal_Radiation_In"
+    },
+    {
+      "eventId": 204,
+      "eventName": "King Varian Wrynn is kidnapped. Bolvar Fordragon becomes Regent-Lord of Stormwind.",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Varian%20Wrynn%20is%20kidnapped.%20Bolvar%20Fordragon%20becomes%20Regent-Lord%20of%20Stormwind.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Varian%20Wrynn%20is%20kidnapped.%20Bolvar%20Fordragon%20becomes%20Regent-Lord%20of%20Stormwind.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: King_Varian_Wrynn_is_kidnapped._Bolvar_Fordragon_becomes_Regent-Lord_of_Stormwind., King_Varian_Wrynn_Is_Kidnapped._Bolvar_Fordragon_Becomes_Regent-Lord_Of_Stormwind., King_Varian_Wrynn_is_kidnapped_Bolvar_Fordragon_becomes_RegentLord_of_Stormwind"
+    },
+    {
+      "eventId": 205,
+      "eventName": "The Lich King reawakens after Arthas' will overpowers Ner'zhul's will, and he begins watching the mortal",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Lich%20King%20reawakens%20after%20Arthas'%20will%20overpowers%20Ner'zhul's%20will%2C%20and%20he%20begins%20watching%20the%20mortal",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Lich%20King%20reawakens%20after%20Arthas'%20will%20overpowers%20Ner'zhul's%20will%2C%20and%20he%20begins%20watching%20the%20mortal",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Lich_King_reawakens_after_Arthas'_will_overpowers_Ner'zhul's_will,_and_he_begins_watching_the_mortal, The_Lich_King_Reawakens_After_Arthas'_Will_Overpowers_Ner'zhul's_Will,_And_He_Begins_Watching_The_Mortal, Lich_King_reawakens_after_Arthas'_will_overpowers_Ner'zhul's_will,_and_he_begins_watching_the_mortal, The_Lich_King_reawakens_after_Arthas'_will_overpowers_Ner'zhul's_will_and_he_begins_watching_the_mortal"
+    },
+    {
+      "eventId": 207,
+      "eventName": "Dagran Thaurissan, Emperor of the Dark Iron clan, is ordered to war against the other dwarves by",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dagran%20Thaurissan%2C%20Emperor%20of%20the%20Dark%20Iron%20clan%2C%20is%20ordered%20to%20war%20against%20the%20other%20dwarves%20by",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dagran%20Thaurissan%2C%20Emperor%20of%20the%20Dark%20Iron%20clan%2C%20is%20ordered%20to%20war%20against%20the%20other%20dwarves%20by",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Dagran_Thaurissan,_Emperor_of_the_Dark_Iron_clan,_is_ordered_to_war_against_the_other_dwarves_by, Dagran_Thaurissan,_Emperor_Of_The_Dark_Iron_Clan,_Is_Ordered_To_War_Against_The_Other_Dwarves_By, Dagran_Thaurissan_Emperor_of_the_Dark_Iron_clan_is_ordered_to_war_against_the_other_dwarves_by"
+    },
+    {
+      "eventId": 208,
+      "eventName": "Molten Core (raid)",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Molten%20Core%20%28raid%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Molten%20Core%20%28raid%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Molten_Core_(raid), Molten_Core_raid"
+    },
+    {
+      "eventId": 209,
+      "eventName": "The Horde investigates the increased aggression of the centaur, finding Warug of the Magram clan who",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20investigates%20the%20increased%20aggression%20of%20the%20centaur%2C%20finding%20Warug%20of%20the%20Magram%20clan%20who",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20investigates%20the%20increased%20aggression%20of%20the%20centaur%2C%20finding%20Warug%20of%20the%20Magram%20clan%20who",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Horde_investigates_the_increased_aggression_of_the_centaur,_finding_Warug_of_the_Magram_clan_who, The_Horde_Investigates_The_Increased_Aggression_Of_The_Centaur,_Finding_Warug_Of_The_Magram_Clan_Who, Horde_investigates_the_increased_aggression_of_the_centaur,_finding_Warug_of_the_Magram_clan_who, The_Horde_investigates_the_increased_aggression_of_the_centaur_finding_Warug_of_the_Magram_clan_who"
+    },
+    {
+      "eventId": 210,
+      "eventName": "King Gordok of the Gordunni sends his people out to slaughter everyone they could find indiscriminately.",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Gordok%20of%20the%20Gordunni%20sends%20his%20people%20out%20to%20slaughter%20everyone%20they%20could%20find%20indiscriminately.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Gordok%20of%20the%20Gordunni%20sends%20his%20people%20out%20to%20slaughter%20everyone%20they%20could%20find%20indiscriminately.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: King_Gordok_of_the_Gordunni_sends_his_people_out_to_slaughter_everyone_they_could_find_indiscriminately., King_Gordok_Of_The_Gordunni_Sends_His_People_Out_To_Slaughter_Everyone_They_Could_Find_Indiscriminately., King_Gordok_of_the_Gordunni_sends_his_people_out_to_slaughter_everyone_they_could_find_indiscriminately"
+    },
+    {
+      "eventId": 211,
+      "eventName": "Short John Mithril begins hosting nonlethal free-for-all arena matches for treasure and glory in the",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Short%20John%20Mithril%20begins%20hosting%20nonlethal%20free-for-all%20arena%20matches%20for%20treasure%20and%20glory%20in%20the",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Short%20John%20Mithril%20begins%20hosting%20nonlethal%20free-for-all%20arena%20matches%20for%20treasure%20and%20glory%20in%20the",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Short_John_Mithril_begins_hosting_nonlethal_free-for-all_arena_matches_for_treasure_and_glory_in_the, Short_John_Mithril_Begins_Hosting_Nonlethal_Free-for-all_Arena_Matches_For_Treasure_And_Glory_In_The, Short_John_Mithril_begins_hosting_nonlethal_freeforall_arena_matches_for_treasure_and_glory_in_the"
+    },
+    {
+      "eventId": 213,
+      "eventName": "Warsong Gulch and Alterac Valley (battlegrounds)",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warsong%20Gulch%20and%20Alterac%20Valley%20%28battlegrounds%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warsong%20Gulch%20and%20Alterac%20Valley%20%28battlegrounds%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Warsong_Gulch_and_Alterac_Valley_(battlegrounds), Warsong_Gulch_And_Alterac_Valley_(battlegrounds), Warsong_Gulch_and_Alterac_Valley_battlegrounds"
+    },
+    {
+      "eventId": 214,
+      "eventName": "The Darkmoon Faire gains traction and comes to Mulgore and Elwynn Forest.",
+      "collectionId": 7,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Darkmoon%20Faire%20gains%20traction%20and%20comes%20to%20Mulgore%20and%20Elwynn%20Forest.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Darkmoon%20Faire%20gains%20traction%20and%20comes%20to%20Mulgore%20and%20Elwynn%20Forest.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Darkmoon_Faire_gains_traction_and_comes_to_Mulgore_and_Elwynn_Forest., The_Darkmoon_Faire_Gains_Traction_And_Comes_To_Mulgore_And_Elwynn_Forest., Darkmoon_Faire_gains_traction_and_comes_to_Mulgore_and_Elwynn_Forest., The_Darkmoon_Faire_gains_traction_and_comes_to_Mulgore_and_Elwynn_Forest"
+    },
+    {
+      "eventId": 215,
+      "eventName": "Kil'jaeden sends Highlord Kruul to build the Burning Legion's forces on Outland to combat Illidan",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Kil'jaeden%20sends%20Highlord%20Kruul%20to%20build%20the%20Burning%20Legion's%20forces%20on%20Outland%20to%20combat%20Illidan",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Kil'jaeden%20sends%20Highlord%20Kruul%20to%20build%20the%20Burning%20Legion's%20forces%20on%20Outland%20to%20combat%20Illidan",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Kil'jaeden_sends_Highlord_Kruul_to_build_the_Burning_Legion's_forces_on_Outland_to_combat_Illidan, Kil'jaeden_Sends_Highlord_Kruul_To_Build_The_Burning_Legion's_Forces_On_Outland_To_Combat_Illidan"
+    },
+    {
+      "eventId": 216,
+      "eventName": "The naaru A'dal, M'uru, and O'ros take the dimensional fortress Tempest Keep to Outland to aid Velen and",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20naaru%20A'dal%2C%20M'uru%2C%20and%20O'ros%20take%20the%20dimensional%20fortress%20Tempest%20Keep%20to%20Outland%20to%20aid%20Velen%20and",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20naaru%20A'dal%2C%20M'uru%2C%20and%20O'ros%20take%20the%20dimensional%20fortress%20Tempest%20Keep%20to%20Outland%20to%20aid%20Velen%20and",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_naaru_A'dal,_M'uru,_and_O'ros_take_the_dimensional_fortress_Tempest_Keep_to_Outland_to_aid_Velen_and, The_Naaru_A'dal,_M'uru,_And_O'ros_Take_The_Dimensional_Fortress_Tempest_Keep_To_Outland_To_Aid_Velen_And, naaru_A'dal,_M'uru,_and_O'ros_take_the_dimensional_fortress_Tempest_Keep_to_Outland_to_aid_Velen_and, The_naaru_A'dal_M'uru_and_O'ros_take_the_dimensional_fortress_Tempest_Keep_to_Outland_to_aid_Velen_and"
+    },
+    {
+      "eventId": 217,
+      "eventName": "The blood elves, led by Kael'thas Sunstrider, besiege and take control of Tempest Keep, learning to use",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blood%20elves%2C%20led%20by%20Kael'thas%20Sunstrider%2C%20besiege%20and%20take%20control%20of%20Tempest%20Keep%2C%20learning%20to%20use",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blood%20elves%2C%20led%20by%20Kael'thas%20Sunstrider%2C%20besiege%20and%20take%20control%20of%20Tempest%20Keep%2C%20learning%20to%20use",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_blood_elves,_led_by_Kael'thas_Sunstrider,_besiege_and_take_control_of_Tempest_Keep,_learning_to_use, The_Blood_Elves,_Led_By_Kael'thas_Sunstrider,_Besiege_And_Take_Control_Of_Tempest_Keep,_Learning_To_Use, blood_elves,_led_by_Kael'thas_Sunstrider,_besiege_and_take_control_of_Tempest_Keep,_learning_to_use, The_blood_elves_led_by_Kael'thas_Sunstrider_besiege_and_take_control_of_Tempest_Keep_learning_to_use"
+    },
+    {
+      "eventId": 218,
+      "eventName": "The Blood Knights under Lady Liadrin are formed by Rommath. Quel'Thalas enters negotiations with the Horde.",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Blood%20Knights%20under%20Lady%20Liadrin%20are%20formed%20by%20Rommath.%20Quel%27Thalas%20enters%20negotiations%20with%20the%20Horde.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Blood%20Knights%20under%20Lady%20Liadrin%20are%20formed%20by%20Rommath.%20Quel%27Thalas%20enters%20negotiations%20with%20the%20Horde.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Blood_Knights_under_Lady_Liadrin_are_formed_by_Rommath._Quel'Thalas_enters_negotiations_with_the_Horde., The_Blood_Knights_Under_Lady_Liadrin_Are_Formed_By_Rommath._Quel'Thalas_Enters_Negotiations_With_The_Horde., Blood_Knights_under_Lady_Liadrin_are_formed_by_Rommath._Quel'Thalas_enters_negotiations_with_the_Horde., The_Blood_Knights_under_Lady_Liadrin_are_formed_by_Rommath_Quel'Thalas_enters_negotiations_with_the_Horde"
+    },
+    {
+      "eventId": 219,
+      "eventName": "The Ethereals arrive on Outland, drawn by Kael'thas' manipulation of the energies in Netherstorm.",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Ethereals%20arrive%20on%20Outland%2C%20drawn%20by%20Kael%27thas%27%20manipulation%20of%20the%20energies%20in%20Netherstorm.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Ethereals%20arrive%20on%20Outland%2C%20drawn%20by%20Kael%27thas%27%20manipulation%20of%20the%20energies%20in%20Netherstorm.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Ethereals_arrive_on_Outland,_drawn_by_Kael'thas'_manipulation_of_the_energies_in_Netherstorm., The_Ethereals_Arrive_On_Outland,_Drawn_By_Kael'thas'_Manipulation_Of_The_Energies_In_Netherstorm., Ethereals_arrive_on_Outland,_drawn_by_Kael'thas'_manipulation_of_the_energies_in_Netherstorm., The_Ethereals_arrive_on_Outland_drawn_by_Kael'thas'_manipulation_of_the_energies_in_Netherstorm"
+    },
+    {
+      "eventId": 220,
+      "eventName": "The destruction of Nathreza",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20destruction%20of%20Nathreza",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20destruction%20of%20Nathreza",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_destruction_of_Nathreza, The_Destruction_Of_Nathreza, destruction_of_Nathreza"
+    },
+    {
+      "eventId": 221,
+      "eventName": "Velen leads a raid to liberate the Exodar and escape Outland. Blood elf saboteurs cause it to crash on Azeroth.",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Velen%20leads%20a%20raid%20to%20liberate%20the%20Exodar%20and%20escape%20Outland.%20Blood%20elf%20saboteurs%20cause%20it%20to%20crash%20on%20Azeroth.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Velen%20leads%20a%20raid%20to%20liberate%20the%20Exodar%20and%20escape%20Outland.%20Blood%20elf%20saboteurs%20cause%20it%20to%20crash%20on%20Azeroth.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Velen_leads_a_raid_to_liberate_the_Exodar_and_escape_Outland._Blood_elf_saboteurs_cause_it_to_crash_on_Azeroth., Velen_Leads_A_Raid_To_Liberate_The_Exodar_And_Escape_Outland._Blood_Elf_Saboteurs_Cause_It_To_Crash_On_Azeroth., Velen_leads_a_raid_to_liberate_the_Exodar_and_escape_Outland_Blood_elf_saboteurs_cause_it_to_crash_on_Azeroth"
+    },
+    {
+      "eventId": 222,
+      "eventName": "The blood elves, at the invitation of Sylvanas Windrunner, join the Horde.",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blood%20elves%2C%20at%20the%20invitation%20of%20Sylvanas%20Windrunner%2C%20join%20the%20Horde.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blood%20elves%2C%20at%20the%20invitation%20of%20Sylvanas%20Windrunner%2C%20join%20the%20Horde.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_blood_elves,_at_the_invitation_of_Sylvanas_Windrunner,_join_the_Horde., The_Blood_Elves,_At_The_Invitation_Of_Sylvanas_Windrunner,_Join_The_Horde., blood_elves,_at_the_invitation_of_Sylvanas_Windrunner,_join_the_Horde., The_blood_elves_at_the_invitation_of_Sylvanas_Windrunner_join_the_Horde"
+    },
+    {
+      "eventId": 223,
+      "eventName": "Invasion of Outland",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Invasion%20of%20Outland",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Invasion%20of%20Outland",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Invasion_of_Outland, Invasion_Of_Outland"
+    },
+    {
+      "eventId": 224,
+      "eventName": "The Burning Crusade campaign",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Burning%20Crusade%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Burning%20Crusade%20campaign",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Burning_Crusade_campaign, The_Burning_Crusade_Campaign, Burning_Crusade_campaign"
+    },
+    {
+      "eventId": 225,
+      "eventName": "The Caverns of Time open",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Caverns%20of%20Time%20open",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Caverns%20of%20Time%20open",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Caverns_of_Time_open, The_Caverns_Of_Time_Open, Caverns_of_Time_open"
+    },
+    {
+      "eventId": 226,
+      "eventName": "Black Temple (raid)",
+      "collectionId": 8,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Black%20Temple%20%28raid%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Black%20Temple%20%28raid%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Black_Temple_(raid), Black_Temple_raid"
+    },
+    {
+      "eventId": 227,
+      "eventName": "The blue Dragon Aspect Malygos begins redirecting the ley lines of Azeroth to his lair, the Nexus, to",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blue%20Dragon%20Aspect%20Malygos%20begins%20redirecting%20the%20ley%20lines%20of%20Azeroth%20to%20his%20lair%2C%20the%20Nexus%2C%20to",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20blue%20Dragon%20Aspect%20Malygos%20begins%20redirecting%20the%20ley%20lines%20of%20Azeroth%20to%20his%20lair%2C%20the%20Nexus%2C%20to",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_blue_Dragon_Aspect_Malygos_begins_redirecting_the_ley_lines_of_Azeroth_to_his_lair,_the_Nexus,_to, The_Blue_Dragon_Aspect_Malygos_Begins_Redirecting_The_Ley_Lines_Of_Azeroth_To_His_Lair,_The_Nexus,_To, blue_Dragon_Aspect_Malygos_begins_redirecting_the_ley_lines_of_Azeroth_to_his_lair,_the_Nexus,_to, The_blue_Dragon_Aspect_Malygos_begins_redirecting_the_ley_lines_of_Azeroth_to_his_lair_the_Nexus_to"
+    },
+    {
+      "eventId": 228,
+      "eventName": "The second Scourge Invasion - The Lich King begins his campaign of conquest anew, sending the Scourge across Azeroth.",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20second%20Scourge%20Invasion%20-%20The%20Lich%20King%20begins%20his%20campaign%20of%20conquest%20anew%2C%20sending%20the%20Scourge%20across%20Azeroth.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20second%20Scourge%20Invasion%20-%20The%20Lich%20King%20begins%20his%20campaign%20of%20conquest%20anew%2C%20sending%20the%20Scourge%20across%20Azeroth.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_second_Scourge_Invasion_-_The_Lich_King_begins_his_campaign_of_conquest_anew,_sending_the_Scourge_across_Azeroth., The_Second_Scourge_Invasion_-_The_Lich_King_Begins_His_Campaign_Of_Conquest_Anew,_Sending_The_Scourge_Across_Azeroth., second_Scourge_Invasion_-_The_Lich_King_begins_his_campaign_of_conquest_anew,_sending_the_Scourge_across_Azeroth., The_second_Scourge_Invasion__The_Lich_King_begins_his_campaign_of_conquest_anew_sending_the_Scourge_across_Azeroth, The_second_Scourge_Invasion, The_Second_Scourge_Invasion, second_Scourge_Invasion, The_Lich_King_begins_his_campaign_of_conquest_anew,_sending_the_Scourge_across_Azeroth., The_Lich_King_Begins_His_Campaign_Of_Conquest_Anew,_Sending_The_Scourge_Across_Azeroth., Lich_King_begins_his_campaign_of_conquest_anew,_sending_the_Scourge_across_Azeroth., The_Lich_King_begins_his_campaign_of_conquest_anew_sending_the_Scourge_across_Azeroth"
+    },
+    {
+      "eventId": 229,
+      "eventName": "Wrath of the Lich King campaign (The war against the Lich King)",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrath%20of%20the%20Lich%20King%20campaign%20%28The%20war%20against%20the%20Lich%20King%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrath%20of%20the%20Lich%20King%20campaign%20%28The%20war%20against%20the%20Lich%20King%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Wrath_of_the_Lich_King_campaign_(The_war_against_the_Lich_King), Wrath_Of_The_Lich_King_Campaign_(The_War_Against_The_Lich_King), Wrath_of_the_Lich_King_campaign_The_war_against_the_Lich_King"
+    },
+    {
+      "eventId": 230,
+      "eventName": "Naxxramas (raid)",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Naxxramas%20%28raid%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Naxxramas%20%28raid%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Naxxramas_(raid), Naxxramas_raid"
+    },
+    {
+      "eventId": 231,
+      "eventName": "Nexus War",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Nexus%20War",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Nexus%20War",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Nexus_War"
+    },
+    {
+      "eventId": 232,
+      "eventName": "The Obsidian Sanctum (raid)",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Obsidian%20Sanctum%20%28raid%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Obsidian%20Sanctum%20%28raid%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Obsidian_Sanctum_(raid), Obsidian_Sanctum_(raid), The_Obsidian_Sanctum_raid"
+    },
+    {
+      "eventId": 233,
+      "eventName": "Battle of Angrathar the Wrathgate",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Angrathar%20the%20Wrathgate",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20of%20Angrathar%20the%20Wrathgate",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_of_Angrathar_the_Wrathgate, Battle_Of_Angrathar_The_Wrathgate"
+    },
+    {
+      "eventId": 234,
+      "eventName": "Li Li Stormstout, after having explored the limits of her home on the Wandering Isle sets out for",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Li%20Li%20Stormstout%2C%20after%20having%20explored%20the%20limits%20of%20her%20home%20on%20the%20Wandering%20Isle%20sets%20out%20for",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Li%20Li%20Stormstout%2C%20after%20having%20explored%20the%20limits%20of%20her%20home%20on%20the%20Wandering%20Isle%20sets%20out%20for",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Li_Li_Stormstout,_after_having_explored_the_limits_of_her_home_on_the_Wandering_Isle_sets_out_for, Li_Li_Stormstout,_After_Having_Explored_The_Limits_Of_Her_Home_On_The_Wandering_Isle_Sets_Out_For, Li_Li_Stormstout_after_having_explored_the_limits_of_her_home_on_the_Wandering_Isle_sets_out_for"
+    },
+    {
+      "eventId": 235,
+      "eventName": "The second of the Vault of Archavon's four watchers falls, Emalon the Storm Watcher.",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20second%20of%20the%20Vault%20of%20Archavon%27s%20four%20watchers%20falls%2C%20Emalon%20the%20Storm%20Watcher.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20second%20of%20the%20Vault%20of%20Archavon%27s%20four%20watchers%20falls%2C%20Emalon%20the%20Storm%20Watcher.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_second_of_the_Vault_of_Archavon's_four_watchers_falls,_Emalon_the_Storm_Watcher., The_Second_Of_The_Vault_Of_Archavon's_Four_Watchers_Falls,_Emalon_The_Storm_Watcher., second_of_the_Vault_of_Archavon's_four_watchers_falls,_Emalon_the_Storm_Watcher., The_second_of_the_Vault_of_Archavon's_four_watchers_falls_Emalon_the_Storm_Watcher"
+    },
+    {
+      "eventId": 236,
+      "eventName": "The Horde and Alliance leaders gather in the Violet Citadel upon word of Brann Bronzebeard's discovery",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20and%20Alliance%20leaders%20gather%20in%20the%20Violet%20Citadel%20upon%20word%20of%20Brann%20Bronzebeard's%20discovery",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Horde%20and%20Alliance%20leaders%20gather%20in%20the%20Violet%20Citadel%20upon%20word%20of%20Brann%20Bronzebeard's%20discovery",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Horde_and_Alliance_leaders_gather_in_the_Violet_Citadel_upon_word_of_Brann_Bronzebeard's_discovery, The_Horde_And_Alliance_Leaders_Gather_In_The_Violet_Citadel_Upon_Word_Of_Brann_Bronzebeard's_Discovery, Horde_and_Alliance_leaders_gather_in_the_Violet_Citadel_upon_word_of_Brann_Bronzebeard's_discovery"
+    },
+    {
+      "eventId": 237,
+      "eventName": "Garrosh Hellscream: Heart of War (short story)",
+      "collectionId": 9,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Garrosh%20Hellscream%3A%20Heart%20of%20War%20%28short%20story%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Garrosh%20Hellscream%3A%20Heart%20of%20War%20%28short%20story%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Garrosh_Hellscream:_Heart_of_War_(short_story), Garrosh_Hellscream:_Heart_Of_War_(short_Story), Garrosh_Hellscream_Heart_of_War_short_story"
+    },
+    {
+      "eventId": 240,
+      "eventName": "Alliance-Horde war begins",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance-Horde%20war%20begins",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance-Horde%20war%20begins",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Alliance-Horde_war_begins, Alliance-Horde_War_Begins, AllianceHorde_war_begins"
+    },
+    {
+      "eventId": 242,
+      "eventName": "Various leaders of Azeroth face inner turmoil in the aftermath of the Cataclysm.",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Various%20leaders%20of%20Azeroth%20face%20inner%20turmoil%20in%20the%20aftermath%20of%20the%20Cataclysm.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Various%20leaders%20of%20Azeroth%20face%20inner%20turmoil%20in%20the%20aftermath%20of%20the%20Cataclysm.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Various_leaders_of_Azeroth_face_inner_turmoil_in_the_aftermath_of_the_Cataclysm., Various_Leaders_Of_Azeroth_Face_Inner_Turmoil_In_The_Aftermath_Of_The_Cataclysm., Various_leaders_of_Azeroth_face_inner_turmoil_in_the_aftermath_of_the_Cataclysm"
+    },
+    {
+      "eventId": 243,
+      "eventName": "Cataclysm campaign",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Cataclysm%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Cataclysm%20campaign",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Cataclysm_campaign, Cataclysm_Campaign"
+    },
+    {
+      "eventId": 244,
+      "eventName": "Traveler (novel) (approx.)",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Traveler%20%28novel%29%20%28approx.%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Traveler%20%28novel%29%20%28approx.%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Traveler_(novel)_(approx.), Traveler_novel_approx"
+    },
+    {
+      "eventId": 245,
+      "eventName": "The Gurubashi and Amani trolls unite under the Zandalari prophet Zul.",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Gurubashi%20and%20Amani%20trolls%20unite%20under%20the%20Zandalari%20prophet%20Zul.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Gurubashi%20and%20Amani%20trolls%20unite%20under%20the%20Zandalari%20prophet%20Zul.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Gurubashi_and_Amani_trolls_unite_under_the_Zandalari_prophet_Zul., The_Gurubashi_And_Amani_Trolls_Unite_Under_The_Zandalari_Prophet_Zul., Gurubashi_and_Amani_trolls_unite_under_the_Zandalari_prophet_Zul., The_Gurubashi_and_Amani_trolls_unite_under_the_Zandalari_prophet_Zul"
+    },
+    {
+      "eventId": 246,
+      "eventName": "While Alexstrasza, Ysera, and the remaining leaders of the blue dragonflight gather at Wyrmrest Temple,",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=While%20Alexstrasza%2C%20Ysera%2C%20and%20the%20remaining%20leaders%20of%20the%20blue%20dragonflight%20gather%20at%20Wyrmrest%20Temple%2C",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=While%20Alexstrasza%2C%20Ysera%2C%20and%20the%20remaining%20leaders%20of%20the%20blue%20dragonflight%20gather%20at%20Wyrmrest%20Temple%2C",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: While_Alexstrasza,_Ysera,_and_the_remaining_leaders_of_the_blue_dragonflight_gather_at_Wyrmrest_Temple,, While_Alexstrasza,_Ysera,_And_The_Remaining_Leaders_Of_The_Blue_Dragonflight_Gather_At_Wyrmrest_Temple,, While_Alexstrasza_Ysera_and_the_remaining_leaders_of_the_blue_dragonflight_gather_at_Wyrmrest_Temple"
+    },
+    {
+      "eventId": 247,
+      "eventName": "Elemental Bonds",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Elemental%20Bonds",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Elemental%20Bonds",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Elemental_Bonds"
+    },
+    {
+      "eventId": 249,
+      "eventName": "Wrathion, with the help of a rogue champion, kills all the other black dragons he knows of.",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrathion%2C%20with%20the%20help%20of%20a%20rogue%20champion%2C%20kills%20all%20the%20other%20black%20dragons%20he%20knows%20of.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wrathion%2C%20with%20the%20help%20of%20a%20rogue%20champion%2C%20kills%20all%20the%20other%20black%20dragons%20he%20knows%20of.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Wrathion,_with_the_help_of_a_rogue_champion,_kills_all_the_other_black_dragons_he_knows_of., Wrathion,_With_The_Help_Of_A_Rogue_Champion,_Kills_All_The_Other_Black_Dragons_He_Knows_Of., Wrathion_with_the_help_of_a_rogue_champion_kills_all_the_other_black_dragons_he_knows_of"
+    },
+    {
+      "eventId": 250,
+      "eventName": "Occu'thar, a prisoner in Baradin Hold breaks out amidst the chaos, but is defeated.",
+      "collectionId": 10,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Occu%27thar%2C%20a%20prisoner%20in%20Baradin%20Hold%20breaks%20out%20amidst%20the%20chaos%2C%20but%20is%20defeated.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Occu%27thar%2C%20a%20prisoner%20in%20Baradin%20Hold%20breaks%20out%20amidst%20the%20chaos%2C%20but%20is%20defeated.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Occu'thar,_a_prisoner_in_Baradin_Hold_breaks_out_amidst_the_chaos,_but_is_defeated., Occu'thar,_A_Prisoner_In_Baradin_Hold_Breaks_Out_Amidst_The_Chaos,_But_Is_Defeated., Occu'thar_a_prisoner_in_Baradin_Hold_breaks_out_amidst_the_chaos_but_is_defeated"
+    },
+    {
+      "eventId": 251,
+      "eventName": "Ragefire Chasm (dungeon) - Dark shaman take up residence in Ragefire Chasm, and adventurers are sent in to kill them.",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ragefire%20Chasm%20%28dungeon%29%20-%20Dark%20shaman%20take%20up%20residence%20in%20Ragefire%20Chasm%2C%20and%20adventurers%20are%20sent%20in%20to%20kill%20them.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Ragefire%20Chasm%20%28dungeon%29%20-%20Dark%20shaman%20take%20up%20residence%20in%20Ragefire%20Chasm%2C%20and%20adventurers%20are%20sent%20in%20to%20kill%20them.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Ragefire_Chasm_(dungeon)_-_Dark_shaman_take_up_residence_in_Ragefire_Chasm,_and_adventurers_are_sent_in_to_kill_them., Ragefire_Chasm_(dungeon)_-_Dark_Shaman_Take_Up_Residence_In_Ragefire_Chasm,_And_Adventurers_Are_Sent_In_To_Kill_Them., Ragefire_Chasm_dungeon__Dark_shaman_take_up_residence_in_Ragefire_Chasm_and_adventurers_are_sent_in_to_kill_them, Ragefire_Chasm_(dungeon), Ragefire_Chasm_dungeon, Dark_shaman_take_up_residence_in_Ragefire_Chasm,_and_adventurers_are_sent_in_to_kill_them., Dark_Shaman_Take_Up_Residence_In_Ragefire_Chasm,_And_Adventurers_Are_Sent_In_To_Kill_Them., Dark_shaman_take_up_residence_in_Ragefire_Chasm_and_adventurers_are_sent_in_to_kill_them"
+    },
+    {
+      "eventId": 253,
+      "eventName": "Scholomance (dungeon)",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Scholomance%20(dungeon)",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Scholomance%20(dungeon)",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Scholomance_(dungeon), Scholomance_dungeon"
+    },
+    {
+      "eventId": 254,
+      "eventName": "Silvershard Mines (battleground)",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Silvershard%20Mines%20%28battleground%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Silvershard%20Mines%20%28battleground%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Silvershard_Mines_(battleground), Silvershard_Mines_battleground"
+    },
+    {
+      "eventId": 255,
+      "eventName": "As the Horde prepares to invade Theramore, escalating their conflict with the Alliance, Chen and Li Li",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=As%20the%20Horde%20prepares%20to%20invade%20Theramore%2C%20escalating%20their%20conflict%20with%20the%20Alliance%2C%20Chen%20and%20Li%20Li",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=As%20the%20Horde%20prepares%20to%20invade%20Theramore%2C%20escalating%20their%20conflict%20with%20the%20Alliance%2C%20Chen%20and%20Li%20Li",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: As_the_Horde_prepares_to_invade_Theramore,_escalating_their_conflict_with_the_Alliance,_Chen_and_Li_Li, As_The_Horde_Prepares_To_Invade_Theramore,_Escalating_Their_Conflict_With_The_Alliance,_Chen_And_Li_Li, As_the_Horde_prepares_to_invade_Theramore_escalating_their_conflict_with_the_Alliance_Chen_and_Li_Li"
+    },
+    {
+      "eventId": 256,
+      "eventName": "Attack on Theramore Isle",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Attack%20on%20Theramore%20Isle",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Attack%20on%20Theramore%20Isle",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Attack_on_Theramore_Isle, Attack_On_Theramore_Isle"
+    },
+    {
+      "eventId": 257,
+      "eventName": "Wandering Isle storyline",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wandering%20Isle%20storyline",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wandering%20Isle%20storyline",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Wandering_Isle_storyline, Wandering_Isle_Storyline"
+    },
+    {
+      "eventId": 258,
+      "eventName": "Pandaria is accidentally discovered by the Alliance and Horde fleets as they skirmish in the South Seas.",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Pandaria%20is%20accidentally%20discovered%20by%20the%20Alliance%20and%20Horde%20fleets%20as%20they%20skirmish%20in%20the%20South%20Seas.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Pandaria%20is%20accidentally%20discovered%20by%20the%20Alliance%20and%20Horde%20fleets%20as%20they%20skirmish%20in%20the%20South%20Seas.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Pandaria_is_accidentally_discovered_by_the_Alliance_and_Horde_fleets_as_they_skirmish_in_the_South_Seas., Pandaria_Is_Accidentally_Discovered_By_The_Alliance_And_Horde_Fleets_As_They_Skirmish_In_The_South_Seas., Pandaria_is_accidentally_discovered_by_the_Alliance_and_Horde_fleets_as_they_skirmish_in_the_South_Seas"
+    },
+    {
+      "eventId": 260,
+      "eventName": "Operation: Shieldwall and Dominance Offensive",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Operation%3A%20Shieldwall%20and%20Dominance%20Offensive",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Operation%3A%20Shieldwall%20and%20Dominance%20Offensive",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Operation:_Shieldwall_and_Dominance_Offensive, Operation:_Shieldwall_And_Dominance_Offensive, Operation_Shieldwall_and_Dominance_Offensive"
+    },
+    {
+      "eventId": 261,
+      "eventName": "Assault on Zan'vess (scenario)",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Assault%20on%20Zan%27vess%20%28scenario%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Assault%20on%20Zan%27vess%20%28scenario%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Assault_on_Zan'vess_(scenario), Assault_On_Zan'vess_(scenario), Assault_on_Zan'vess_scenario"
+    },
+    {
+      "eventId": 262,
+      "eventName": "Garrosh's agents raid Darnassus to steal the",
+      "collectionId": 11,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Garrosh%27s%20agents%20raid%20Darnassus%20to%20steal%20the",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Garrosh%27s%20agents%20raid%20Darnassus%20to%20steal%20the",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Garrosh's_agents_raid_Darnassus_to_steal_the, Garrosh's_Agents_Raid_Darnassus_To_Steal_The"
+    },
+    {
+      "eventId": 263,
+      "eventName": "Blood and Thunder (comic) (past)",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blood%20and%20Thunder%20%28comic%29%20%28past%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blood%20and%20Thunder%20%28comic%29%20%28past%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blood_and_Thunder_(comic)_(past), Blood_And_Thunder_(comic)_(past), Blood_and_Thunder_comic_past"
+    },
+    {
+      "eventId": 264,
+      "eventName": "Blackhand (comic)",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20%28comic%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackhand%20%28comic%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackhand_(comic), Blackhand_comic"
+    },
+    {
+      "eventId": 265,
+      "eventName": "Blackfathom Deeps (dungeon)",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackfathom%20Deeps%20%28dungeon%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Blackfathom%20Deeps%20%28dungeon%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Blackfathom_Deeps_(dungeon), Blackfathom_Deeps_dungeon"
+    },
+    {
+      "eventId": 266,
+      "eventName": "Razorfen Kraul (dungeon)",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Razorfen%20Kraul%20%28dungeon%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Razorfen%20Kraul%20%28dungeon%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Razorfen_Kraul_(dungeon), Razorfen_Kraul_dungeon"
+    },
+    {
+      "eventId": 267,
+      "eventName": "Razorfen Downs (dungeon)",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Razorfen%20Downs%20%28dungeon%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Razorfen%20Downs%20%28dungeon%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Razorfen_Downs_(dungeon), Razorfen_Downs_dungeon"
+    },
+    {
+      "eventId": 268,
+      "eventName": "The Dark Portal on Alternate Draenor is finished and connected to the one on Azeroth",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Dark%20Portal%20on%20Alternate%20Draenor%20is%20finished%20and%20connected%20to%20the%20one%20on%20Azeroth",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Dark%20Portal%20on%20Alternate%20Draenor%20is%20finished%20and%20connected%20to%20the%20one%20on%20Azeroth",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Dark_Portal_on_Alternate_Draenor_is_finished_and_connected_to_the_one_on_Azeroth, The_Dark_Portal_On_Alternate_Draenor_Is_Finished_And_Connected_To_The_One_On_Azeroth, Dark_Portal_on_Alternate_Draenor_is_finished_and_connected_to_the_one_on_Azeroth"
+    },
+    {
+      "eventId": 270,
+      "eventName": "Grommash's failure breeds dissent within the ranks, affording the warlock Gul'dan the opportunity to",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Grommash's%20failure%20breeds%20dissent%20within%20the%20ranks%2C%20affording%20the%20warlock%20Gul'dan%20the%20opportunity%20to",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Grommash's%20failure%20breeds%20dissent%20within%20the%20ranks%2C%20affording%20the%20warlock%20Gul'dan%20the%20opportunity%20to",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Grommash's_failure_breeds_dissent_within_the_ranks,_affording_the_warlock_Gul'dan_the_opportunity_to, Grommash's_Failure_Breeds_Dissent_Within_The_Ranks,_Affording_The_Warlock_Gul'dan_The_Opportunity_To, Grommash's_failure_breeds_dissent_within_the_ranks_affording_the_warlock_Gul'dan_the_opportunity_to"
+    },
+    {
+      "eventId": 271,
+      "eventName": "Gul'dan takes control of Hellfire Citadel, intending to use it as a staging area for the Legion to",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20takes%20control%20of%20Hellfire%20Citadel%2C%20intending%20to%20use%20it%20as%20a%20staging%20area%20for%20the%20Legion%20to",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20takes%20control%20of%20Hellfire%20Citadel%2C%20intending%20to%20use%20it%20as%20a%20staging%20area%20for%20the%20Legion%20to",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gul'dan_takes_control_of_Hellfire_Citadel,_intending_to_use_it_as_a_staging_area_for_the_Legion_to, Gul'dan_Takes_Control_Of_Hellfire_Citadel,_Intending_To_Use_It_As_A_Staging_Area_For_The_Legion_To, Gul'dan_takes_control_of_Hellfire_Citadel_intending_to_use_it_as_a_staging_area_for_the_Legion_to"
+    },
+    {
+      "eventId": 272,
+      "eventName": "Tanaan Jungle storyline",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tanaan%20Jungle%20storyline",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Tanaan%20Jungle%20storyline",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Tanaan_Jungle_storyline, Tanaan_Jungle_Storyline"
+    },
+    {
+      "eventId": 273,
+      "eventName": "Heroes return to Azeroth, closing the way to the alternate Draenor behind them.",
+      "collectionId": 12,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Heroes%20return%20to%20Azeroth%2C%20closing%20the%20way%20to%20the%20alternate%20Draenor%20behind%20them.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Heroes%20return%20to%20Azeroth%2C%20closing%20the%20way%20to%20the%20alternate%20Draenor%20behind%20them.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Heroes_return_to_Azeroth,_closing_the_way_to_the_alternate_Draenor_behind_them., Heroes_Return_To_Azeroth,_Closing_The_Way_To_The_Alternate_Draenor_Behind_Them., Heroes_return_to_Azeroth_closing_the_way_to_the_alternate_Draenor_behind_them"
+    },
+    {
+      "eventId": 274,
+      "eventName": "King Magni Bronzebeard awakens in Old Ironforge.",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Magni%20Bronzebeard%20awakens%20in%20Old%20Ironforge.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=King%20Magni%20Bronzebeard%20awakens%20in%20Old%20Ironforge.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: King_Magni_Bronzebeard_awakens_in_Old_Ironforge., King_Magni_Bronzebeard_Awakens_In_Old_Ironforge., King_Magni_Bronzebeard_awakens_in_Old_Ironforge"
+    },
+    {
+      "eventId": 275,
+      "eventName": "Gul'dan re-opens the sealed portal inside the Tomb of Sargeras, beginning the Burning Legion's third",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20re-opens%20the%20sealed%20portal%20inside%20the%20Tomb%20of%20Sargeras%2C%20beginning%20the%20Burning%20Legion's%20third",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20re-opens%20the%20sealed%20portal%20inside%20the%20Tomb%20of%20Sargeras%2C%20beginning%20the%20Burning%20Legion's%20third",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gul'dan_re-opens_the_sealed_portal_inside_the_Tomb_of_Sargeras,_beginning_the_Burning_Legion's_third, Gul'dan_Re-opens_The_Sealed_Portal_Inside_The_Tomb_Of_Sargeras,_Beginning_The_Burning_Legion's_Third, Gul'dan_reopens_the_sealed_portal_inside_the_Tomb_of_Sargeras_beginning_the_Burning_Legion's_third"
+    },
+    {
+      "eventId": 276,
+      "eventName": "Khadgar warns the faction leaders of the Legion's return, then heads to Karazhan for answers.",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20warns%20the%20faction%20leaders%20of%20the%20Legion%27s%20return%2C%20then%20heads%20to%20Karazhan%20for%20answers.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Khadgar%20warns%20the%20faction%20leaders%20of%20the%20Legion%27s%20return%2C%20then%20heads%20to%20Karazhan%20for%20answers.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Khadgar_warns_the_faction_leaders_of_the_Legion's_return,_then_heads_to_Karazhan_for_answers., Khadgar_Warns_The_Faction_Leaders_Of_The_Legion's_Return,_Then_Heads_To_Karazhan_For_Answers., Khadgar_warns_the_faction_leaders_of_the_Legion's_return_then_heads_to_Karazhan_for_answers"
+    },
+    {
+      "eventId": 277,
+      "eventName": "Battle for the Broken Shore (Legion intro experience)",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20the%20Broken%20Shore%20%28Legion%20intro%20experience%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20the%20Broken%20Shore%20%28Legion%20intro%20experience%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_for_the_Broken_Shore_(Legion_intro_experience), Battle_For_The_Broken_Shore_(Legion_Intro_Experience), Battle_for_the_Broken_Shore_Legion_intro_experience"
+    },
+    {
+      "eventId": 278,
+      "eventName": "Gul'dan and his legion penetrate the Vault of the Wardens thanks to Cordana Felsong, stealing the",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20and%20his%20legion%20penetrate%20the%20Vault%20of%20the%20Wardens%20thanks%20to%20Cordana%20Felsong%2C%20stealing%20the",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Gul'dan%20and%20his%20legion%20penetrate%20the%20Vault%20of%20the%20Wardens%20thanks%20to%20Cordana%20Felsong%2C%20stealing%20the",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Gul'dan_and_his_legion_penetrate_the_Vault_of_the_Wardens_thanks_to_Cordana_Felsong,_stealing_the, Gul'dan_And_His_Legion_Penetrate_The_Vault_Of_The_Wardens_Thanks_To_Cordana_Felsong,_Stealing_The, Gul'dan_and_his_legion_penetrate_the_Vault_of_the_Wardens_thanks_to_Cordana_Felsong_stealing_the"
+    },
+    {
+      "eventId": 279,
+      "eventName": "Legion Invasions - The Legion openly launches full-scale invasions on Kalimdor and the Eastern Kingdoms.",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Legion%20Invasions%20-%20The%20Legion%20openly%20launches%20full-scale%20invasions%20on%20Kalimdor%20and%20the%20Eastern%20Kingdoms.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Legion%20Invasions%20-%20The%20Legion%20openly%20launches%20full-scale%20invasions%20on%20Kalimdor%20and%20the%20Eastern%20Kingdoms.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Legion_Invasions_-_The_Legion_openly_launches_full-scale_invasions_on_Kalimdor_and_the_Eastern_Kingdoms., Legion_Invasions_-_The_Legion_Openly_Launches_Full-scale_Invasions_On_Kalimdor_And_The_Eastern_Kingdoms., Legion_Invasions__The_Legion_openly_launches_fullscale_invasions_on_Kalimdor_and_the_Eastern_Kingdoms, Legion_Invasions, The_Legion_openly_launches_full-scale_invasions_on_Kalimdor_and_the_Eastern_Kingdoms., The_Legion_Openly_Launches_Full-scale_Invasions_On_Kalimdor_And_The_Eastern_Kingdoms., Legion_openly_launches_full-scale_invasions_on_Kalimdor_and_the_Eastern_Kingdoms., The_Legion_openly_launches_fullscale_invasions_on_Kalimdor_and_the_Eastern_Kingdoms"
+    },
+    {
+      "eventId": 280,
+      "eventName": "Dalaran is moved above Karazhan while Khadgar, Magni, Brann Bronzebeard and the adventurers go to Ulduar.",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dalaran%20is%20moved%20above%20Karazhan%20while%20Khadgar%2C%20Magni%2C%20Brann%20Bronzebeard%20and%20the%20adventurers%20go%20to%20Ulduar.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Dalaran%20is%20moved%20above%20Karazhan%20while%20Khadgar%2C%20Magni%2C%20Brann%20Bronzebeard%20and%20the%20adventurers%20go%20to%20Ulduar.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Dalaran_is_moved_above_Karazhan_while_Khadgar,_Magni,_Brann_Bronzebeard_and_the_adventurers_go_to_Ulduar., Dalaran_Is_Moved_Above_Karazhan_While_Khadgar,_Magni,_Brann_Bronzebeard_And_The_Adventurers_Go_To_Ulduar., Dalaran_is_moved_above_Karazhan_while_Khadgar_Magni_Brann_Bronzebeard_and_the_adventurers_go_to_Ulduar"
+    },
+    {
+      "eventId": 281,
+      "eventName": "Legion campaign",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Legion%20campaign",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Legion%20campaign",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Legion_campaign, Legion_Campaign"
+    },
+    {
+      "eventId": 282,
+      "eventName": "The Nighthold (raid) - Alternate Gul'dan is defeated at the Nighthold and Suramar City is retaken by the Nightfallen.",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Nighthold%20%28raid%29%20-%20Alternate%20Gul%27dan%20is%20defeated%20at%20the%20Nighthold%20and%20Suramar%20City%20is%20retaken%20by%20the%20Nightfallen.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Nighthold%20%28raid%29%20-%20Alternate%20Gul%27dan%20is%20defeated%20at%20the%20Nighthold%20and%20Suramar%20City%20is%20retaken%20by%20the%20Nightfallen.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Nighthold_(raid)_-_Alternate_Gul'dan_is_defeated_at_the_Nighthold_and_Suramar_City_is_retaken_by_the_Nightfallen., The_Nighthold_(raid)_-_Alternate_Gul'dan_Is_Defeated_At_The_Nighthold_And_Suramar_City_Is_Retaken_By_The_Nightfallen., Nighthold_(raid)_-_Alternate_Gul'dan_is_defeated_at_the_Nighthold_and_Suramar_City_is_retaken_by_the_Nightfallen., The_Nighthold_raid__Alternate_Gul'dan_is_defeated_at_the_Nighthold_and_Suramar_City_is_retaken_by_the_Nightfallen, The_Nighthold_(raid), Nighthold_(raid), The_Nighthold_raid, Alternate_Gul'dan_is_defeated_at_the_Nighthold_and_Suramar_City_is_retaken_by_the_Nightfallen., Alternate_Gul'dan_Is_Defeated_At_The_Nighthold_And_Suramar_City_Is_Retaken_By_The_Nightfallen., Alternate_Gul'dan_is_defeated_at_the_Nighthold_and_Suramar_City_is_retaken_by_the_Nightfallen"
+    },
+    {
+      "eventId": 283,
+      "eventName": "Assault on Broken Shore (Broken Shore storyline)",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Assault%20on%20Broken%20Shore%20%28Broken%20Shore%20storyline%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Assault%20on%20Broken%20Shore%20%28Broken%20Shore%20storyline%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Assault_on_Broken_Shore_(Broken_Shore_storyline), Assault_On_Broken_Shore_(Broken_Shore_Storyline), Assault_on_Broken_Shore_Broken_Shore_storyline"
+    },
+    {
+      "eventId": 284,
+      "eventName": "Anduin: Son of the Wolf (comic) (present) » (appox.)",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Anduin%3A%20Son%20of%20the%20Wolf%20%28comic%29%20%28present%29%20%C2%BB%20%28appox.%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Anduin%3A%20Son%20of%20the%20Wolf%20%28comic%29%20%28present%29%20%C2%BB%20%28appox.%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Anduin:_Son_of_the_Wolf_(comic)_(present)_»_(appox.), Anduin:_Son_Of_The_Wolf_(comic)_(present)_»_(appox.), Anduin_Son_of_the_Wolf_comic_present__appox"
+    },
+    {
+      "eventId": 285,
+      "eventName": "Wailing Critters (scenario)",
+      "collectionId": 13,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wailing%20Critters%20%28scenario%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Wailing%20Critters%20%28scenario%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Wailing_Critters_(scenario), Wailing_Critters_scenario"
+    },
+    {
+      "eventId": 286,
+      "eventName": "Jaina: Reunion (comic)",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Jaina%3A%20Reunion%20%28comic%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Jaina%3A%20Reunion%20%28comic%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Jaina:_Reunion_(comic), Jaina_Reunion_comic"
+    },
+    {
+      "eventId": 287,
+      "eventName": "Magni: The Speaker (comic)",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Magni%3A%20The%20Speaker%20%28comic%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Magni%3A%20The%20Speaker%20%28comic%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Magni:_The_Speaker_(comic), Magni_The_Speaker_comic"
+    },
+    {
+      "eventId": 288,
+      "eventName": "Windrunner: Three Sisters (comic)",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Windrunner%3A%20Three%20Sisters%20%28comic%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Windrunner%3A%20Three%20Sisters%20%28comic%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Windrunner:_Three_Sisters_(comic), Windrunner_Three_Sisters_comic"
+    },
+    {
+      "eventId": 289,
+      "eventName": "Warbringers Jaina (animated short)",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warbringers%20Jaina%20%28animated%20short%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warbringers%20Jaina%20%28animated%20short%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Warbringers_Jaina_(animated_short), Warbringers_Jaina_(animated_Short), Warbringers_Jaina_animated_short"
+    },
+    {
+      "eventId": 290,
+      "eventName": "Warbringers Sylvanas (animated short) (present)",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warbringers%20Sylvanas%20%28animated%20short%29%20%28present%29",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Warbringers%20Sylvanas%20%28animated%20short%29%20%28present%29",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Warbringers_Sylvanas_(animated_short)_(present), Warbringers_Sylvanas_(animated_Short)_(present), Warbringers_Sylvanas_animated_short_present"
+    },
+    {
+      "eventId": 292,
+      "eventName": "The Fourth War begins with the Burning of Teldrassil.",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Fourth%20War%20begins%20with%20the%20Burning%20of%20Teldrassil.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Fourth%20War%20begins%20with%20the%20Burning%20of%20Teldrassil.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Fourth_War_begins_with_the_Burning_of_Teldrassil., The_Fourth_War_Begins_With_The_Burning_Of_Teldrassil., Fourth_War_begins_with_the_Burning_of_Teldrassil., The_Fourth_War_begins_with_the_Burning_of_Teldrassil"
+    },
+    {
+      "eventId": 294,
+      "eventName": "War in Kul Tiras & War in Zandalar",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20in%20Kul%20Tiras%20%26%20War%20in%20Zandalar",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=War%20in%20Kul%20Tiras%20%26%20War%20in%20Zandalar",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: War_in_Kul_Tiras_&_War_in_Zandalar, War_In_Kul_Tiras_&_War_In_Zandalar, War_in_Kul_Tiras__War_in_Zandalar"
+    },
+    {
+      "eventId": 295,
+      "eventName": "Battle for Stromgarde",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20Stromgarde",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Battle%20for%20Stromgarde",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Battle_for_Stromgarde, Battle_For_Stromgarde"
+    },
+    {
+      "eventId": 296,
+      "eventName": "The Alliance and the Horde respectively ally with the Kul Tirans and the Zandalari.",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Alliance%20and%20the%20Horde%20respectively%20ally%20with%20the%20Kul%20Tirans%20and%20the%20Zandalari.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Alliance%20and%20the%20Horde%20respectively%20ally%20with%20the%20Kul%20Tirans%20and%20the%20Zandalari.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Alliance_and_the_Horde_respectively_ally_with_the_Kul_Tirans_and_the_Zandalari., The_Alliance_And_The_Horde_Respectively_Ally_With_The_Kul_Tirans_And_The_Zandalari., Alliance_and_the_Horde_respectively_ally_with_the_Kul_Tirans_and_the_Zandalari., The_Alliance_and_the_Horde_respectively_ally_with_the_Kul_Tirans_and_the_Zandalari"
+    },
+    {
+      "eventId": 297,
+      "eventName": "Uldir",
+      "collectionId": 14,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Uldir",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Uldir",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Uldir"
+    },
+    {
+      "eventId": 298,
+      "eventName": "A Moment in Verse",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=A%20Moment%20in%20Verse",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=A%20Moment%20in%20Verse",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: A_Moment_in_Verse, A_Moment_In_Verse"
+    },
+    {
+      "eventId": 304,
+      "eventName": "Adventurers and the Knights of the Ebon Blade enter the Maw to rescue the kidnapped leaders.",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Adventurers%20and%20the%20Knights%20of%20the%20Ebon%20Blade%20enter%20the%20Maw%20to%20rescue%20the%20kidnapped%20leaders.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Adventurers%20and%20the%20Knights%20of%20the%20Ebon%20Blade%20enter%20the%20Maw%20to%20rescue%20the%20kidnapped%20leaders.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Adventurers_and_the_Knights_of_the_Ebon_Blade_enter_the_Maw_to_rescue_the_kidnapped_leaders., Adventurers_And_The_Knights_Of_The_Ebon_Blade_Enter_The_Maw_To_Rescue_The_Kidnapped_Leaders., Adventurers_and_the_Knights_of_the_Ebon_Blade_enter_the_Maw_to_rescue_the_kidnapped_leaders"
+    },
+    {
+      "eventId": 305,
+      "eventName": "The Maw Walkers follow their only lead—the Mawsworn kyrian—to Bastion, where in the process of trying to",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20follow%20their%20only%20lead%E2%80%94the%20Mawsworn%20kyrian%E2%80%94to%20Bastion%2C%20where%20in%20the%20process%20of%20trying%20to",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20follow%20their%20only%20lead%E2%80%94the%20Mawsworn%20kyrian%E2%80%94to%20Bastion%2C%20where%20in%20the%20process%20of%20trying%20to",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Maw_Walkers_follow_their_only_lead—the_Mawsworn_kyrian—to_Bastion,_where_in_the_process_of_trying_to, The_Maw_Walkers_Follow_Their_Only_Lead—the_Mawsworn_Kyrian—to_Bastion,_Where_In_The_Process_Of_Trying_To, Maw_Walkers_follow_their_only_lead—the_Mawsworn_kyrian—to_Bastion,_where_in_the_process_of_trying_to, The_Maw_Walkers_follow_their_only_leadthe_Mawsworn_kyrianto_Bastion_where_in_the_process_of_trying_to"
+    },
+    {
+      "eventId": 306,
+      "eventName": "The Maw Walkers travel to Maldraxxus to discover the cause of the invasion and ally with Baroness Draka",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20travel%20to%20Maldraxxus%20to%20discover%20the%20cause%20of%20the%20invasion%20and%20ally%20with%20Baroness%20Draka",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20travel%20to%20Maldraxxus%20to%20discover%20the%20cause%20of%20the%20invasion%20and%20ally%20with%20Baroness%20Draka",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Maw_Walkers_travel_to_Maldraxxus_to_discover_the_cause_of_the_invasion_and_ally_with_Baroness_Draka, The_Maw_Walkers_Travel_To_Maldraxxus_To_Discover_The_Cause_Of_The_Invasion_And_Ally_With_Baroness_Draka, Maw_Walkers_travel_to_Maldraxxus_to_discover_the_cause_of_the_invasion_and_ally_with_Baroness_Draka"
+    },
+    {
+      "eventId": 307,
+      "eventName": "The Maw Walkers travel to Ardenweald to deliver the warning to the Winter Queen.",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20travel%20to%20Ardenweald%20to%20deliver%20the%20warning%20to%20the%20Winter%20Queen.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20travel%20to%20Ardenweald%20to%20deliver%20the%20warning%20to%20the%20Winter%20Queen.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Maw_Walkers_travel_to_Ardenweald_to_deliver_the_warning_to_the_Winter_Queen., The_Maw_Walkers_Travel_To_Ardenweald_To_Deliver_The_Warning_To_The_Winter_Queen., Maw_Walkers_travel_to_Ardenweald_to_deliver_the_warning_to_the_Winter_Queen., The_Maw_Walkers_travel_to_Ardenweald_to_deliver_the_warning_to_the_Winter_Queen"
+    },
+    {
+      "eventId": 308,
+      "eventName": "In Revendreth, the Maw Walkers discover that Denathrius is responsible for the anima drought.",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=In%20Revendreth%2C%20the%20Maw%20Walkers%20discover%20that%20Denathrius%20is%20responsible%20for%20the%20anima%20drought.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=In%20Revendreth%2C%20the%20Maw%20Walkers%20discover%20that%20Denathrius%20is%20responsible%20for%20the%20anima%20drought.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: In_Revendreth,_the_Maw_Walkers_discover_that_Denathrius_is_responsible_for_the_anima_drought., In_Revendreth,_The_Maw_Walkers_Discover_That_Denathrius_Is_Responsible_For_The_Anima_Drought., In_Revendreth_the_Maw_Walkers_discover_that_Denathrius_is_responsible_for_the_anima_drought"
+    },
+    {
+      "eventId": 309,
+      "eventName": "The Maw Walkers join one of the four covenants to help them regain their strength and combat the various",
+      "collectionId": 15,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20join%20one%20of%20the%20four%20covenants%20to%20help%20them%20regain%20their%20strength%20and%20combat%20the%20various",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20Maw%20Walkers%20join%20one%20of%20the%20four%20covenants%20to%20help%20them%20regain%20their%20strength%20and%20combat%20the%20various",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_Maw_Walkers_join_one_of_the_four_covenants_to_help_them_regain_their_strength_and_combat_the_various, The_Maw_Walkers_Join_One_Of_The_Four_Covenants_To_Help_Them_Regain_Their_Strength_And_Combat_The_Various, Maw_Walkers_join_one_of_the_four_covenants_to_help_them_regain_their_strength_and_combat_the_various"
+    },
+    {
+      "eventId": 313,
+      "eventName": "A tempest is unleashed across Azeroth, and is contained with the defeat of the Primalists' forces",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=A%20tempest%20is%20unleashed%20across%20Azeroth%2C%20and%20is%20contained%20with%20the%20defeat%20of%20the%20Primalists%27%20forces",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=A%20tempest%20is%20unleashed%20across%20Azeroth%2C%20and%20is%20contained%20with%20the%20defeat%20of%20the%20Primalists%27%20forces",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: A_tempest_is_unleashed_across_Azeroth,_and_is_contained_with_the_defeat_of_the_Primalists'_forces, A_Tempest_Is_Unleashed_Across_Azeroth,_And_Is_Contained_With_The_Defeat_Of_The_Primalists'_Forces, A_tempest_is_unleashed_across_Azeroth_and_is_contained_with_the_defeat_of_the_Primalists'_forces"
+    },
+    {
+      "eventId": 314,
+      "eventName": "The dracthyr awaken from stasis in the Forbidden Reach.",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20dracthyr%20awaken%20from%20stasis%20in%20the%20Forbidden%20Reach.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20dracthyr%20awaken%20from%20stasis%20in%20the%20Forbidden%20Reach.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_dracthyr_awaken_from_stasis_in_the_Forbidden_Reach., The_Dracthyr_Awaken_From_Stasis_In_The_Forbidden_Reach., dracthyr_awaken_from_stasis_in_the_Forbidden_Reach., The_dracthyr_awaken_from_stasis_in_the_Forbidden_Reach"
+    },
+    {
+      "eventId": 315,
+      "eventName": "Alliance and Horde expeditions travel to the Dragon Isles where the adventurers aided the dragonflights",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20expeditions%20travel%20to%20the%20Dragon%20Isles%20where%20the%20adventurers%20aided%20the%20dragonflights",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Alliance%20and%20Horde%20expeditions%20travel%20to%20the%20Dragon%20Isles%20where%20the%20adventurers%20aided%20the%20dragonflights",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Alliance_and_Horde_expeditions_travel_to_the_Dragon_Isles_where_the_adventurers_aided_the_dragonflights, Alliance_And_Horde_Expeditions_Travel_To_The_Dragon_Isles_Where_The_Adventurers_Aided_The_Dragonflights"
+    },
+    {
+      "eventId": 316,
+      "eventName": "Adventurers manage to kill Raszageth in the Vault of the Incarnates, but the remaining Primal Incarnates",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Adventurers%20manage%20to%20kill%20Raszageth%20in%20the%20Vault%20of%20the%20Incarnates%2C%20but%20the%20remaining%20Primal%20Incarnates",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Adventurers%20manage%20to%20kill%20Raszageth%20in%20the%20Vault%20of%20the%20Incarnates%2C%20but%20the%20remaining%20Primal%20Incarnates",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Adventurers_manage_to_kill_Raszageth_in_the_Vault_of_the_Incarnates,_but_the_remaining_Primal_Incarnates, Adventurers_Manage_To_Kill_Raszageth_In_The_Vault_Of_The_Incarnates,_But_The_Remaining_Primal_Incarnates, Adventurers_manage_to_kill_Raszageth_in_the_Vault_of_the_Incarnates_but_the_remaining_Primal_Incarnates"
+    },
+    {
+      "eventId": 317,
+      "eventName": "After hardships, the Windtotem tribe of tauren settle in the Ohn'ahran Plains.",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=After%20hardships%2C%20the%20Windtotem%20tribe%20of%20tauren%20settle%20in%20the%20Ohn%27ahran%20Plains.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=After%20hardships%2C%20the%20Windtotem%20tribe%20of%20tauren%20settle%20in%20the%20Ohn%27ahran%20Plains.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: After_hardships,_the_Windtotem_tribe_of_tauren_settle_in_the_Ohn'ahran_Plains., After_Hardships,_The_Windtotem_Tribe_Of_Tauren_Settle_In_The_Ohn'ahran_Plains., After_hardships_the_Windtotem_tribe_of_tauren_settle_in_the_Ohn'ahran_Plains"
+    },
+    {
+      "eventId": 318,
+      "eventName": "Lord Banehollow, disguised as Madam Shadow tries to lure a new generation of warlocks, but his ploy is",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Lord%20Banehollow%2C%20disguised%20as%20Madam%20Shadow%20tries%20to%20lure%20a%20new%20generation%20of%20warlocks%2C%20but%20his%20ploy%20is",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Lord%20Banehollow%2C%20disguised%20as%20Madam%20Shadow%20tries%20to%20lure%20a%20new%20generation%20of%20warlocks%2C%20but%20his%20ploy%20is",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Lord_Banehollow,_disguised_as_Madam_Shadow_tries_to_lure_a_new_generation_of_warlocks,_but_his_ploy_is, Lord_Banehollow,_Disguised_As_Madam_Shadow_Tries_To_Lure_A_New_Generation_Of_Warlocks,_But_His_Ploy_Is, Lord_Banehollow_disguised_as_Madam_Shadow_tries_to_lure_a_new_generation_of_warlocks_but_his_ploy_is"
+    },
+    {
+      "eventId": 319,
+      "eventName": "The orc nation of Durotar celebrates their first Azerothian Kosh'harg.",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20orc%20nation%20of%20Durotar%20celebrates%20their%20first%20Azerothian%20Kosh'harg.",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=The%20orc%20nation%20of%20Durotar%20celebrates%20their%20first%20Azerothian%20Kosh'harg.",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: The_orc_nation_of_Durotar_celebrates_their_first_Azerothian_Kosh'harg., The_Orc_Nation_Of_Durotar_Celebrates_Their_First_Azerothian_Kosh'harg., orc_nation_of_Durotar_celebrates_their_first_Azerothian_Kosh'harg., The_orc_nation_of_Durotar_celebrates_their_first_Azerothian_Kosh'harg"
+    },
+    {
+      "eventId": 320,
+      "eventName": "Mortals enter Zaralek Cavern and team up with the Loamm Niffen. Spearheaded by the black dragonflight",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Mortals%20enter%20Zaralek%20Cavern%20and%20team%20up%20with%20the%20Loamm%20Niffen.%20Spearheaded%20by%20the%20black%20dragonflight",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Mortals%20enter%20Zaralek%20Cavern%20and%20team%20up%20with%20the%20Loamm%20Niffen.%20Spearheaded%20by%20the%20black%20dragonflight",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Mortals_enter_Zaralek_Cavern_and_team_up_with_the_Loamm_Niffen._Spearheaded_by_the_black_dragonflight, Mortals_Enter_Zaralek_Cavern_And_Team_Up_With_The_Loamm_Niffen._Spearheaded_By_The_Black_Dragonflight, Mortals_enter_Zaralek_Cavern_and_team_up_with_the_Loamm_Niffen_Spearheaded_by_the_black_dragonflight"
+    },
+    {
+      "eventId": 321,
+      "eventName": "Fyrakk is empowered with shadowlame and runs rampant on the Dragon Isles, while Iridikron allies with",
+      "collectionId": 16,
+      "originalLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fyrakk%20is%20empowered%20with%20shadowlame%20and%20runs%20rampant%20on%20the%20Dragon%20Isles%2C%20while%20Iridikron%20allies%20with",
+      "resolvedLink": "https://warcraft.wiki.gg/wiki/Special:Search?search=Fyrakk%20is%20empowered%20with%20shadowlame%20and%20runs%20rampant%20on%20the%20Dragon%20Isles%2C%20while%20Iridikron%20allies%20with",
+      "method": "unresolved",
+      "confidence": "low",
+      "note": "Tried slugs: Fyrakk_is_empowered_with_shadowlame_and_runs_rampant_on_the_Dragon_Isles,_while_Iridikron_allies_with, Fyrakk_Is_Empowered_With_Shadowlame_And_Runs_Rampant_On_The_Dragon_Isles,_While_Iridikron_Allies_With, Fyrakk_is_empowered_with_shadowlame_and_runs_rampant_on_the_Dragon_Isles_while_Iridikron_allies_with"
+    }
+  ]
+}

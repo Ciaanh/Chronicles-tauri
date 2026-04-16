@@ -1,0 +1,15 @@
+{
+  "Phase": "A - Prep",
+  "Timestamp": "2026-04-16 14:38:26",
+  "Status": "Started",
+  "Baseline": {
+    "EmptyLinks": 0,
+    "NoCharacterRefs": 234,
+    "SearchLinks": 320,
+    "WikiDirectLinks": 0,
+    "NoFactionRefs": 233,
+    "EventCount": 321,
+    "FactionCount": 66,
+    "CharacterCount": 88
+  }
+}

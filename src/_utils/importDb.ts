@@ -116,6 +116,7 @@ export async function prepareImport(
     const incomingEvents = incoming.events ?? [];
     const incomingFactions = incoming.factions ?? [];
     const incomingCharacters = incoming.characters ?? [];
+    const preserveCollectionIds = incomingCollections.length === 0;
 
     // Re-numbered records
     const newLocales: DB_Locale[] = incomingLocales.map((l) => ({
@@ -132,7 +133,7 @@ export async function prepareImport(
         ...e,
         id: remapEvent(e.id),
         labelId: remapLocale(e.labelId),
-        collectionId: remapCollection(e.collectionId),
+        collectionId: preserveCollectionIds ? e.collectionId : remapCollection(e.collectionId),
         factionIds: (e.factionIds ?? []).map(remapFaction),
         characterIds: (e.characterIds ?? []).map(remapCharacter),
         // chapters are inline value objects — no ID remapping needed
@@ -143,7 +144,7 @@ export async function prepareImport(
         ...f,
         id: remapFaction(f.id),
         labelId: remapLocale(f.labelId),
-        collectionId: remapCollection(f.collectionId),
+        collectionId: preserveCollectionIds ? f.collectionId : remapCollection(f.collectionId),
         chapters: f.chapters ?? [],
     }));
 
@@ -151,7 +152,7 @@ export async function prepareImport(
         ...c,
         id: remapCharacter(c.id),
         labelId: remapLocale(c.labelId),
-        collectionId: remapCollection(c.collectionId),
+        collectionId: preserveCollectionIds ? c.collectionId : remapCollection(c.collectionId),
         factionIds: (c.factionIds ?? []).map(remapFaction),
         chapters: c.chapters ?? [],
     }));

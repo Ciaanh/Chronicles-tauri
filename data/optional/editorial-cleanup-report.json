@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-04-16T14:39:54.866Z",
+  "compareTo": "I:\\Dev\\WoW\\_Workspace\\code_Chronicles-tauri\\data\\optional\\baseline-snapshot.json",
+  "checks": [
+    {
+      "name": "Title consistency",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    },
+    {
+      "name": "Date and ordering",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    },
+    {
+      "name": "Schema compatibility",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    },
+    {
+      "name": "Entity reference integrity",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    },
+    {
+      "name": "Link quality",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    },
+    {
+      "name": "Regression detection",
+      "passed": true,
+      "issues": [],
+      "affectedCount": 0
+    }
+  ],
+  "summary": {
+    "totalChecks": 6,
+    "passed": 6,
+    "failed": 0,
+    "issueCount": 0
+  },
+  "regressionDetected": false,
+  "readyForProduction": true
+}
