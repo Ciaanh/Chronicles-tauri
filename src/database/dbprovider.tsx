@@ -1,5 +1,6 @@
 import { useState, Fragment, useRef, useEffect } from "react";
 import { open, save } from "@tauri-apps/plugin-dialog";
+import { invoke } from "@tauri-apps/api/core";
 import { normalize, join, dirname } from "@tauri-apps/api/path";
 import { exists, lstat, readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
 import { AsyncDatabase } from "./jsondb/database";
@@ -101,6 +102,12 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
 
     const loadCore = async (location: string): Promise<void> => {
         const dbpath = await resolveDbPath(location, dbschema.dbname);
+
+        // Dynamically allow the database directory in the FS scope
+        // so derived paths like .bak backups are also accessible.
+        const dir = await dirname(dbpath);
+        await invoke("allow_fs_scope", { path: dir });
+
         const schema: Schema = {
             dbname: dbschema.dbname,
             tables: dbschema.tables,
@@ -189,6 +196,10 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
         });
         if (!destPath) return;
         try {
+            // Allow destination directory in FS scope before writing
+            const destDir = await dirname(destPath);
+            await invoke("allow_fs_scope", { path: destDir });
+
             const srcPath = await resolveDbPath(lastLoadedPath, dbschema.dbname);
             const content = await readTextFile(srcPath);
             await writeTextFile(destPath, content);
@@ -215,6 +226,11 @@ export function DbProvider({ children, dbschema }: dbProviderProps) {
             filters: [{ name: "JSON Database", extensions: ["json"] }],
         });
         if (!destPath) return;
+
+        // Allow destination directory in FS scope before writing
+        const destDir = await dirname(destPath);
+        await invoke("allow_fs_scope", { path: destDir });
+
         const emptyDb: Record<string, unknown[]> = {};
         for (const table of dbschema.tables) {
             emptyDb[table] = [];

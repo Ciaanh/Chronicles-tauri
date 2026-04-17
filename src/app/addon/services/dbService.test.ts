@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { DBService } from "./dbService";
-import { FileGenerationRequest, validateLuaContent } from "../generator";
+import { AddonExportMode, FileGenerationRequest, validateLuaContent } from "../generator";
 import { Event } from "../../../database/models/appObjects/Event";
 import { Faction } from "../../../database/models/appObjects/Faction";
 import { Character } from "../../../database/models/appObjects/Character";
@@ -16,6 +16,7 @@ const baseRequest = (): FileGenerationRequest => ({
     events: [],
     factions: [],
     characters: [],
+    mode: AddonExportMode.External,
 });
 
 describe("DBService", () => {
@@ -25,7 +26,7 @@ describe("DBService", () => {
             const req = baseRequest();
             const files = svc.Generate(req);
             expect(files.length).toBeGreaterThan(0);
-            const decl = files.find((f) => f.name === "DB/ChroniclesDB.lua");
+            const decl = files.find((f) => f.name === "DB/DB.lua");
             expect(decl).toBeDefined();
         });
 
@@ -36,15 +37,95 @@ describe("DBService", () => {
             expect(idx).toBeDefined();
         });
 
-        it("declaration file contains Chronicles.DB.Modules for a collection", () => {
+        it("loads DB.lua after collection scripts in DB.xml", () => {
             const svc = new DBService();
+            const collection = { id: 1, name: "Lore" };
+            const event: Event = {
+                id: 1,
+                name: "Test",
+                collection: collection as Event["collection"],
+                label: { id: 1, enUS: "Test", ishtml: false },
+                period: { yearStart: 0, yearEnd: 1 },
+                eventType: 0,
+                timeline: 1,
+                order: 1,
+                link: "",
+                factions: [],
+                characters: [],
+                chapters: [],
+            };
+
+            const req: FileGenerationRequest = {
+                collections: [makeCollection(1, "Lore", "01")],
+                events: [event],
+                factions: [],
+                characters: [],
+                mode: AddonExportMode.External,
+            };
+
+            const xml = svc.Generate(req).find((f) => f.name === "DB/DB.xml")!;
+            const dataScriptIndex = xml.content.indexOf("01_Lore\\LoreEventsDB.lua");
+            const dbLuaIndex = xml.content.indexOf('<Script file="DB.lua" />');
+
+            expect(dataScriptIndex).toBeGreaterThan(-1);
+            expect(dbLuaIndex).toBeGreaterThan(dataScriptIndex);
+        });
+
+        it("declaration file contains ChroniclesPlugins manifest for a collection with data", () => {
+            const svc = new DBService();
+            const collection = { id: 1, name: "Lore" };
+            const event: Event = {
+                id: 1,
+                name: "Test",
+                collection: collection as Event["collection"],
+                label: { id: 1, enUS: "Test", ishtml: false },
+                period: { yearStart: 0, yearEnd: 1 },
+                eventType: 0,
+                timeline: 1,
+                order: 1,
+                link: "",
+                factions: [],
+                characters: [],
+                chapters: [],
+            };
             const req: FileGenerationRequest = {
                 ...baseRequest(),
-                collections: [makeCollection(1, "lore", "01")],
+                collections: [makeCollection(1, "Lore", "01")],
+                events: [event],
             };
-            const decl = svc.Generate(req).find((f) => f.name === "DB/ChroniclesDB.lua")!;
-            expect(decl.content).toContain("lore");
-            expect(decl.content).toContain("Chronicles.DB.Modules");
+            const decl = svc.Generate(req).find((f) => f.name === "DB/DB.lua")!;
+            expect(decl.content).toContain("ChroniclesPlugins");
+            expect(decl.content).toContain('ChroniclesPlugins["Lore"]');
+            expect(decl.content).toContain("events = LoreEventsDB,");
+        });
+
+        it("declaration file contains internal registration function in embedded mode", () => {
+            const svc = new DBService();
+            const collection = { id: 1, name: "Lore" };
+            const event: Event = {
+                id: 1,
+                name: "Test",
+                collection: collection as Event["collection"],
+                label: { id: 1, enUS: "Test", ishtml: false },
+                period: { yearStart: 0, yearEnd: 1 },
+                eventType: 0,
+                timeline: 1,
+                order: 1,
+                link: "",
+                factions: [],
+                characters: [],
+                chapters: [],
+            };
+            const req: FileGenerationRequest = {
+                ...baseRequest(),
+                mode: AddonExportMode.Embedded,
+                collections: [makeCollection(1, "Lore", "01")],
+                events: [event],
+            };
+            const decl = svc.Generate(req).find((f) => f.name === "DB/DB.lua")!;
+            expect(decl.content).toContain("function private.registerInternalDBs()");
+            expect(decl.content).toContain('Data:RegisterEventDB("Lore", LoreEventsDB)');
+            expect(decl.content).not.toContain("ChroniclesPlugins");
         });
 
         it("generates an event DB file for a collection with events", () => {
@@ -69,6 +150,7 @@ describe("DBService", () => {
                 events: [event],
                 factions: [],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const eventFile = files.find((f) => f.name.includes("EventsDB"));
@@ -94,6 +176,7 @@ describe("DBService", () => {
                 events: [],
                 factions: [faction],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const factionFile = files.find((f) => f.name.includes("FactionsDB"));
@@ -118,6 +201,7 @@ describe("DBService", () => {
                 events: [],
                 factions: [],
                 characters: [character],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const charFile = files.find((f) => f.name.includes("CharactersDB"));
@@ -132,8 +216,9 @@ describe("DBService", () => {
                 events: [],
                 factions: [],
                 characters: [],
+                mode: AddonExportMode.External,
             };
-            const decl = svc.Generate(req).find((f) => f.name === "DB/ChroniclesDB.lua")!;
+            const decl = svc.Generate(req).find((f) => f.name === "DB/DB.lua")!;
             const issues = validateLuaContent(decl.name, decl.content);
             expect(issues.filter((i) => i.includes("brace"))).toHaveLength(0);
         });

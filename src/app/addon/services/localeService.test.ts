@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { LocaleService } from "./localeService";
-import { FileGenerationRequest } from "../generator";
+import { AddonExportMode, FileGenerationRequest } from "../generator";
 import { Event } from "../../../database/models/appObjects/Event";
 import { Character } from "../../../database/models/appObjects/Character";
 import { Faction } from "../../../database/models/appObjects/Faction";
@@ -10,6 +10,7 @@ const baseRequest = (): FileGenerationRequest => ({
     events: [],
     factions: [],
     characters: [],
+    mode: AddonExportMode.External,
 });
 
 const makeCollection = (id: number, name: string, index: string) => ({
@@ -48,6 +49,7 @@ describe("LocaleService", () => {
                 events: [event],
                 factions: [],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             expect(files.length).toBeGreaterThan(0);
@@ -63,6 +65,7 @@ describe("LocaleService", () => {
                 events: [],
                 factions: [],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const xmlFile = files.find((f) => f.name.endsWith(".xml"));
@@ -92,6 +95,7 @@ describe("LocaleService", () => {
                 events: [event],
                 factions: [],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             // enUS locale file should contain the label enUS text
@@ -117,6 +121,7 @@ describe("LocaleService", () => {
                 events: [],
                 factions: [faction],
                 characters: [],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const enFile = files.find((f) => f.name.includes("enUS") && f.name.endsWith(".lua"));
@@ -142,6 +147,7 @@ describe("LocaleService", () => {
                 events: [],
                 factions: [],
                 characters: [character],
+                mode: AddonExportMode.External,
             };
             const files = svc.Generate(req);
             const enFile = files.find((f) => f.name.includes("enUS") && f.name.endsWith(".lua"));

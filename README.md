@@ -144,12 +144,16 @@ See [`docs/db-schema.json`](docs/db-schema.json) for the complete schema with de
 
 ## Lua/XML export format
 
-The add-on generator produces two files:
+The add-on generator produces a structured DB folder:
 
 | File | Contents |
 |------|----------|
-| `Chronicles_Data.lua` | All events, characters, factions, collections and locale strings as Lua tables |
-| `Chronicles_Locales.xml` | `<Script>` elements referencing the Lua locale files |
+| `DB/DB.lua` | `ChroniclesPlugins` manifest table — registers all collections with Chronicles |
+| `DB/DB.xml` | XML index loading `DB.lua` and all per-collection data files |
+| `DB/{idx}_{Name}/{Name}EventsDB.lua` | Events data as Lua tables per collection |
+| `DB/{idx}_{Name}/{Name}FactionsDB.lua` | Factions data as Lua tables per collection |
+| `DB/{idx}_{Name}/{Name}CharactersDB.lua` | Characters data as Lua tables per collection |
+| `DB/Locales/*.lua` | Localised string tables per WoW client language |
 
 All string values are passed through `escapeLuaString()` which escapes `\`, `"`, tab, and ASCII control characters before insertion.
 

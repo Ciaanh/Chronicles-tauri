@@ -14,8 +14,7 @@
       "allow": [
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "I:/Dev/WoW/_Workspace/code_Chronicles-tauri/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
@@ -23,8 +22,7 @@
       "allow": [
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "I:/Dev/WoW/_Workspace/code_Chronicles-tauri/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
@@ -32,8 +30,7 @@
       "allow": [
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "I:/Dev/WoW/_Workspace/code_Chronicles-tauri/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
@@ -41,8 +38,7 @@
       "allow": [
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "I:/Dev/WoW/_Workspace/code_Chronicles-tauri/**" }
+        { "path": "$DESKTOP/**" }
       ]
     },
     {
@@ -50,8 +46,7 @@
       "allow": [
         { "path": "$DOCUMENT/**" },
         { "path": "$DOWNLOAD/**" },
-        { "path": "$DESKTOP/**" },
-        { "path": "I:/Dev/WoW/_Workspace/code_Chronicles-tauri/**" }
+        { "path": "$DESKTOP/**" }
       ]
     }
   ]

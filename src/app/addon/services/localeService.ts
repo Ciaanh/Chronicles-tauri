@@ -168,7 +168,7 @@ export class LocaleService {
                 if (localeContent.length > 0) {
                     const isDefaultLocale = localeGroup.language === Language.enUS;
                     const localeFile: FileContent = {
-                        content: `local AceLocale = LibStub:GetLibrary("AceLocale-3.0")\nlocal L = AceLocale:NewLocale("Chronicles", "${localeGroup.language}", ${isDefaultLocale}, true)\n                \n${localeContent}`,
+                        content: `local ADDON_NAME, private = ...\nlocal AceLocale = LibStub:GetLibrary("AceLocale-3.0")\nlocal L = AceLocale:NewLocale(private.addon_name, "${localeGroup.language}", ${isDefaultLocale}, true)\n                \n${localeContent}`,
                         name: `DB/Locales/${localeGroup.fileName}`,
                     };
                     return localeFile;

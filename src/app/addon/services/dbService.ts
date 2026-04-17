@@ -2,7 +2,7 @@ import { Event } from "../../../database/models/appObjects/Event";
 import { Character } from "../../../database/models/appObjects/Character";
 import { Faction } from "../../../database/models/appObjects/Faction";
 import { FileContent } from "../../../_utils/files/fileContent";
-import { FileGenerationRequest, FormattedCollection } from "../generator";
+import { AddonExportMode, FileGenerationRequest, FormattedCollection } from "../generator";
 import { Collection } from "../../../database/models/appObjects/Collection";
 import { getLocaleKey } from "../../../database/models/appObjects/Locale";
 import { Chapter } from "../../../database/models";
@@ -41,7 +41,7 @@ export class DBService {
         return files;
     }
 
-    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nlocal modules = Chronicles.DB.Modules\nlocal Locale = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)`;
+    private dbHeader = `local FOLDER_NAME, private = ...\nlocal Locale = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)`;
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -49,10 +49,41 @@ export class DBService {
         });
     }
 
-    private FormatDeclaration(collection: string, typeName: TypeName) {
-        const lowerName = collection.toLowerCase();
+    private FormatManifestEntry(
+        collection: string,
+        hasEvents: boolean,
+        hasFactions: boolean,
+        hasCharacters: boolean
+    ) {
         const formatedName = this.FormatCollection(collection);
-        return `\tChronicles.Data:Register${typeName}DB(Chronicles.DB.Modules.${lowerName}, ${formatedName}${typeName}sDB)`;
+        const fields: string[] = [];
+        if (hasEvents) fields.push(`\tevents = ${formatedName}EventsDB,`);
+        if (hasFactions) fields.push(`\tfactions = ${formatedName}FactionsDB,`);
+        if (hasCharacters) fields.push(`\tcharacters = ${formatedName}CharactersDB,`);
+        return `ChroniclesPlugins["${formatedName}"] = {\n${fields.join("\n")}\n}`;
+    }
+
+    private FormatEmbeddedRegistrationEntry(
+        collection: string,
+        hasEvents: boolean,
+        hasFactions: boolean,
+        hasCharacters: boolean
+    ) {
+        const formatedName = this.FormatCollection(collection);
+        const calls: string[] = [];
+        if (hasEvents)
+            calls.push(
+                `\tif ${formatedName}EventsDB then Data:RegisterEventDB("${formatedName}", ${formatedName}EventsDB) end`
+            );
+        if (hasFactions)
+            calls.push(
+                `\tif ${formatedName}FactionsDB then Data:RegisterFactionDB("${formatedName}", ${formatedName}FactionsDB) end`
+            );
+        if (hasCharacters)
+            calls.push(
+                `\tif ${formatedName}CharactersDB then Data:RegisterCharacterDB("${formatedName}", ${formatedName}CharactersDB) end`
+            );
+        return calls.join("\n");
     }
 
     private FormatIndex(index: string, collection: string, typeName: TypeName) {
@@ -72,23 +103,7 @@ export class DBService {
     }
 
     private CreateDeclarationFile(request: FileGenerationRequest): FileContent {
-        const names = request.collections
-            .map((collection: FormattedCollection) => {
-                if (
-                    !collection ||
-                    typeof collection.id === "undefined" ||
-                    typeof collection.name === "undefined" ||
-                    typeof collection.index === "undefined"
-                )
-                    return "";
-
-                const lowerCollection = collection.name.toLowerCase();
-                return `\t${lowerCollection} = "${this.FormatCollection(collection.name)}"`;
-            })
-            .filter((value: string) => value.length > 0)
-            .join(",\n");
-
-        const declarations = request.collections
+        const entries = request.collections
             .map((collection: FormattedCollection) => {
                 if (
                     !collection ||
@@ -113,28 +128,36 @@ export class DBService {
                         String(character.collection.id) === String(collection.id)
                 );
 
-                const eventDeclaration = hasEvents
-                    ? this.FormatDeclaration(collection.name, TypeName.Event) + "\n"
-                    : "";
-                const factionDeclaration = hasFactions
-                    ? this.FormatDeclaration(collection.name, TypeName.Faction) + "\n"
-                    : "";
-                const characterDeclaration = hasCharacters
-                    ? this.FormatDeclaration(collection.name, TypeName.Character) + "\n"
-                    : "";
+                if (!hasEvents && !hasFactions && !hasCharacters) return "";
 
-                return `${eventDeclaration}${factionDeclaration}${characterDeclaration}`;
+                if (request.mode === AddonExportMode.Embedded) {
+                    return this.FormatEmbeddedRegistrationEntry(
+                        collection.name,
+                        hasEvents,
+                        hasFactions,
+                        hasCharacters
+                    );
+                }
+
+                return this.FormatManifestEntry(
+                    collection.name,
+                    hasEvents,
+                    hasFactions,
+                    hasCharacters
+                );
             })
             .filter((value: string) => value.length > 0)
-            .join("\n");
+            .join("\n\n");
 
-        const content = `local FOLDER_NAME, private = ...\nlocal Chronicles = private.Chronicles\nChronicles.DB = {}\nChronicles.DB.Modules = {\n${names}\n}\nfunction Chronicles.DB:Init()\n${declarations}   \nend`;
+        const content =
+            request.mode === AddonExportMode.Embedded
+                ? `local FOLDER_NAME, private = ...\n\nfunction private.registerInternalDBs()\n\tlocal Data = private.Chronicles and private.Chronicles.Data\n\tif not Data then\n\t\treturn\n\tend\n\n${entries}\nend`
+                : `ChroniclesPlugins = ChroniclesPlugins or {}\n\n${entries}`;
 
-        const dbDeclarationContent: FileContent = {
+        return {
             content: content,
-            name: "DB/ChroniclesDB.lua",
+            name: "DB/DB.lua",
         };
-        return dbDeclarationContent;
     }
 
     private CreateIndexFile(request: FileGenerationRequest): FileContent {
@@ -180,11 +203,11 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n");
 
-        const content = `<?xml version="1.0" encoding="utf-8"?>\n<Ui xmlns="http://www.blizzard.com/wow/ui/"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">\n\t<Script file="ChroniclesDB.lua" />\n${indexes}\n</Ui>`;
+        const content = `<?xml version="1.0" encoding="utf-8"?>\n<Ui xmlns="http://www.blizzard.com/wow/ui/"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">\n${indexes}\n\t<Script file="DB.lua" />\n</Ui>`;
 
         return {
             content: content,
-            name: "DB/ChroniclesDB.xml",
+            name: "DB/DB.xml",
         };
     }
 

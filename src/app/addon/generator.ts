@@ -7,11 +7,17 @@ import { LocaleService } from "./services/localeService";
 import { FileApi } from "../../_utils/files/fileApi";
 import { FileContent } from "../../_utils/files/fileContent";
 
+export enum AddonExportMode {
+    External = "external",
+    Embedded = "embedded",
+}
+
 export interface GenerationRequest {
     collections: Collection[];
     events: Event[];
     factions: Faction[];
     characters: Character[];
+    mode?: AddonExportMode;
 }
 
 export interface FormattedCollection {
@@ -24,6 +30,7 @@ export interface FileGenerationRequest {
     events: Event[];
     factions: Faction[];
     characters: Character[];
+    mode: AddonExportMode;
 }
 
 /** Basic post-generation Lua syntax sanity check. Returns a list of issues found. */
@@ -79,6 +86,7 @@ export class AddonGenerator {
                 events: request.events,
                 factions: request.factions,
                 characters: request.characters,
+                mode: request.mode ?? AddonExportMode.External,
             };
             const locale = new LocaleService().Generate(fileGenerationRequest);
             const db = new DBService().Generate(fileGenerationRequest);

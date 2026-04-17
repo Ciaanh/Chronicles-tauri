@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { Alert, Button, Descriptions, Divider, List, Modal, Space, Typography } from "antd";
+import { Alert, Button, Descriptions, Divider, List, Modal, Radio, Space, Typography } from "antd";
 import useMessage from "antd/es/message/useMessage";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import { readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
-import { AddonGenerator, GenerationRequest } from "../app/addon/generator";
+import { AddonExportMode, AddonGenerator, GenerationRequest } from "../app/addon/generator";
 import { dbRepository, tableNames } from "../database/dbcontext";
 import { fileApi } from "../_utils/files/fileApi";
 import { DB_Character, DB_Collection, DB_Event, DB_Faction, DB_Locale } from "../database/models";
@@ -23,6 +23,7 @@ function toCsv(rows: Record<string, unknown>[]): string {
 
 const ExportTab: React.FC<{ filters: Filters }> = ({ filters }) => {
     const [exporting, setExporting] = useState(false);
+    const [exportMode, setExportMode] = useState<AddonExportMode>(AddonExportMode.External);
     const [csvExporting, setCsvExporting] = useState<string | null>(null);
     const [importing, setImporting] = useState(false);
     const [pendingImport, setPendingImport] = useState<PreparedImport | null>(null);
@@ -64,6 +65,7 @@ const ExportTab: React.FC<{ filters: Filters }> = ({ filters }) => {
                 events,
                 factions,
                 characters,
+                mode: exportMode,
             };
             const warnings = await new AddonGenerator().Create(request, fileApi);
             if (warnings.length > 0) {
@@ -199,6 +201,20 @@ const ExportTab: React.FC<{ filters: Filters }> = ({ filters }) => {
             <Typography.Paragraph>
                 Generate and download the WoW Chronicles addon files (Lua/XML) for your collections.
             </Typography.Paragraph>
+            <Space direction="vertical" style={{ marginBottom: 16 }}>
+                <Typography.Text strong>Export mode</Typography.Text>
+                <Radio.Group
+                    value={exportMode}
+                    onChange={(event) => setExportMode(event.target.value)}
+                >
+                    <Radio.Button value={AddonExportMode.External}>
+                        External plugin (Chronicles-Data)
+                    </Radio.Button>
+                    <Radio.Button value={AddonExportMode.Embedded}>
+                        Embedded in Chronicles
+                    </Radio.Button>
+                </Radio.Group>
+            </Space>
             {filters.collection && (
                 <Alert
                     type="info"
