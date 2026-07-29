@@ -41,7 +41,27 @@ export class DBService {
         return files;
     }
 
+    /**
+     * Every generated Lua file opens with this. `private` is the per-addon table WoW passes to each
+     * file of an addon, so it is how the collection files hand their data to DB.lua without either
+     * side going through a global.
+     */
     private dbHeader = `local FOLDER_NAME, private = ...\nlocal Locale = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)`;
+
+    /**
+     * The table each collection file writes into, and DB.lua reads back out of.
+     *
+     * The generated files used to declare their table bare — `ExpansionsEventsDB = {` — which in Lua
+     * means a global. One export of fifteen collections therefore published up to 45 of them, and
+     * DB.lua read them back by global name. Namespacing them under `private` keeps the same
+     * cross-file handoff with no globals; `ChroniclesPlugins` stays global on purpose, being the
+     * cross-addon contract Chronicles reads.
+     */
+    private dbNamespace = "private.DB";
+
+    private DbNamespaceDeclaration() {
+        return `${this.dbNamespace} = ${this.dbNamespace} or {}`;
+    }
 
     private FormatCollection(collection: string) {
         return collection.replace(/\w+/g, function (w) {
@@ -57,9 +77,9 @@ export class DBService {
     ) {
         const formatedName = this.FormatCollection(collection);
         const fields: string[] = [];
-        if (hasEvents) fields.push(`\tevents = ${formatedName}EventsDB,`);
-        if (hasFactions) fields.push(`\tfactions = ${formatedName}FactionsDB,`);
-        if (hasCharacters) fields.push(`\tcharacters = ${formatedName}CharactersDB,`);
+        if (hasEvents) fields.push(`\tevents = DB.${formatedName}EventsDB,`);
+        if (hasFactions) fields.push(`\tfactions = DB.${formatedName}FactionsDB,`);
+        if (hasCharacters) fields.push(`\tcharacters = DB.${formatedName}CharactersDB,`);
         return `ChroniclesPlugins["${formatedName}"] = {\n${fields.join("\n")}\n}`;
     }
 
@@ -73,15 +93,15 @@ export class DBService {
         const calls: string[] = [];
         if (hasEvents)
             calls.push(
-                `\tif ${formatedName}EventsDB then Data:RegisterEventDB("${formatedName}", ${formatedName}EventsDB) end`
+                `\tif DB.${formatedName}EventsDB then Data:RegisterEventDB("${formatedName}", DB.${formatedName}EventsDB) end`
             );
         if (hasFactions)
             calls.push(
-                `\tif ${formatedName}FactionsDB then Data:RegisterFactionDB("${formatedName}", ${formatedName}FactionsDB) end`
+                `\tif DB.${formatedName}FactionsDB then Data:RegisterFactionDB("${formatedName}", DB.${formatedName}FactionsDB) end`
             );
         if (hasCharacters)
             calls.push(
-                `\tif ${formatedName}CharactersDB then Data:RegisterCharacterDB("${formatedName}", ${formatedName}CharactersDB) end`
+                `\tif DB.${formatedName}CharactersDB then Data:RegisterCharacterDB("${formatedName}", DB.${formatedName}CharactersDB) end`
             );
         return calls.join("\n");
     }
@@ -149,10 +169,12 @@ export class DBService {
             .filter((value: string) => value.length > 0)
             .join("\n\n");
 
+        // DB.lua is loaded after every collection file (see CreateIndexFile), so private.DB is
+        // fully populated by the time either form reads it.
         const content =
             request.mode === AddonExportMode.Embedded
-                ? `local FOLDER_NAME, private = ...\n\nfunction private.registerInternalDBs()\n\tlocal Data = private.Chronicles and private.Chronicles.Data\n\tif not Data then\n\t\treturn\n\tend\n\n${entries}\nend`
-                : `ChroniclesPlugins = ChroniclesPlugins or {}\n\n${entries}`;
+                ? `local FOLDER_NAME, private = ...\n\nfunction private.registerInternalDBs()\n\tlocal Data = private.Chronicles and private.Chronicles.Data\n\tif not Data then\n\t\treturn\n\tend\n\n\tlocal DB = private.DB or {}\n\n${entries}\nend`
+                : `local FOLDER_NAME, private = ...\n\nlocal DB = private.DB or {}\n\nChroniclesPlugins = ChroniclesPlugins or {}\n\n${entries}`;
 
         return {
             content: content,
@@ -223,9 +245,9 @@ export class DBService {
                 if (filteredEvents.length === 0) return null;
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
                 const collection = this.GetCollection(c.name, TypeName.Event);
-                const eventDbContent = `${
-                    this.dbHeader
-                }\n\n    ${collection} = {\n        ${filteredEvents
+                const eventDbContent = `${this.dbHeader}\n\n${this.DbNamespaceDeclaration()}\n${
+                    this.dbNamespace
+                }.${collection} = {\n        ${filteredEvents
                     .map((event) => this.MapEventContent(event))
                     .join(",\n        ")}\n    }`;
                 return {
@@ -336,9 +358,9 @@ export class DBService {
 
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
                 const collection = this.GetCollection(c.name, TypeName.Faction);
-                const factionDbContent = `${
-                    this.dbHeader
-                }\n\n    ${collection} = {\n        ${filteredFactions
+                const factionDbContent = `${this.dbHeader}\n\n${this.DbNamespaceDeclaration()}\n${
+                    this.dbNamespace
+                }.${collection} = {\n        ${filteredFactions
                     .map((faction) => this.MapFactionContent(faction))
                     .join(",\n        ")}\n    }`;
                 return {
@@ -376,9 +398,9 @@ export class DBService {
 
                 const dbFoldername = this.GetDbFolderName(c.index, c.name);
                 const collection = this.GetCollection(c.name, TypeName.Character);
-                const characterDbContent = `${
-                    this.dbHeader
-                }\n\n    ${collection} = {\n        ${filteredCharacters
+                const characterDbContent = `${this.dbHeader}\n\n${this.DbNamespaceDeclaration()}\n${
+                    this.dbNamespace
+                }.${collection} = {\n        ${filteredCharacters
                     .map((character) => this.MapCharacterContent(character))
                     .join(",\n        ")}\n    }`;
 

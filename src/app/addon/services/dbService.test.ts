@@ -96,7 +96,8 @@ describe("DBService", () => {
             const decl = svc.Generate(req).find((f) => f.name === "DB/DB.lua")!;
             expect(decl.content).toContain("ChroniclesPlugins");
             expect(decl.content).toContain('ChroniclesPlugins["Lore"]');
-            expect(decl.content).toContain("events = LoreEventsDB,");
+            expect(decl.content).toContain("events = DB.LoreEventsDB,");
+            expect(decl.content).toContain("local DB = private.DB or {}");
         });
 
         it("declaration file contains internal registration function in embedded mode", () => {
@@ -124,7 +125,8 @@ describe("DBService", () => {
             };
             const decl = svc.Generate(req).find((f) => f.name === "DB/DB.lua")!;
             expect(decl.content).toContain("function private.registerInternalDBs()");
-            expect(decl.content).toContain('Data:RegisterEventDB("Lore", LoreEventsDB)');
+            expect(decl.content).toContain('Data:RegisterEventDB("Lore", DB.LoreEventsDB)');
+            expect(decl.content).toContain("local DB = private.DB or {}");
             expect(decl.content).not.toContain("ChroniclesPlugins");
         });
 
@@ -157,6 +159,40 @@ describe("DBService", () => {
             expect(eventFile).toBeDefined();
             // Event content uses locale key, not event name directly
             expect(eventFile!.content).toContain(String(event.id));
+        });
+
+        it("declares collection tables under private.DB, never as globals", () => {
+            const svc = new DBService();
+            const collection = { id: 1, name: "Lore" };
+            const event: Event = {
+                id: 1,
+                name: "The Great War",
+                collection: collection as Event["collection"],
+                label: { id: 1, enUS: "The Great War desc", ishtml: false },
+                period: { yearStart: -10000, yearEnd: -9000 },
+                eventType: 0,
+                timeline: 1,
+                order: 1,
+                link: "",
+                factions: [],
+                characters: [],
+                chapters: [],
+            };
+            const req: FileGenerationRequest = {
+                collections: [makeCollection(1, "Lore", "01")],
+                events: [event],
+                factions: [],
+                characters: [],
+                mode: AddonExportMode.External,
+            };
+
+            const eventFile = svc.Generate(req).find((f) => f.name.includes("EventsDB"))!;
+
+            expect(eventFile.content).toContain("private.DB = private.DB or {}");
+            expect(eventFile.content).toContain("private.DB.LoreEventsDB = {");
+            // A bare `LoreEventsDB = {` is a global in Lua. Fifteen collections used to publish up
+            // to 45 of them; the assignment must always be qualified.
+            expect(eventFile.content).not.toMatch(/^\s*LoreEventsDB\s*=/m);
         });
 
         it("generates a faction DB file for a collection with factions", () => {
