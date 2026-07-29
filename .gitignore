@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 refs/
+
+# Vitest coverage report. The committed copy holds a snapshot of dbService.ts from before the
+# manifest migration, so grepping the repo for the registration contract returns stale hits.
+coverage/
