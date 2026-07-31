@@ -299,9 +299,13 @@ export class DBService {
             []
         );
         const formatedDepsData = factionsByDB.filter(Boolean).map((deps) => {
-            const lowerCollection = deps.collection.name.toLowerCase();
+            // FormatCollection, not toLowerCase: this key is looked up against the name the collection
+            // registers under (RegisterFactionDB("Dragonflight", ...)), and both the addon's
+            // GetCollectionStatus and its Data.Factions index are case-sensitive. Emitting
+            // "dragonflight" here made every cross-reference in every generated file unresolvable.
+            const collectionKey = this.FormatCollection(deps.collection.name);
             const factionIds = deps.list.map((faction) => faction.id).join(", ");
-            return `["${lowerCollection}"] = {${factionIds}}`;
+            return `["${collectionKey}"] = {${factionIds}}`;
         });
         return formatedDepsData.join(", ");
     }
@@ -324,9 +328,10 @@ export class DBService {
             []
         );
         const formatedDepsData = charactersByDB.filter(Boolean).map((deps) => {
-            const lowerCollection = deps.collection.name.toLowerCase();
+            // Same as MapFactionList: the key has to match the registered collection name exactly.
+            const collectionKey = this.FormatCollection(deps.collection.name);
             const characterIds = deps.list.map((character) => character.id).join(", ");
-            return `["${lowerCollection}"] = {${characterIds}}`;
+            return `["${collectionKey}"] = {${characterIds}}`;
         });
         return formatedDepsData.join(", ");
     }

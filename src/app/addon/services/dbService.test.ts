@@ -130,6 +130,51 @@ describe("DBService", () => {
             expect(decl.content).not.toContain("ChroniclesPlugins");
         });
 
+        it("keys cross-references by the registered collection name, not a lowercased one", () => {
+            // The addon looks these keys up against the name the collection registers under
+            // (RegisterCharacterDB("Lore", ...)), and both its GetCollectionStatus and its
+            // Data.Characters index are case-sensitive. Emitting ["lore"] made every cross-reference
+            // in every generated file silently unresolvable, so the book's front matter showed no
+            // characters and no factions for any event that had them.
+            const svc = new DBService();
+            const collection = makeCollection(1, "Lore", "01");
+            const faction = {
+                id: 57,
+                name: "Kirin Tor",
+                collection: collection as unknown as Faction["collection"],
+            } as Faction;
+            const character = {
+                id: 79,
+                name: "Jaina",
+                collection: collection as unknown as Character["collection"],
+            } as Character;
+            const event: Event = {
+                id: 1,
+                name: "The Great War",
+                collection: collection as unknown as Event["collection"],
+                label: { id: 1, enUS: "The Great War desc", ishtml: false },
+                period: { yearStart: -10000, yearEnd: -9000 },
+                eventType: 0,
+                timeline: 1,
+                order: 1,
+                link: "",
+                factions: [faction],
+                characters: [character],
+                chapters: [],
+            };
+
+            const req: FileGenerationRequest = {
+                ...baseRequest(),
+                collections: [collection],
+                events: [event],
+            };
+
+            const eventFile = svc.Generate(req).find((f) => f.name.includes("EventsDB"))!;
+            expect(eventFile.content).toContain('characters={["Lore"] = {79}}');
+            expect(eventFile.content).toContain('factions={["Lore"] = {57}}');
+            expect(eventFile.content).not.toContain('["lore"]');
+        });
+
         it("generates an event DB file for a collection with events", () => {
             const svc = new DBService();
             const collection = { id: 1, name: "Lore" };
